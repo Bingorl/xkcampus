@@ -36,7 +36,7 @@ public class TemperatureReportService {
     }
 
     public List<TemperatureReport> myTemperatureReportList(Integer userId) {
-        return temperatureReportMapper.search(userId);
+        return temperatureReportMapper.myTemperatureReportList(userId);
     }
 
     public List<HashMap> myTemperatureReportMapList(Integer userId) {
@@ -50,5 +50,9 @@ public class TemperatureReportService {
             list.add(hashMap);
         }
         return list;
+    }
+
+    public List<HashMap> search(Integer schoolId, Integer type, String startTime, String endTime, String keyword) {
+        return temperatureReportMapper.search(schoolId, type, startTime, endTime, keyword);
     }
 }
