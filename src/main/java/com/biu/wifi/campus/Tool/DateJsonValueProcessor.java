@@ -1,0 +1,41 @@
+package com.biu.wifi.campus.Tool;
+
+import java.text.SimpleDateFormat;
+
+import net.sf.json.JsonConfig;
+import net.sf.json.processors.JsonValueProcessor;
+
+/**
+ * @author 韩建东
+ * @ClassName: DateJsonValueProcessor
+ * @Description: TODO序列化json对象如果里面有date类型
+ * @date 2015年5月14日 下午7:54:02
+ */
+public class DateJsonValueProcessor implements JsonValueProcessor {
+
+    private String format;
+
+    public DateJsonValueProcessor(String format) {
+        this.format = format;
+    }
+
+    public Object processArrayValue(Object value, JsonConfig jsonConfig) {
+        return null;
+    }
+
+    public Object processObjectValue(String key, Object value, JsonConfig jsonConfig) {
+        if (value == null) {
+            return "";
+        }
+        if (value instanceof java.sql.Timestamp) {
+            String str = new SimpleDateFormat(format).format((java.sql.Timestamp) value);
+            return str;
+        }
+        if (value instanceof java.util.Date) {
+            String str = new SimpleDateFormat(format).format((java.util.Date) value);
+            return str;
+        }
+
+        return value.toString();
+    }
+}

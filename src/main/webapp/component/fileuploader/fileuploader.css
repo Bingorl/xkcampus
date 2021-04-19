@@ -1,0 +1,70 @@
+.plupload {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.428571429;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-user-select: none;
+}
+
+.uploadify-img-queue-div {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    float: left;
+    margin: 5px 10px 5px 0px;
+}
+
+.uploadify-img-queue-div a {
+    position: absolute;
+    background: url(images/close-default.png) no-repeat 0 0;
+    width: 20px;
+    height: 20px;
+    top: -5px;
+    right: -5px;
+}
+
+.uploadify-img-queue-div a:hover {
+    position: absolute;
+    background: url(images/close-click.png) no-repeat 0 0;
+    width: 20px;
+    height: 20px;
+    top: -5px;
+    right: -5px;
+}
+
+.uploadify_button_defined {
+    float: left;
+}
+
+.uploadify_button_defined a {
+    background: url(images/box_images.jpg) no-repeat 0 0;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    color: #868686;
+    font-weight: bold;
+    padding-left: 40px;
+    display: block;
+    text-align: left;
+}
+
+.uploadify_button_defined a:hover {
+    background: url(images/box_images.jpg) no-repeat 0 -30px;
+    width: 80px;
+    height: 30px;
+    color: #868686;
+    font-weight: bold;
+}

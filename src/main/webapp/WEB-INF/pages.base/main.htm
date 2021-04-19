@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="renderer" content="webkit">
+    <title>主页面</title>
+    <script type='text/javascript' src="$!req.contextPath/resources/js/jquery-1.8.3.js"></script>
+    <script type='text/javascript' src="$!req.contextPath/resources/js/engine/core.js"></script>
+    <script type='text/javascript' src="$!req.contextPath/resources/js/engine/core.ui.js"></script>
+    <script type='text/javascript' src="$!req.contextPath/resources/js/util/utils.js"></script>
+    <script type='text/javascript' src="$!req.contextPath/resources/js/json2.js"></script>
+
+
+    <!-- 图片裁剪 -->
+    <link rel="stylesheet" href="$!req.contextPath/component/imgareaselect/imgareaselect-default.css"
+          type="text/css"></link>
+    <script type="text/javascript"
+            src="$!req.contextPath/component/imgareaselect/jquery.imgareaselect.pack.js"></script>
+    <link rel="stylesheet" type="text/css" href="base/css/main.css"/>
+
+    <!-- iframe自适用高度代码 -->
+    <script type="text/javascript">
+        function dyniframesize() {
+            if (document.readyState == 'complete') {//判断文档是否加载完成
+                f_resize();
+            }
+        }
+    </script>
+</head>
+
+<body>
+<div class="head">
+    <div class="f_l">
+        <img src="base/images/main.head.01.jpg" alt=""/>
+    </div>
+    <div class="head_r">
+        您好<label>$!{session.userName}</label><a href="#" onclick="f_close();">[退出]</a>
+    </div>
+    <div class="c_b"></div>
+</div>
+<div class="project" id="appInfoList_div">
+    <span id="appInfoList_span">天天518<i class="public_icon arrow_01"></i></span>
+</div>
+<div class="content" style="height: 800px;">
+    <div class="menu">
+        <div class="menu_01" id="menu01div"></div>
+        <!-- <div class="menu_02" id="menu02div"></div> -->
+        <div class="c_b"></div>
+    </div>
+    <div class="con_position">
+        <div id="top_tab" class="clearfix">
+        </div>
+        <div class="con_bg">
+        </div>
+    </div>
+</div>
+<div id="ajax-loading" style="display: none;">
+    <div></div>
+</div>
+
+<div id="img-show" style="display: none;">
+    <div class="show_img">
+        <img id="img-show-src" src="" alt="图片展示" onclick="$('#img-show').hide();"/>
+    </div>
+    <div id="img-show-alhpa" class="show_img_alhpa"></div>
+</div>
+<div id="img-edit" style="display: none;">
+    <div class="show_img" style="top: 10%;">
+        <img id="img-edit-src" src="" alt="图片裁剪"/>
+        <div class="img-edit-text" style="min-width: 400px;">
+            <span id="img-edit-alert">设定裁剪图片大小：300*160</span> <label><a id="img-edit-btn" href="#">确定裁剪</a><a id=""
+                                                                                                              href="#"
+                                                                                                              onclick="f_hideImgEdit();">取消裁剪</a>
+            <div style="clear: both;"></div>
+        </label>
+        </div>
+    </div>
+    <div id="img-show-alhpa" class="show_img_alhpa"></div>
+</div>
+
+<div id="frame-tips" class="remind" style="display: none;">
+    <div style="float: left;">
+        <img id="frame-tips-img" src=""/>
+        <div style="display: inline;" id="frame-tips-content"></div>
+    </div>
+    <div style="float: right;">
+        <a href="javascript:AE.UI.hideTips();" class="close"></a>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+
+<div id="frame-balloons"></div>
+
+</body>
+
+<script type="text/javascript">
+    var v_appid = "$!{appid}";
+    var v_firstAppid, v_firstAppUrl, v_tmpM = {};
+    //防止嵌套页面
+    if (window.top != window) {
+        window.top.location = window.location;
+    }
+
+    //框架变量
+    window.top["frame_appid"] = v_appid;
+
+    AE.ready(function () {
+        //初始化菜单
+        f_initMenu();
+        //选中第一个
+        f_menu01Click(v_firstAppid, v_firstAppUrl);
+        //初始化图片裁剪控件
+        f_initImgEdit();
+
+        //设置页面高度
+        f_resize();
+    });
+
+    //初始化图片编辑器
+    function f_initImgEdit() {
+        window["frame.img.editer"] = jq('#img-edit-src').imgAreaSelect({
+            handles: true,
+            instance: true,
+            zIndex: 3000
+        });
+    }
+
+    function f_hideImgEdit() {
+        // 取消选择
+        window.top["frame.img.editer"].cancelSelection();
+        // 关闭弹出层
+        window.top.$("#img-edit").hide();
+    }
+
+    function f_initMenu() {
+        AE.ServiceEx('MenuService.find', {
+            parentid: '0',
+            status: $
+        !{session.attribute.type}
+    },
+
+        function (v_data) {
+            var html = "";
+            for (var i = 0; i < v_data.length; i++) {
+                var menu = v_data[i];
+                //默认第一个打开
+                if (!v_firstAppid) {
+                    v_firstAppid = menu.id;
+                    v_firstAppUrl = menu.url;
+                }
+                html += "<div class='menu_02'><a id='menu01_" + menu.id + "' name='menu01' href='#' onclick='f_menu01Click(\"" + menu.id + "\",\"" + menu.url + "\");' class=''>" + menu.name + "<span class=''></span></a>";
+                html += " <ul id='menu_02_parent_" + menu.id + "' name='menu_02_parent'>";
+                AE.ServiceEx('MenuService.find', {
+                    parentid: menu.id,
+                    status: $
+                !{session.attribute.type}
+            },
+
+                function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var twoMenu = data[i];
+                        //拼接完整对象
+                        v_tmpM[twoMenu.id] = {data: twoMenu, child: []};
+                        v_tmpM[twoMenu.id].child[v_tmpM[twoMenu.id].child.length] = twoMenu;
+                        html += "<li><a href='javascript:void(0)' onclick='f_menu03Click(\"" + twoMenu.id + "\",\"" + twoMenu.url + "\");' id='menu_03_a_" + twoMenu.id + "' name='menu_03_a' class=''>" + twoMenu.name + "<i class='public_icon arrow_04'></i></a></li>";
+                    }
+                }
+
+            )
+                ;
+                html += "<ul></div>";
+            }
+            jq("#menu01div").html(html);
+        }
+
+    )
+        ;
+    }
+
+    function f_close() {
+        window.location.href = "login.do";
+    }
+
+    //主菜单点击
+    function f_menu01Click(v_menuId, v_url) {
+        if (v_menuId != null) {
+            //样式设置
+            jq.each(jq("[name='menu01']"), function (v_index, v_item) {
+                $(v_item).removeClass("on");
+            });
+
+            $("#menu01_" + v_menuId).addClass("on");
+
+            //显示子菜单
+            jq.each(jq("[name='menu_02_parent']"), function (v_index, v_item) {
+                $(v_item).hide();
+            });
+            $("#menu_02_parent_" + v_menuId).slideDown();
+
+            var v_currMenu02Id = $("#menu_02_parent_" + v_menuId + " li a")[0].id;
+            var v_currMenu02Name = $("#menu_02_parent_" + v_menuId + " li a")[0].name;
+
+            //获得当前选中菜单下级的第一个菜单id
+            var v_currNextMenuId = v_currMenu02Id.substr(v_currMenu02Name.length + 1, v_currMenu02Id.length);
+
+            if (v_tmpM[v_currNextMenuId].child.length > 0) {
+                f_menu02Click(v_tmpM[v_currNextMenuId].data.id, v_tmpM[v_currNextMenuId].data.url);
+                f_menu03Click(v_tmpM[v_currNextMenuId].child[0].id,
+                    v_tmpM[v_currNextMenuId].child[0].url);
+            } else {
+                f_menu03Click(v_tmpM[v_currNextMenuId].data.id, v_tmpM[v_currNextMenuId].data.url);
+            }
+        }
+    }
+
+    //二级菜单或有子菜单的节点点击
+    function f_menu02Click(v_menuId, v_url) {
+        jq.each(jq("[name='menu_02_li']"), function (v_index, v_item) {
+            $(v_item).removeClass("menu_03_on");
+        });
+        jq.each(jq("[name='menu_02_ul']"), function (v_index, v_item) {
+            $(v_item).removeClass("menu_03_open");
+        });
+        $("#menu_02_li_" + v_menuId).addClass("menu_03_on");
+        $("#menu_02_ul_" + v_menuId).addClass("menu_03_open");
+    }
+
+    //三级菜单或没有子菜单的节点点击
+    function f_menu03Click(v_menuId, v_url) {
+        //	var length = jq('#top_tab').find('span').length;
+        jq.each(jq("[name='menu_03_a']"), function (v_index, v_item) {
+            $(v_item).removeClass("on");
+        });
+        $("#menu_03_a_" + v_menuId).addClass("on");
+        var txt = $("#menu_03_a_" + v_menuId).text();
+        var Top_tab = $('#top_tab');
+        var con_bg = $('.con_bg');
+        //	var iframe = con_bg.find('iframe[src = "'+ v_url +'"]');
+        var iframe = con_bg.find('iframe[name = "main_iframe_' + txt + '"]');
+        /*jq('#main_iframe').attr('src', (v_url != 'null') ? v_url : "")*/
+        ;
+        if (iframe.length == 0) {//判断左边的标签是否在右边打开了，没有打开，则新增一个标签
+            var spanLength = jq('#top_tab span').length;
+            if (spanLength < 10) {//限制标签个数
+                if (Top_tab.find('span').length > 0) {
+                    Top_tab.find('span').removeClass('span_on');
+                }
+                Top_tab.append('<span class="span_on" name = ' + v_menuId + '><label>' + txt + '</label><i></i></span>');
+                jq('.con_bg iframe').hide();
+                jq('.con_bg').append('<iframe class="main_iframe" name="main_iframe_' + txt + '" src="' + v_url + '" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency width="100%" height="100px" onload="javascript:dyniframesize(\'main_iframe\');"></iframe>').show();
+            } else {
+                alert('请关闭部分标签');
+            }
+        } else {//如果打开过，则跳转到相应的标签去
+            jq('.con_bg iframe').hide();
+            iframe.show();
+            Top_tab.find('span').removeClass('span_on');
+            jq('#top_tab span[name = ' + v_menuId + ']').addClass('span_on');
+        }
+
+        AE.UI.clearNotify();
+    }
+
+    //阻止事件冒泡的通用函数
+    function stopBubble(e) {
+        // 如果传入了事件对象，那么就是非ie浏览器
+        if (e && e.stopPropagation) {
+            //因此它支持W3C的stopPropagation()方法
+            e.stopPropagation();
+        } else {
+            //否则我们使用ie的方法来取消事件冒泡
+            window.event.cancelBubble = true;
+        }
+    }
+
+    $(document).on('click', '#top_tab span', function () {
+        $('#top_tab span').removeClass('span_on');
+        $(this).addClass('span_on');
+        $('.con_bg iframe').hide().eq($(this).index()).show();
+    });
+    $(document).on('click', '#top_tab span i', function () {
+        if ($('#top_tab span i').length > 0) {
+            var num = $(this).parent().index();
+            $(this).parent().remove();
+            $('.con_bg iframe').eq(num).remove();
+            $("#top_tab span").removeClass().last().addClass('span_on');
+            $('.con_bg iframe').hide().last().show();
+            stopBubble(e);
+        }
+    });
+
+    //防止iframe关闭后，无法关闭tips
+    function f_hideTips(v_tipsId) {
+        setTimeout(function () {
+            AE.UI.hideTips(v_tipsId);
+        }, 3000);
+    }
+
+    function getElementsByClassName(className) {
+        var all = document.all ? document.all : document.getElementsByTagName(' *');
+        var elements = new Array();
+        for (var e = 0; e < all.length; e++) {
+            if (all[e].className == className) {
+                elements[elements.length] = all[e];
+                break;
+            }
+        }
+        return elements;
+    }
+
+    function f_resize() {
+        var ifm = document.getElementsByClassName('main_iframe');
+        for (var i = 0; i < ifm.length; i++) {
+            var subWeb = document.frames ? document.frames["main_iframe"].document
+                : ifm[i].contentDocument;//返回框架容纳的文档
+            //收藏夹点击的时候,iframe还未初始化完成
+            if (subWeb.documentElement) {
+                //防止IE下页面切换时出现滚动条的现象
+                $(".main_iframe").height(100);
+                var v_contentHeight = $(window).height();
+                var v_frameHeight = subWeb.documentElement.scrollHeight;
+                var v_frameWidth = subWeb.documentElement.scrollWidth;
+                //如果有x滚动条,还需要+20px
+                var v_height = Math.max(v_contentHeight, v_frameHeight + 80);
+
+                //设置外部高度
+                $(".content").height(v_height - 80);
+                $(".main_iframe").height(v_height - 80);
+                $(".main_iframe").width(v_frameWidth);
+            }
+
+        }
+    }
+
+</script>
+</html>

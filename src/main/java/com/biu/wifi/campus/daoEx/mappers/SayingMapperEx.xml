@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.SayingMapperEx">
+    <select id="user_findSayingList" resultType="hashMap">
+    select 
+        a.id,
+        a.creator_id,
+        b.headimg as creator_head,
+        b.`name` as creator_name,
+        a.create_time,
+        a.privacy,
+        a.is_forward,
+        a.content,
+        a.img,
+        a.origin_id,
+        a.origin_type,
+        a.watch_count,
+        a.like_number,
+        a.comment_number,
+        a.forward_number,
+        a.is_delete,
+        a.at_user,
+        b.type,
+		IF((select count(id) from biu_saying_like where user_id = #{userId} and saying_id = a.id) = 0,2,1) likeStatus,
+		(CASE a.origin_type
+			WHEN 1 THEN
+				(select creator_id from biu_post where a.origin_id = id)
+			WHEN 2 THEN
+				(select creator_id from biu_saying where a.origin_id = id)
+		    ELSE 0
+		END) origin_creator_id,
+		(CASE a.origin_type
+			WHEN 1 THEN
+				(select d.headimg from biu_post c left join biu_user d on c.creator_id = d.id where a.origin_id = c.id)
+			WHEN 2 THEN
+				(select f.headimg from biu_saying e left join biu_user f on e.creator_id = f.id where a.origin_id = e.id)
+			ELSE ""
+		END) origin_creator_head,
+		(CASE a.origin_type
+			WHEN 1 THEN
+				(select d.`name` from biu_post c left join biu_user d on c.creator_id = d.id where a.origin_id = c.id)
+			WHEN 2 THEN
+				(select f.`name` from biu_saying e left join biu_user f on e.creator_id = f.id where a.origin_id = e.id)
+			ELSE ""
+		END) origin_creator_name,
+		(CASE a.origin_type
+			WHEN 1 THEN
+				(select title from biu_post where a.origin_id = id)
+			WHEN 2 THEN
+				(select content from biu_saying where a.origin_id = id)
+			ELSE ""
+		END) origin_content,
+		(CASE a.origin_type
+			WHEN 1 THEN
+				(select img from biu_post where a.origin_id = id)
+			WHEN 2 THEN
+				(select img from biu_saying where a.origin_id = id)
+			ELSE null
+		END) origin_img
+	from biu_saying a 
+	left join biu_user b on a.creator_id = b.id
+	where (a.creator_id = #{userId} 
+	       or 
+	       (a.privacy = 2 and a.creator_id in (select be_followed_id from biu_follow where follower_id = #{userId} and is_cancel = 2 and is_two_way = 1))
+		   or
+		   (a.privacy = 3 and a.creator_id in (select be_followed_id from biu_follow where follower_id = #{userId} and is_cancel = 2))
+          )
+	      and ((a.is_delete = 2 and UNIX_TIMESTAMP(a.create_time) &lt;= UNIX_TIMESTAMP(#{time})) 
+	            or (a.is_delete = 1 and UNIX_TIMESTAMP(a.delete_time) &gt;= UNIX_TIMESTAMP(#{time})))
+	order by a.create_time DESC
+  </select>
+
+    <select id="findCommentAndReplyList" resultType="hashMap">
+    select a.id as comment_id,null as reply_id,a.user_id,b.`name` as user_name,a.content,null as to_user_id,null as to_user_name,1 as type,a.create_time
+	from biu_saying_comment a 
+	left join biu_user b on a.user_id = b.id
+	where a.saying_id = #{sayingId} and a.is_delete = 2
+	
+	union
+	
+	select a.comment_id,a.id as reply_id,a.replier_id as user_id,b.`name` as user_name,a.content,a.to_user_id,c.`name` as to_user_name,2 as type,a.create_time
+	from biu_saying_reply a
+	left join biu_user b on a.replier_id = b.id
+	left join biu_user c on a.to_user_id = c.id
+	where a.saying_id = #{sayingId} and a.is_delete = 2
+	
+	order by create_time ASC
+	limit 15
+  </select>
+
+    <select id="user_getSayingInfo" resultType="hashMap">
+        select
+        a.creator_id,
+        b.headimg as creator_head,
+        b.`name` as creator_name,
+        a.create_time,
+        a.privacy,
+        a.is_forward,
+        a.content,
+        a.img,
+        a.origin_id,
+        a.origin_type,
+        a.watch_count,
+        a.like_number,
+        a.comment_number,
+        a.forward_number,
+        a.is_delete,
+        a.at_user,
+        b.type,
+        <if test="userId != null">
+            IF((select count(id) from biu_saying_like where user_id = #{userId} and saying_id = a.id) = 0,2,1)
+            likeStatus,
+        </if>
+        (CASE a.origin_type
+        WHEN 1 THEN
+        (select creator_id from biu_post where a.origin_id = id)
+        WHEN 2 THEN
+        (select creator_id from biu_saying where a.origin_id = id)
+        ELSE 0
+        END) origin_creator_id,
+        (CASE a.origin_type
+        WHEN 1 THEN
+        (select d.headimg from biu_post c left join biu_user d on c.creator_id = d.id where a.origin_id = c.id)
+        WHEN 2 THEN
+        (select f.headimg from biu_saying e left join biu_user f on e.creator_id = f.id where a.origin_id = e.id)
+        ELSE ""
+        END) origin_creator_head,
+        (CASE a.origin_type
+        WHEN 1 THEN
+        (select d.`name` from biu_post c left join biu_user d on c.creator_id = d.id where a.origin_id = c.id)
+        WHEN 2 THEN
+        (select f.`name` from biu_saying e left join biu_user f on e.creator_id = f.id where a.origin_id = e.id)
+        ELSE ""
+        END) origin_creator_name,
+        (CASE a.origin_type
+        WHEN 1 THEN
+        (select title from biu_post where a.origin_id = id)
+        WHEN 2 THEN
+        (select content from biu_saying where a.origin_id = id)
+        ELSE ""
+        END) origin_content,
+        (CASE a.origin_type
+        WHEN 1 THEN
+        (select img from biu_post where a.origin_id = id)
+        WHEN 2 THEN
+        (select img from biu_saying where a.origin_id = id)
+        ELSE null
+        END) origin_img
+        from biu_saying a
+        left join biu_user b on a.creator_id = b.id
+        where a.id = #{sayingId}
+    </select>
+
+    <select id="user_findSayingCommentList" resultType="hashMap">
+        select
+        a.id,
+        a.user_id,
+        b.headimg as user_head,
+        b.`name` as user_name,
+        a.content,
+        a.create_time,
+        a.like_count,
+        <if test="userId != null">
+            IF((select count(id) from biu_saying_comment_like where user_id = #{userId} and comment_id = a.id) =
+            0,2,1)likeStatus,
+        </if>
+        a.is_delete,
+        b.type
+        from biu_saying_comment a
+        left join biu_user b on a.user_id = b.id
+        where a.saying_id = #{sayingId}
+        and ((a.is_delete = 2 and UNIX_TIMESTAMP(a.create_time) &lt;= UNIX_TIMESTAMP(#{time}))
+        or (a.is_delete = 1 and UNIX_TIMESTAMP(a.delete_time) &gt;= UNIX_TIMESTAMP(#{time})))
+    </select>
+
+    <select id="findReplyListFromCommentId" resultType="hashMap">
+    select a.replier_id,b.`name` as replier_name,c.`name` as to_user_name,
+           a.content,a.to_user_id,a.id,a.create_time,a.is_delete
+	from biu_saying_reply a
+	left join biu_user b on a.replier_id = b.id
+	left join biu_user c on a.to_user_id = c.id
+	where a.comment_id = #{commentId} and a.is_delete = 2
+  </select>
+
+    <insert id="insertAllAtMsg">
+        insert into biu_at_message (type,user_id,user,toer_id,toer,object_id,content,create_time,origin_content)
+        values
+        <foreach collection="toerList" item="item" index="index" separator=",">
+            (#{type},#{userId},#{user},#{item.id},#{item.name},#{objectId},#{content},now(),#{originContent})
+        </foreach>
+    </insert>
+
+    <select id="user_findSayindLikeList" resultType="hashMap">
+    select b.id,b.`name`,b.headimg,b.type
+	from biu_saying_like a
+	left join biu_user b on a.user_id = b.id
+	where a.saying_id = #{sayingId} and UNIX_TIMESTAMP(a.create_time) &lt;= UNIX_TIMESTAMP(#{time})
+	order by a.create_time DESC
+  </select>
+</mapper>

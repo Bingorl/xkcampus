@@ -1,0 +1,284 @@
+body {
+    color: #333;
+    font: 14px/1.4 "Microsoft Yahei";
+    background: #f2f2f2;
+}
+
+body a:link,
+body a:visited,
+body a:hover {
+    text-decoration: none;
+}
+
+.pull-left {
+    display: block;
+    float: left;
+}
+
+.pull-right {
+    display: block;
+    float: right;
+}
+
+.news {
+    margin: 10px auto;
+    width: 991px;
+    height: 720px;
+    background: url(../images/518_list.jpg) no-repeat;
+}
+
+.sub-nav {
+    margin: 0 14px 0 16px;
+    padding-top: 105px;
+    width: 160px;
+}
+
+.sub-nav li {
+    margin: 0 auto;
+    width: 86%;
+    height: 32px;
+    line-height: 32px;
+    display: block;
+    border-bottom: 1px solid #e9e7e7;
+}
+
+.sub-nav a {
+    color: #333;
+    font-size: 16px;
+}
+
+.sub-nav li.active a {
+    color: #2f9200;
+}
+
+.sub-nav li a:hover {
+    color: #f00;
+}
+
+.news-list {
+    margin-top: 10px;
+    width: 787px;
+}
+
+.title {
+    padding-left: 40px;
+    height: 45px;
+    line-height: 45px;
+}
+
+.title span {
+    color: #8a8a8a;
+    font-size: 14px;
+}
+
+.title span.tit {
+    color: #004f9c;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.list {
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.list dl {
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+.list dl a {
+    color: #333;
+}
+
+.list dl dt {
+    width: 90%;
+}
+
+.list dt em {
+    padding-left: 5px;
+    padding-right: 15px;
+}
+
+.list dl dd {
+    width: 10%;
+}
+
+/* tab */
+.tabPanel ul {
+    height: 30px;
+}
+
+.tabPanel ul li {
+    padding: 0 5px;
+    font-size: 12px;
+    height: 45px;
+    line-height: 50px;
+    display: inline;
+    float: left;
+}
+
+.tabPanel ul li a {
+    padding: 0 5px;
+}
+
+.tabPanel a {
+    color: gray;
+}
+
+.tabPanel .hit a {
+    color: #f00;
+}
+
+.pane {
+    min-height: 100px;
+    display: none;
+    border-top: 0;
+}
+
+.news-detail {
+    margin: 10px auto;
+    padding: 0 10px 20px;
+    width: 979px;
+    min-height: 720px;
+    overflow: hidden;
+    background: #fff url(../images/518_02.jpg) repeat-x left top;
+    border: 1px solid #e9e7e7;
+}
+
+.news-detail h2 {
+    line-height: 50px;
+    color: #004f9c;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.datetime {
+    line-height: 24px;
+    font-size: 12px;
+    text-align: center;
+    background: #dbeff6;
+}
+
+.detail-content {
+    margin-top: 10px;
+    line-height: 24px;
+}
+
+/* 活动信息 */
+.list table {
+    width: 100%;
+    text-align: center;
+    border: 1px solid #e9e7e7;
+    table-layout: fixed
+}
+
+tr.title th {
+    height: 30px;
+    color: #004f9c;
+}
+
+.list tr:nth-of-type(odd) {
+    background: rgb(244, 252, 255);
+}
+
+.list th,
+.list td {
+    height: 30px;
+    overflow: hidden;
+    border: 1px solid #e9e7e7;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.list td a {
+    width: 88%;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    display: inline-block;
+    color: #333;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -webkit-text-overflow: ellipsis;
+    -moz-text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.list td a:hover {
+    color: #f00;
+}
+
+.news-detail table {
+    margin: 20px auto;
+    width: 95%;
+    text-align: center;
+}
+
+.news-detail table td {
+    height: 36px;
+}
+
+.news-detail td label {
+    width: 100%;
+    display: inline-block;
+    text-align: right;
+}
+
+.news-detail table input[type="text"] {
+    margin-left: 20px;
+    width: 90%;
+    height: 24px;
+    line-height: 24px;
+    display: inline-block;
+    float: left;
+    text-indent: 5px;
+    border: 1px solid #c1c1c1;
+    outline: 0;
+}
+
+.agendum {
+    padding: 5px;
+    text-align: left;
+    margin-left: 20px;
+    width: 90%;
+    min-height: 50px;
+    float: left;
+    border: 1px solid #c1c1c1;
+}
+
+.attachment {
+    margin: 0 auto;
+    width: 98%;
+    overflow: hidden;
+}
+
+.attachment li {
+    height: 24px;
+    line-height: 24px;
+}
+
+.select {
+    padding-left: 20px;
+    line-height: 24px;
+    text-align: left;
+}
+
+.select input[type="radio"],
+.select input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.select span {
+    color: #f00;
+}
+
+.require {
+    margin-left: 20px;
+    width: 90%;
+    min-height: 50px;
+    border: 1px solid #c1c1c1;
+}

@@ -1,0 +1,128 @@
+@charset "utf-8";
+
+.table_con_01 table {
+    text-align: left;
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    margin-bottom: 20px;
+    height: 30px;
+    border-collapse: collapse;
+}
+
+.table_con_01 table thead tr {
+    background: #F2F2F2 repeat-x;
+    background-image: linear-gradient(to bottom, #f8f8f8 0, #ececec 100%);
+}
+
+.table_con_01 table thead th {
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    color: #707070;
+    font-weight: bold;
+    padding: 5px 10px;
+    height: 30px;
+    text-align: center;
+}
+
+.table_con_01 table tbody tr td {
+    color: #000000;
+    font-size: 12px;
+    padding: 5px 10px;
+    height: 30px;
+    border: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+/* 隔行颜色 */
+.table_con_01 table tbody tr:nth-child(odd) td {
+    background-color: #f9f9f9;
+}
+
+/* hover换色 */
+.table_con_01 table tbody tr:hover td {
+    background-color: #f9f9f9;
+}
+
+.table_con_01 table tbody tr td a {
+    margin-right: 5px;
+    color: #267e94;
+}
+
+.table_con_01 table tbody tr td a:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+.table_img_01 img {
+    border: 1px solid #ddd;
+    width: 73px;
+    height: 38px;
+}
+
+/* ******************** 分页 ******************** */
+.grid_pagelimit {
+    border-left: 1px solid #e5e5e5;
+    border-radius: 4px;
+    margin-top: 7px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.grid_pagelimit_text {
+    position: absolute;
+    right: 20px;
+    margin-top: 7px;
+    margin-bottom: 5px;
+    padding: 12px 0px;
+    font-size: 14px;
+}
+
+.grid_pagelimit li {
+    display: inline;
+}
+
+.grid_pagelimit li a {
+    position: relative;
+    float: left;
+    padding: 12px 18px;
+    font-size: 14px;
+    margin-left: -1px;
+    color: #428bca;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    background-color: #FFFFFF;
+}
+
+.grid_pagelimit li a:hover {
+    text-decoration: none;
+    background-color: #f9f9f9;
+}
+
+.grid_pagelimit li a.on {
+    color: #fff;
+    cursor: default;
+    background-color: #428bca;
+    border-color: #428bca;
+}
+
+/* ******************** 排序 ******************** */
+.grid_sort_sc {
+    padding: 0 13px 0 0;
+    background: url('images/datagrid_icons.png') no-repeat 0px center;
+}
+
+.grid_sort_asc {
+    padding: 0 13px 0 0;
+    background: url('images/datagrid_icons.png') no-repeat 0px center;
+}
+
+.grid_sort_desc {
+    padding: 0 13px 0 0;
+    background: url('images/datagrid_icons.png') no-repeat -16px center;
+}
+
+.grid_sort_td_class {
+    cursor: pointer;
+}

@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biu.wifi.campus.dao.ClassroomBookMapper">
+  <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.ClassroomBook">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+      <result column="audit_user_id" jdbcType="INTEGER" property="auditUserId"/>
+      <result column="audit_user_name" jdbcType="VARCHAR" property="auditUserName"/>
+    <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
+      <result column="audit_remark" jdbcType="VARCHAR" property="auditRemark"/>
+    <result column="classroom_building_id" jdbcType="INTEGER" property="classroomBuildingId" />
+    <result column="person_count" jdbcType="VARCHAR" property="personCount" />
+    <result column="use_type_id" jdbcType="INTEGER" property="useTypeId" />
+    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="classroom_no" jdbcType="VARCHAR" property="classroomNo" />
+    <result column="adjust_classroom_no" jdbcType="VARCHAR" property="adjustClassroomNo" />
+    <result column="is_use_media" jdbcType="SMALLINT" property="isUseMedia" />
+    <result column="link_man" jdbcType="VARCHAR" property="linkMan" />
+    <result column="link_phone" jdbcType="VARCHAR" property="linkPhone" />
+    <result column="link_man_no" jdbcType="VARCHAR" property="linkManNo" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="book_date" jdbcType="VARCHAR" property="bookDate" />
+    <result column="book_period" jdbcType="VARCHAR" property="bookPeriod" />
+    <result column="book_section" jdbcType="VARCHAR" property="bookSection" />
+    <result column="book_condition" jdbcType="VARCHAR" property="bookCondition" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_delete" jdbcType="SMALLINT" property="isDelete" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.biu.wifi.campus.dao.model.ClassroomBook">
+    <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, `status`, version, audit_user_id, audit_user_name, audit_time, audit_remark, 
+    classroom_building_id, person_count, use_type_id, organization_id, title, content, 
+    classroom_no, adjust_classroom_no, is_use_media, link_man, link_phone, link_man_no, 
+    user_id, book_date, book_period, book_section, book_condition, create_time, update_time, 
+    is_delete, delete_time
+  </sql>
+  <sql id="Blob_Column_List">
+    remark
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.biu.wifi.campus.dao.model.ClassroomBookCriteria" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from biu_classroom_book
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.ClassroomBookCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biu_classroom_book
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from biu_classroom_book
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from biu_classroom_book
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.ClassroomBookCriteria">
+    delete from biu_classroom_book
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.ClassroomBook" useGeneratedKeys="true">
+    insert into biu_classroom_book (`status`, version, audit_user_id, 
+      audit_user_name, audit_time, audit_remark, 
+      classroom_building_id, person_count, use_type_id, 
+      organization_id, title, content, 
+      classroom_no, adjust_classroom_no, is_use_media, 
+      link_man, link_phone, link_man_no, 
+      user_id, book_date, book_period, 
+      book_section, book_condition, create_time, 
+      update_time, is_delete, delete_time, 
+      remark)
+    values (#{status,jdbcType=INTEGER}, #{version,jdbcType=VARCHAR}, #{auditUserId,jdbcType=INTEGER}, 
+      #{auditUserName,jdbcType=VARCHAR}, #{auditTime,jdbcType=TIMESTAMP}, #{auditRemark,jdbcType=VARCHAR}, 
+      #{classroomBuildingId,jdbcType=INTEGER}, #{personCount,jdbcType=VARCHAR}, #{useTypeId,jdbcType=INTEGER}, 
+      #{organizationId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{classroomNo,jdbcType=VARCHAR}, #{adjustClassroomNo,jdbcType=VARCHAR}, #{isUseMedia,jdbcType=SMALLINT}, 
+      #{linkMan,jdbcType=VARCHAR}, #{linkPhone,jdbcType=VARCHAR}, #{linkManNo,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{bookDate,jdbcType=VARCHAR}, #{bookPeriod,jdbcType=VARCHAR}, 
+      #{bookSection,jdbcType=VARCHAR}, #{bookCondition,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=SMALLINT}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.ClassroomBook" useGeneratedKeys="true">
+    insert into biu_classroom_book
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+        <if test="auditUserId != null">
+            audit_user_id,
+        </if>
+        <if test="auditUserName != null">
+            audit_user_name,
+        </if>
+      <if test="auditTime != null">
+        audit_time,
+      </if>
+        <if test="auditRemark != null">
+            audit_remark,
+        </if>
+      <if test="classroomBuildingId != null">
+        classroom_building_id,
+      </if>
+      <if test="personCount != null">
+        person_count,
+      </if>
+      <if test="useTypeId != null">
+        use_type_id,
+      </if>
+      <if test="organizationId != null">
+        organization_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="classroomNo != null">
+        classroom_no,
+      </if>
+      <if test="adjustClassroomNo != null">
+        adjust_classroom_no,
+      </if>
+      <if test="isUseMedia != null">
+        is_use_media,
+      </if>
+      <if test="linkMan != null">
+        link_man,
+      </if>
+      <if test="linkPhone != null">
+        link_phone,
+      </if>
+      <if test="linkManNo != null">
+        link_man_no,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="bookDate != null">
+        book_date,
+      </if>
+      <if test="bookPeriod != null">
+        book_period,
+      </if>
+      <if test="bookSection != null">
+        book_section,
+      </if>
+      <if test="bookCondition != null">
+        book_condition,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+        <if test="auditUserId != null">
+            #{auditUserId,jdbcType=INTEGER},
+        </if>
+        <if test="auditUserName != null">
+            #{auditUserName,jdbcType=VARCHAR},
+        </if>
+      <if test="auditTime != null">
+        #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+        <if test="auditRemark != null">
+            #{auditRemark,jdbcType=VARCHAR},
+        </if>
+      <if test="classroomBuildingId != null">
+        #{classroomBuildingId,jdbcType=INTEGER},
+      </if>
+      <if test="personCount != null">
+        #{personCount,jdbcType=VARCHAR},
+      </if>
+      <if test="useTypeId != null">
+        #{useTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="organizationId != null">
+        #{organizationId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomNo != null">
+        #{classroomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="adjustClassroomNo != null">
+        #{adjustClassroomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isUseMedia != null">
+        #{isUseMedia,jdbcType=SMALLINT},
+      </if>
+      <if test="linkMan != null">
+        #{linkMan,jdbcType=VARCHAR},
+      </if>
+      <if test="linkPhone != null">
+        #{linkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkManNo != null">
+        #{linkManNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="bookDate != null">
+        #{bookDate,jdbcType=VARCHAR},
+      </if>
+      <if test="bookPeriod != null">
+        #{bookPeriod,jdbcType=VARCHAR},
+      </if>
+      <if test="bookSection != null">
+        #{bookSection,jdbcType=VARCHAR},
+      </if>
+      <if test="bookCondition != null">
+        #{bookCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.ClassroomBookCriteria" resultType="java.lang.Long">
+    select count(*) from biu_classroom_book
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update biu_classroom_book
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+        <if test="record.auditUserId != null">
+            audit_user_id = #{record.auditUserId,jdbcType=INTEGER},
+        </if>
+        <if test="record.auditUserName != null">
+            audit_user_name = #{record.auditUserName,jdbcType=VARCHAR},
+        </if>
+      <if test="record.auditTime != null">
+        audit_time = #{record.auditTime,jdbcType=TIMESTAMP},
+      </if>
+        <if test="record.auditRemark != null">
+            audit_remark = #{record.auditRemark,jdbcType=VARCHAR},
+        </if>
+      <if test="record.classroomBuildingId != null">
+        classroom_building_id = #{record.classroomBuildingId,jdbcType=INTEGER},
+      </if>
+      <if test="record.personCount != null">
+        person_count = #{record.personCount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.useTypeId != null">
+        use_type_id = #{record.useTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organizationId != null">
+        organization_id = #{record.organizationId,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classroomNo != null">
+        classroom_no = #{record.classroomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adjustClassroomNo != null">
+        adjust_classroom_no = #{record.adjustClassroomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isUseMedia != null">
+        is_use_media = #{record.isUseMedia,jdbcType=SMALLINT},
+      </if>
+      <if test="record.linkMan != null">
+        link_man = #{record.linkMan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkPhone != null">
+        link_phone = #{record.linkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkManNo != null">
+        link_man_no = #{record.linkManNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookDate != null">
+        book_date = #{record.bookDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookPeriod != null">
+        book_period = #{record.bookPeriod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookSection != null">
+        book_section = #{record.bookSection,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookCondition != null">
+        book_condition = #{record.bookCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=SMALLINT},
+      </if>
+      <if test="record.deleteTime != null">
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update biu_classroom_book
+    set id = #{record.id,jdbcType=INTEGER},
+      `status` = #{record.status,jdbcType=INTEGER},
+      version = #{record.version,jdbcType=VARCHAR},
+      audit_user_id = #{record.auditUserId,jdbcType=INTEGER},
+      audit_user_name = #{record.auditUserName,jdbcType=VARCHAR},
+      audit_time = #{record.auditTime,jdbcType=TIMESTAMP},
+      audit_remark = #{record.auditRemark,jdbcType=VARCHAR},
+      classroom_building_id = #{record.classroomBuildingId,jdbcType=INTEGER},
+      person_count = #{record.personCount,jdbcType=VARCHAR},
+      use_type_id = #{record.useTypeId,jdbcType=INTEGER},
+      organization_id = #{record.organizationId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      classroom_no = #{record.classroomNo,jdbcType=VARCHAR},
+      adjust_classroom_no = #{record.adjustClassroomNo,jdbcType=VARCHAR},
+      is_use_media = #{record.isUseMedia,jdbcType=SMALLINT},
+      link_man = #{record.linkMan,jdbcType=VARCHAR},
+      link_phone = #{record.linkPhone,jdbcType=VARCHAR},
+      link_man_no = #{record.linkManNo,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      book_date = #{record.bookDate,jdbcType=VARCHAR},
+      book_period = #{record.bookPeriod,jdbcType=VARCHAR},
+      book_section = #{record.bookSection,jdbcType=VARCHAR},
+      book_condition = #{record.bookCondition,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{record.isDelete,jdbcType=SMALLINT},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update biu_classroom_book
+    set id = #{record.id,jdbcType=INTEGER},
+      `status` = #{record.status,jdbcType=INTEGER},
+      version = #{record.version,jdbcType=VARCHAR},
+      audit_user_id = #{record.auditUserId,jdbcType=INTEGER},
+      audit_user_name = #{record.auditUserName,jdbcType=VARCHAR},
+      audit_time = #{record.auditTime,jdbcType=TIMESTAMP},
+      audit_remark = #{record.auditRemark,jdbcType=VARCHAR},
+      classroom_building_id = #{record.classroomBuildingId,jdbcType=INTEGER},
+      person_count = #{record.personCount,jdbcType=VARCHAR},
+      use_type_id = #{record.useTypeId,jdbcType=INTEGER},
+      organization_id = #{record.organizationId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      classroom_no = #{record.classroomNo,jdbcType=VARCHAR},
+      adjust_classroom_no = #{record.adjustClassroomNo,jdbcType=VARCHAR},
+      is_use_media = #{record.isUseMedia,jdbcType=SMALLINT},
+      link_man = #{record.linkMan,jdbcType=VARCHAR},
+      link_phone = #{record.linkPhone,jdbcType=VARCHAR},
+      link_man_no = #{record.linkManNo,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      book_date = #{record.bookDate,jdbcType=VARCHAR},
+      book_period = #{record.bookPeriod,jdbcType=VARCHAR},
+      book_section = #{record.bookSection,jdbcType=VARCHAR},
+      book_condition = #{record.bookCondition,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{record.isDelete,jdbcType=SMALLINT},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.ClassroomBook">
+    update biu_classroom_book
+    <set>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+        <if test="auditUserId != null">
+            audit_user_id = #{auditUserId,jdbcType=INTEGER},
+        </if>
+        <if test="auditUserName != null">
+            audit_user_name = #{auditUserName,jdbcType=VARCHAR},
+        </if>
+      <if test="auditTime != null">
+        audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+        <if test="auditRemark != null">
+            audit_remark = #{auditRemark,jdbcType=VARCHAR},
+        </if>
+      <if test="classroomBuildingId != null">
+        classroom_building_id = #{classroomBuildingId,jdbcType=INTEGER},
+      </if>
+      <if test="personCount != null">
+        person_count = #{personCount,jdbcType=VARCHAR},
+      </if>
+      <if test="useTypeId != null">
+        use_type_id = #{useTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="organizationId != null">
+        organization_id = #{organizationId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomNo != null">
+        classroom_no = #{classroomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="adjustClassroomNo != null">
+        adjust_classroom_no = #{adjustClassroomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isUseMedia != null">
+        is_use_media = #{isUseMedia,jdbcType=SMALLINT},
+      </if>
+      <if test="linkMan != null">
+        link_man = #{linkMan,jdbcType=VARCHAR},
+      </if>
+      <if test="linkPhone != null">
+        link_phone = #{linkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkManNo != null">
+        link_man_no = #{linkManNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="bookDate != null">
+        book_date = #{bookDate,jdbcType=VARCHAR},
+      </if>
+      <if test="bookPeriod != null">
+        book_period = #{bookPeriod,jdbcType=VARCHAR},
+      </if>
+      <if test="bookSection != null">
+        book_section = #{bookSection,jdbcType=VARCHAR},
+      </if>
+      <if test="bookCondition != null">
+        book_condition = #{bookCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.biu.wifi.campus.dao.model.ClassroomBook">
+    update biu_classroom_book
+    set `status` = #{status,jdbcType=INTEGER},
+      version = #{version,jdbcType=VARCHAR},
+      audit_user_id = #{auditUserId,jdbcType=INTEGER},
+      audit_user_name = #{auditUserName,jdbcType=VARCHAR},
+      audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      audit_remark = #{auditRemark,jdbcType=VARCHAR},
+      classroom_building_id = #{classroomBuildingId,jdbcType=INTEGER},
+      person_count = #{personCount,jdbcType=VARCHAR},
+      use_type_id = #{useTypeId,jdbcType=INTEGER},
+      organization_id = #{organizationId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      classroom_no = #{classroomNo,jdbcType=VARCHAR},
+      adjust_classroom_no = #{adjustClassroomNo,jdbcType=VARCHAR},
+      is_use_media = #{isUseMedia,jdbcType=SMALLINT},
+      link_man = #{linkMan,jdbcType=VARCHAR},
+      link_phone = #{linkPhone,jdbcType=VARCHAR},
+      link_man_no = #{linkManNo,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      book_date = #{bookDate,jdbcType=VARCHAR},
+      book_period = #{bookPeriod,jdbcType=VARCHAR},
+      book_section = #{bookSection,jdbcType=VARCHAR},
+      book_condition = #{bookCondition,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=SMALLINT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.ClassroomBook">
+    update biu_classroom_book
+    set `status` = #{status,jdbcType=INTEGER},
+      version = #{version,jdbcType=VARCHAR},
+      audit_user_id = #{auditUserId,jdbcType=INTEGER},
+      audit_user_name = #{auditUserName,jdbcType=VARCHAR},
+      audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      audit_remark = #{auditRemark,jdbcType=VARCHAR},
+      classroom_building_id = #{classroomBuildingId,jdbcType=INTEGER},
+      person_count = #{personCount,jdbcType=VARCHAR},
+      use_type_id = #{useTypeId,jdbcType=INTEGER},
+      organization_id = #{organizationId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      classroom_no = #{classroomNo,jdbcType=VARCHAR},
+      adjust_classroom_no = #{adjustClassroomNo,jdbcType=VARCHAR},
+      is_use_media = #{isUseMedia,jdbcType=SMALLINT},
+      link_man = #{linkMan,jdbcType=VARCHAR},
+      link_phone = #{linkPhone,jdbcType=VARCHAR},
+      link_man_no = #{linkManNo,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      book_date = #{bookDate,jdbcType=VARCHAR},
+      book_period = #{bookPeriod,jdbcType=VARCHAR},
+      book_section = #{bookSection,jdbcType=VARCHAR},
+      book_condition = #{bookCondition,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=SMALLINT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

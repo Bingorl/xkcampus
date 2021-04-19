@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.BackendGroupMapperEx">
+
+    <select id="findManageGroupList" resultType="hashMap">
+        select a.group_id as groupId, b.headimg, b.`name`, b.number, c.`name` as creator, d.`name` as school,
+        b.school_id schoolId
+        from biu_group_user a
+        left join biu_group b on a.group_id = b.id
+        left join biu_user c on b.creator_id = c.id
+        left join biu_school d on b.school_id = d.id
+        where a.user_id = #{userId} and a.is_delete = 2 and a.type in (1,2) and b.is_delete = 2
+        <if test="groupName != null and groupName != '' ">
+            and b.name like CONCAT('%',#{groupName},'%')
+        </if>
+        order by a.become_admin_time ASC
+    </select>
+
+    <select id="findGroupList" resultType="hashMap">
+        select a.id as groupId, a.headimg, a.`name`, a.number, b.`name` as creator, c.`name` as school, a.school_id
+        schoolId
+        from biu_group a
+        left join biu_user b on a.creator_id = b.id
+        left join biu_school c on a.school_id = c.id
+        where (a.is_delete = 2 or (a.is_delete = 1 and UNIX_TIMESTAMP(a.delete_time) &gt; #{time}) )
+        and UNIX_TIMESTAMP(a.create_time) &lt;= #{time}
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        <if test="groupName != null and groupName != '' ">
+            and a.name like CONCAT('%',#{groupName},'%')
+        </if>
+        order by a.create_time DESC
+    </select>
+
+    <select id="findGroupMembers" resultType="hashMap">
+		select b.id, b.name, a.type, b.headimg
+		from biu_group_user a 
+		left join biu_user b on a.user_id = b.id
+		where a.group_id = #{groupId} and a.is_delete = 2
+		order by a.create_time DESC
+  </select>
+
+    <select id="findGroupNotices" resultMap="attachs">
+        select a.id, a.id noticeId, a.title, a.content, a.create_time createTime, a.img, b.`name`, b.headimg, a.user_id
+        userId
+        from biu_group_notice a
+        left join biu_user b on a.user_id = b.id
+        where a.group_id = #{groupId} and a.is_delete = 2
+        <if test="title != null and title != '' ">
+            and a.title like CONCAT('%',#{title},'%')
+        </if>
+        <if test="content != null and content != '' ">
+            and a.content like CONCAT('%',#{content},'%')
+        </if>
+        order by a.create_time DESC
+    </select>
+
+    <resultMap id="attachs" type="map">
+        <collection property="attachmentList" column="noticeId" javaType="ArrayList" select="attachmentList"/>
+    </resultMap>
+
+    <select id="attachmentList" resultType="map">
+	   select a.name , a.size, a.url from biu_notice_attachment a where a.notice_id = #{noticeId} and a.is_delete = 2
+  </select>
+
+    <select id="findNoticeQuestions" resultType="hashMap">
+        select a.id, b.name, b.headimg, a.content, a.create_time createTime, a.notice_id noticeId, a.user_id userId
+        from biu_notice_question a
+        left join biu_user b on a.user_id = b.id
+        where a.notice_id = #{noticeId}
+        <if test="time != null">
+            and (a.is_delete = 2 or (a.is_delete = 1 and UNIX_TIMESTAMP(a.delete_time) &gt; #{time}) )
+            and UNIX_TIMESTAMP(a.create_time) &lt;= #{time}
+        </if>
+        <if test="time == null">
+            and a.is_delete = 2
+        </if>
+        order by a.create_time DESC
+    </select>
+
+    <select id="findQuestionReplys" resultType="hashMap">
+		select a.id, b.name replier, b.headimg replyHeadimg, a.content, a.create_time createTime, c.`name` toUser, c.headimg toUserHeadimg, a.question_id questionId, a.notice_id noticeId,
+		a.user_id userId, a.to_user_id toUserId 
+		from biu_question_reply a 
+		left join biu_user b on a.user_id = b.id
+		LEFT JOIN biu_user c on a.to_user_id = c.id
+		where a.question_id = #{questionId} and a.is_delete = 2
+		order by a.create_time ASC
+  </select>
+
+    <select id="findNoticeReceives" resultType="hashMap">
+		select a.user name, a.receive_time receiveTime
+		from biu_notice_receive a 
+		where a.notice_id = #{noticeId} and a.is_received = #{type} and a.is_delete = 2
+		order by a.receive_time ASC
+  </select>
+</mapper>

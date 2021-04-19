@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biu.wifi.campus.dao.StudentChoosedCourseMapper">
+  <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.StudentChoosedCourse">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="term_code" jdbcType="VARCHAR" property="termCode" />
+    <result column="school_id" jdbcType="INTEGER" property="schoolId" />
+    <result column="course_no" jdbcType="VARCHAR" property="courseNo" />
+    <result column="course_serial_no" jdbcType="VARCHAR" property="courseSerialNo" />
+    <result column="stu_number" jdbcType="VARCHAR" property="stuNumber" />
+    <result column="plan_no" jdbcType="VARCHAR" property="planNo" />
+    <result column="study_type" jdbcType="VARCHAR" property="studyType" />
+    <result column="course_attr" jdbcType="VARCHAR" property="courseAttr" />
+    <result column="exam_type" jdbcType="VARCHAR" property="examType" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, term_code, school_id, course_no, course_serial_no, stu_number, plan_no, study_type, 
+    course_attr, exam_type, `status`, remark, create_time, update_time, is_delete, delete_time
+  </sql>
+  <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.StudentChoosedCourseCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biu_student_choosed_course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from biu_student_choosed_course
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from biu_student_choosed_course
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.StudentChoosedCourseCriteria">
+    delete from biu_student_choosed_course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.StudentChoosedCourse" useGeneratedKeys="true">
+    insert into biu_student_choosed_course (term_code, school_id, course_no, 
+      course_serial_no, stu_number, plan_no, 
+      study_type, course_attr, exam_type, 
+      `status`, remark, create_time, 
+      update_time, is_delete, delete_time
+      )
+    values (#{termCode,jdbcType=VARCHAR}, #{schoolId,jdbcType=INTEGER}, #{courseNo,jdbcType=VARCHAR}, 
+      #{courseSerialNo,jdbcType=VARCHAR}, #{stuNumber,jdbcType=VARCHAR}, #{planNo,jdbcType=VARCHAR}, 
+      #{studyType,jdbcType=VARCHAR}, #{courseAttr,jdbcType=VARCHAR}, #{examType,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER}, #{deleteTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.StudentChoosedCourse" useGeneratedKeys="true">
+    insert into biu_student_choosed_course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="termCode != null">
+        term_code,
+      </if>
+      <if test="schoolId != null">
+        school_id,
+      </if>
+      <if test="courseNo != null">
+        course_no,
+      </if>
+      <if test="courseSerialNo != null">
+        course_serial_no,
+      </if>
+      <if test="stuNumber != null">
+        stu_number,
+      </if>
+      <if test="planNo != null">
+        plan_no,
+      </if>
+      <if test="studyType != null">
+        study_type,
+      </if>
+      <if test="courseAttr != null">
+        course_attr,
+      </if>
+      <if test="examType != null">
+        exam_type,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="termCode != null">
+        #{termCode,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null">
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="courseNo != null">
+        #{courseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="courseSerialNo != null">
+        #{courseSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stuNumber != null">
+        #{stuNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="planNo != null">
+        #{planNo,jdbcType=VARCHAR},
+      </if>
+      <if test="studyType != null">
+        #{studyType,jdbcType=VARCHAR},
+      </if>
+      <if test="courseAttr != null">
+        #{courseAttr,jdbcType=VARCHAR},
+      </if>
+      <if test="examType != null">
+        #{examType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.StudentChoosedCourseCriteria" resultType="java.lang.Long">
+    select count(*) from biu_student_choosed_course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update biu_student_choosed_course
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.termCode != null">
+        term_code = #{record.termCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolId != null">
+        school_id = #{record.schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="record.courseNo != null">
+        course_no = #{record.courseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseSerialNo != null">
+        course_serial_no = #{record.courseSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuNumber != null">
+        stu_number = #{record.stuNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planNo != null">
+        plan_no = #{record.planNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studyType != null">
+        study_type = #{record.studyType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseAttr != null">
+        course_attr = #{record.courseAttr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.examType != null">
+        exam_type = #{record.examType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="record.deleteTime != null">
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update biu_student_choosed_course
+    set id = #{record.id,jdbcType=INTEGER},
+      term_code = #{record.termCode,jdbcType=VARCHAR},
+      school_id = #{record.schoolId,jdbcType=INTEGER},
+      course_no = #{record.courseNo,jdbcType=VARCHAR},
+      course_serial_no = #{record.courseSerialNo,jdbcType=VARCHAR},
+      stu_number = #{record.stuNumber,jdbcType=VARCHAR},
+      plan_no = #{record.planNo,jdbcType=VARCHAR},
+      study_type = #{record.studyType,jdbcType=VARCHAR},
+      course_attr = #{record.courseAttr,jdbcType=VARCHAR},
+      exam_type = #{record.examType,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{record.isDelete,jdbcType=INTEGER},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.StudentChoosedCourse">
+    update biu_student_choosed_course
+    <set>
+      <if test="termCode != null">
+        term_code = #{termCode,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null">
+        school_id = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="courseNo != null">
+        course_no = #{courseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="courseSerialNo != null">
+        course_serial_no = #{courseSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stuNumber != null">
+        stu_number = #{stuNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="planNo != null">
+        plan_no = #{planNo,jdbcType=VARCHAR},
+      </if>
+      <if test="studyType != null">
+        study_type = #{studyType,jdbcType=VARCHAR},
+      </if>
+      <if test="courseAttr != null">
+        course_attr = #{courseAttr,jdbcType=VARCHAR},
+      </if>
+      <if test="examType != null">
+        exam_type = #{examType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.StudentChoosedCourse">
+    update biu_student_choosed_course
+    set term_code = #{termCode,jdbcType=VARCHAR},
+      school_id = #{schoolId,jdbcType=INTEGER},
+      course_no = #{courseNo,jdbcType=VARCHAR},
+      course_serial_no = #{courseSerialNo,jdbcType=VARCHAR},
+      stu_number = #{stuNumber,jdbcType=VARCHAR},
+      plan_no = #{planNo,jdbcType=VARCHAR},
+      study_type = #{studyType,jdbcType=VARCHAR},
+      course_attr = #{courseAttr,jdbcType=VARCHAR},
+      exam_type = #{examType,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

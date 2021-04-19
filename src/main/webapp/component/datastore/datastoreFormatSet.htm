@@ -1,0 +1,107 @@
+<html>
+<head>
+    <title>数据存储编辑</title>
+    #parse("/common/include.htm")
+</head>
+<body>
+<!-- 编辑区-->
+<div id="content">
+    <input type="hidden" name="id" value="$!id">
+    <table class="tablestyle">
+        <tr>
+            <td class="tdbg">名称</td>
+            <td><input type="text" name="name" id="name" class="txt"/></td>
+
+        </tr>
+        <tr>
+            <td class="tdbg">存储类型</td>
+            <td>
+                <select name="type">
+                    <option value="1">数据库</option>
+                    <option value="2">本地</option>
+                </select>
+            </td>
+
+        </tr>
+        <tr>
+            <td class="tdbg">存储路径</td>
+            <td>
+                <input type="text" name="path" id="path" class="txt"/>
+                <font>存储类型:数据库为数据库表名,本地为本地路径名</font>
+            </td>
+
+        </tr>
+        <tr>
+            <td class="tdbg">备份存储路径</td>
+            <td>
+                <input type="text" name="bakPath" id="bakPath" class="txt"/>
+                <font>存储类型:数据库为数据库表名,本地为本地路径名</font>
+            </td>
+
+        </tr>
+    </table>
+</div>
+<!-- 按钮区 -->
+<div id="toolbar_bottom">
+    <input type="button" value=" 保 存 " name="btnSave" onclick="f_save();" vtype="submit" class="btn"/>
+    <input type="button" value=" 关 闭 " name="btnClose" onclick="f_close();" class="btn"/>
+</div>
+</body>
+<script language="javascript">
+
+
+    var id = "$!id";
+    ;
+
+    AppEngine.ready(function () {
+
+        if ("$!flag" != "add") {
+            var array = Utils.getOpener().grid.getClickData();
+            id = array.id;
+            $("name").value = array.name;
+            $("name").readOnly = "readonly";
+            $("name").className = "readtxt";
+            $('type').value = array.type ? array.type : "1";
+            $('path').value = array.path;
+            $('bakPath').value = (array.bakPath == null ? '' : array.bakPath);
+        }
+    });
+
+    function f_save() {
+        if ($F("name") == "") {
+            alert("名称不能为空!");
+            return;
+        }
+        if ($F("path") == "") {
+            alert("存储路径不能为空!");
+            return;
+        }
+
+        var values = {};
+        values.name = $F("name");
+        values.path = $F("path");
+        values.type = $F("type")
+        values.bakPath = $F("bakPath")
+
+        if (id) {
+            values.id = id;
+            AE.ServiceEx('DataStoreService.updateDataStore', values, function (v_data) {
+                alert("修改成功!");
+                f_close();
+            });
+        } else {
+            AE.ServiceEx('DataStoreService.insertDataStore', values, function (v_data) {
+                alert("保存成功!");
+                f_close();
+            });
+        }
+
+    }
+
+    function f_close() { //关闭
+        var parent = Utils.getOpener(); //获取父页面窗体
+        AE.UI.closexWin();//关闭子页面
+        parent.f_query();
+    }
+</script>
+</html>

@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+#ajax-loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -22px;
+    margin-left: -22px;
+    background-position: 0 -108px;
+    opacity: 0.8;
+    cursor: pointer;
+    z-index: 8060;
+    background-image: url(../images/fancybox_sprite.png);
+}
+
+#ajax-loading div {
+    width: 44px;
+    height: 44px;
+    background: url(../images/fancybox_loading.gif) center center no-repeat;
+}

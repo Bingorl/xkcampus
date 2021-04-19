@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.BackendPostMapperEx">
+
+    <select id="findPostList" resultType="hashMap">
+        select a.id, a.title, a.content, a.create_time createTime, b.`name` creator, a.creator_id creatorId,
+        a.like_number likeNumber, a.comment_number commentNumber, b.stu_number stuNumber, c.name schoolName, c.id
+        schoolId,
+        a.is_select isSelect, a.post_type postType, a.img, a.select_type_id selectTypeId, a.weight, a.watch_count
+        watchCount
+        from biu_post a
+        left join biu_user b on a.creator_id = b.id
+        left join biu_school c on a.school_id = c.id
+        where (a.is_delete = 2 or (a.is_delete = 1 and UNIX_TIMESTAMP(a.delete_time) &gt; #{time}) )
+        and UNIX_TIMESTAMP(a.create_time) &lt;= #{time}
+        <if test="title != null and title != '' ">
+            and a.title like CONCAT('%',#{title},'%')
+        </if>
+        <if test="content != null and content != '' ">
+            and a.content like CONCAT('%',#{content},'%')
+        </if>
+        <if test="studentNumber != null and studentNumber != '' ">
+            and b.stu_number like CONCAT('%',#{studentNumber},'%')
+        </if>
+        <if test="startTime != null and startTime != '' ">
+            and TO_DAYS(a.create_time) &gt;= TO_DAYS(#{startTime})
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and TO_DAYS(a.create_time) &lt;= TO_DAYS(#{endTime})
+        </if>
+        <if test="isSelect != 0 ">
+            and a.is_select = #{isSelect}
+        </if>
+        <if test="isSpecial != 1 ">
+            and a.post_type = #{isSpecial}
+        </if>
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        order by a.create_time DESC
+    </select>
+
+    <select id="findPostComments" resultType="hashMap">
+  	select a.id, a.floor, a.content, a.create_time createTime, a.user_id userId, b.name, a.like_count likeCount, b.headimg userImg
+	from biu_post_comment a
+	left join biu_user b on a.user_id = b.id
+	where a.post_id = #{postId}
+	and (a.is_delete = 2 or (a.is_delete = 1 and UNIX_TIMESTAMP(a.delete_time) &gt; #{time}) )
+	and UNIX_TIMESTAMP(a.create_time) &lt;= #{time}
+	order by a.floor ASC
+  </select>
+
+    <select id="findPostReplys" resultType="hashMap">
+	select tmp.*, e.name toer, e.headimg toerImg from 
+		(	
+			select a.id, b.`name` replier, a.content, a.create_time createTime, b.headimg replierImg,
+				(
+					IF(
+							 a.to_id is null,
+							 (SELECT d.user_id from biu_post_comment d where d.id = a.comment_id), 
+							 (SELECT c.replier_id from biu_post_reply c where c.id = a.to_id )
+	          )
+	      ) as toer_id 
+				from biu_post_reply a
+				left join biu_user b on a.replier_id = b.id
+				where a.comment_id = #{commentId} and a.is_delete = 2
+				order by a.create_time ASC
+		) as tmp
+	left join biu_user e on tmp.toer_id = e.id
+  </select>
+
+    <select id="findPostSelectListInfo" resultType="hashMap">
+        select a.id, a.`name`, a.weight,
+        (select count(b.id) from biu_post b where b.is_select = 1 and b.select_type_id = a.id and b.is_delete = 2 and
+        b.school_id = a.school_id) as postCount,
+        b.name schoolName, b.id schoolId
+        from biu_post_select a
+        left join biu_school b on a.school_id = b.id
+        where a.is_delete = 2
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        order by a.weight desc
+    </select>
+
+    <update id="cancelNoticeTopPost" parameterType="com.biu.wifi.campus.dao.model.Post">
+        update biu_post
+        <set>
+            post_type = #{postType,jdbcType=SMALLINT},
+            weight = #{weight,jdbcType=INTEGER},
+            notice_top_time = #{noticeTopTime,jdbcType=TIMESTAMP},
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="cancelSelectPost" parameterType="com.biu.wifi.campus.dao.model.Post">
+        update biu_post
+        <set>
+            is_select = #{isSelect,jdbcType=SMALLINT},
+            select_type_id = #{selectTypeId,jdbcType=INTEGER},
+            select_time = #{selectTime,jdbcType=TIMESTAMP},
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

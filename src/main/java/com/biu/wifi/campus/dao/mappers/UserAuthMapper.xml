@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biu.wifi.campus.dao.UserAuthMapper">
+    <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.UserAuth">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="grade_id" jdbcType="INTEGER" property="gradeId"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="stu_number" jdbcType="VARCHAR" property="stuNumber"/>
+        <result column="sex" jdbcType="SMALLINT" property="sex"/>
+        <result column="school_id" jdbcType="INTEGER" property="schoolId"/>
+        <result column="institute_id" jdbcType="INTEGER" property="instituteId"/>
+        <result column="major_id" jdbcType="INTEGER" property="majorId"/>
+        <result column="class_id" jdbcType="INTEGER" property="classId"/>
+        <result column="image" jdbcType="VARCHAR" property="image"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="status" jdbcType="SMALLINT" property="status"/>
+        <result column="reason" jdbcType="VARCHAR" property="reason"/>
+        <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, user_id, grade_id, phone, name, stu_number, sex, school_id, institute_id, major_id, 
+    class_id, image, create_time, status, reason, audit_time
+  </sql>
+    <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.UserAuthCriteria"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from biu_user_auth
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from biu_user_auth
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from biu_user_auth
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.UserAuthCriteria">
+        delete from biu_user_auth
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.UserAuth"
+            useGeneratedKeys="true">
+    insert into biu_user_auth (user_id, grade_id, phone, 
+      name, stu_number, sex, 
+      school_id, institute_id, major_id, 
+      class_id, image, create_time, 
+      status, reason, audit_time
+      )
+    values (#{userId,jdbcType=INTEGER}, #{gradeId,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{stuNumber,jdbcType=VARCHAR}, #{sex,jdbcType=SMALLINT}, 
+      #{schoolId,jdbcType=INTEGER}, #{instituteId,jdbcType=INTEGER}, #{majorId,jdbcType=INTEGER}, 
+      #{classId,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=SMALLINT}, #{reason,jdbcType=VARCHAR}, #{auditTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.UserAuth"
+            useGeneratedKeys="true">
+        insert into biu_user_auth
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="gradeId != null">
+                grade_id,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="stuNumber != null">
+                stu_number,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="schoolId != null">
+                school_id,
+            </if>
+            <if test="instituteId != null">
+                institute_id,
+            </if>
+            <if test="majorId != null">
+                major_id,
+            </if>
+            <if test="classId != null">
+                class_id,
+            </if>
+            <if test="image != null">
+                image,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="reason != null">
+                reason,
+            </if>
+            <if test="auditTime != null">
+                audit_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="gradeId != null">
+                #{gradeId,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="stuNumber != null">
+                #{stuNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=SMALLINT},
+            </if>
+            <if test="schoolId != null">
+                #{schoolId,jdbcType=INTEGER},
+            </if>
+            <if test="instituteId != null">
+                #{instituteId,jdbcType=INTEGER},
+            </if>
+            <if test="majorId != null">
+                #{majorId,jdbcType=INTEGER},
+            </if>
+            <if test="classId != null">
+                #{classId,jdbcType=INTEGER},
+            </if>
+            <if test="image != null">
+                #{image,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="reason != null">
+                #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="auditTime != null">
+                #{auditTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.UserAuthCriteria"
+            resultType="java.lang.Long">
+        select count(*) from biu_user_auth
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update biu_user_auth
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.userId != null">
+                user_id = #{record.userId,jdbcType=INTEGER},
+            </if>
+            <if test="record.gradeId != null">
+                grade_id = #{record.gradeId,jdbcType=INTEGER},
+            </if>
+            <if test="record.phone != null">
+                phone = #{record.phone,jdbcType=VARCHAR},
+            </if>
+            <if test="record.name != null">
+                name = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.stuNumber != null">
+                stu_number = #{record.stuNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sex != null">
+                sex = #{record.sex,jdbcType=SMALLINT},
+            </if>
+            <if test="record.schoolId != null">
+                school_id = #{record.schoolId,jdbcType=INTEGER},
+            </if>
+            <if test="record.instituteId != null">
+                institute_id = #{record.instituteId,jdbcType=INTEGER},
+            </if>
+            <if test="record.majorId != null">
+                major_id = #{record.majorId,jdbcType=INTEGER},
+            </if>
+            <if test="record.classId != null">
+                class_id = #{record.classId,jdbcType=INTEGER},
+            </if>
+            <if test="record.image != null">
+                image = #{record.image,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.status != null">
+                status = #{record.status,jdbcType=SMALLINT},
+            </if>
+            <if test="record.reason != null">
+                reason = #{record.reason,jdbcType=VARCHAR},
+            </if>
+            <if test="record.auditTime != null">
+                audit_time = #{record.auditTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update biu_user_auth
+        set id = #{record.id,jdbcType=INTEGER},
+        user_id = #{record.userId,jdbcType=INTEGER},
+        grade_id = #{record.gradeId,jdbcType=INTEGER},
+        phone = #{record.phone,jdbcType=VARCHAR},
+        name = #{record.name,jdbcType=VARCHAR},
+        stu_number = #{record.stuNumber,jdbcType=VARCHAR},
+        sex = #{record.sex,jdbcType=SMALLINT},
+        school_id = #{record.schoolId,jdbcType=INTEGER},
+        institute_id = #{record.instituteId,jdbcType=INTEGER},
+        major_id = #{record.majorId,jdbcType=INTEGER},
+        class_id = #{record.classId,jdbcType=INTEGER},
+        image = #{record.image,jdbcType=VARCHAR},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        status = #{record.status,jdbcType=SMALLINT},
+        reason = #{record.reason,jdbcType=VARCHAR},
+        audit_time = #{record.auditTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.UserAuth">
+        update biu_user_auth
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="gradeId != null">
+                grade_id = #{gradeId,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="stuNumber != null">
+                stu_number = #{stuNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=SMALLINT},
+            </if>
+            <if test="schoolId != null">
+                school_id = #{schoolId,jdbcType=INTEGER},
+            </if>
+            <if test="instituteId != null">
+                institute_id = #{instituteId,jdbcType=INTEGER},
+            </if>
+            <if test="majorId != null">
+                major_id = #{majorId,jdbcType=INTEGER},
+            </if>
+            <if test="classId != null">
+                class_id = #{classId,jdbcType=INTEGER},
+            </if>
+            <if test="image != null">
+                image = #{image,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="reason != null">
+                reason = #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="auditTime != null">
+                audit_time = #{auditTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.UserAuth">
+    update biu_user_auth
+    set user_id = #{userId,jdbcType=INTEGER},
+      grade_id = #{gradeId,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      stu_number = #{stuNumber,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=SMALLINT},
+      school_id = #{schoolId,jdbcType=INTEGER},
+      institute_id = #{instituteId,jdbcType=INTEGER},
+      major_id = #{majorId,jdbcType=INTEGER},
+      class_id = #{classId,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=SMALLINT},
+      reason = #{reason,jdbcType=VARCHAR},
+      audit_time = #{auditTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

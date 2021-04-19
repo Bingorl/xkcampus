@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.LeaveAuditMapperEx">
+
+    <select id="findLeaveAuditList" parameterType="java.lang.Integer" resultType="java.util.Map">
+    SELECT
+    id,
+    leave_id AS leaveId,
+    user_id AS userId,
+    is_pass AS isPass,
+    audit_time AS auditTime,
+    remark,
+    create_time AS createTime,
+    update_time AS updateTime,
+    is_delete AS isDelete,
+    CASE
+	WHEN is_pass is NULL THEN 1
+	ELSE 2
+    END AS `psssType`
+    FROM biu_leave_audit
+    WHERE `is_delete` = 2 AND `user_id` = #{userId}
+    GROUP BY `psssType`,`create_time`
+    ORDER BY `psssType` ASC,`create_time` DESC
+  </select>
+
+    <select id="findById" parameterType="java.lang.Integer" resultType="java.util.Map">
+    SELECT
+    id,
+    leave_id AS leaveId,
+    user_id AS userId,
+    is_pass AS isPass,
+    audit_time AS auditTime,
+    remark,
+    create_time AS createTime,
+    update_time AS updateTime,
+    is_delete AS isDelete,
+    CASE
+	WHEN is_pass is NULL THEN 1
+	ELSE 2
+    END AS `psssType`
+    FROM biu_leave_audit
+    WHERE `is_delete` = 2 AND `id` = #{id}
+    GROUP BY `psssType`,`create_time`
+    ORDER BY `psssType` ASC,`create_time` DESC
+  </select>
+</mapper>

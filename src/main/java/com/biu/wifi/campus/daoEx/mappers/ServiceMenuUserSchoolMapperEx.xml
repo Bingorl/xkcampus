@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+        namespace="com.biu.wifi.campus.daoEx.ServiceMenuUserSchoolMapperEx">
+    <select id="selectMapByExample" resultType="java.util.Map">
+        select
+        b.`id`, b.`name`, b.`icon`, b.`url`, b.`category_id` categoryId, a.sort
+        from `biu_service_menu_user_school` a
+        left join `biu_service_menu` b on
+        a.service_menu_id = b.id
+        where
+        a.school_id = #{schoolId}
+        <if test="categoryId !=null and categoryId !=0">
+            and b.category_id = #{categoryId}
+        </if>
+        <if test="keyword !=null and keyword !=''">
+            and b.name like concat('%',#{keyword},'%')
+        </if>
+        order by a.sort ,a.sort_time asc
+    </select>
+
+    <select id="selectListByExample" resultType="com.biu.wifi.campus.dao.model.ServiceMenuUserSchool">
+		select
+		a.*
+		from `biu_service_menu_user_school` a
+		left join `biu_service_menu` b on
+		a.service_menu_id = b.id
+		where
+		a.school_id = #{schoolId}
+		order by a.sort ,a.sort_time asc
+	</select>
+
+    <select id="selectMapCountByExample"
+            parameterType="java.lang.Integer" resultType="java.lang.Long">
+		select
+		count(a.id)
+		from
+		`biu_service_menu_user_school` a
+		left join `biu_service_menu` b on
+		a.service_menu_id = b.id
+		where
+		a.school_id = #{schoolId}
+	</select>
+</mapper>

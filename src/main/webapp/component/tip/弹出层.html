@@ -1,0 +1,65 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no,  minimal-ui">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+
+    <title>弹出窗口页面</title>
+</head>
+<style type="text/css">
+    * {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    body {
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    img {
+        border: 0px;
+    }
+
+    .cl_b {
+        clear: both;
+    }
+
+    .jryq {
+        color: #FFFFFF;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+</style>
+<link rel="stylesheet" href="css/easydialog.css"/>
+<script src="js/easydialog.min.js"></script>
+
+<body>
+
+<div class="qd-page-gz"><a href="javascript:void(0)" onclick="demorun" id="demoBtn2">点击弹出窗</a></div>
+
+<script>
+    function demorun() {
+        easyDialog.open({
+            container: {
+                header: '自定义属性',
+                content: '<div class="tc-bg">自定义属性<br />自定义属性<br />自定义属性<br /></div>'
+            },
+            drag: false
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biu.wifi.campus.dao.DiscussionTopicApplyMapper">
+  <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.DiscussionTopicApply">
+    <!--@mbg.generated-->
+    <!--@Table biu_discussion_topic_apply-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="topic_name" jdbcType="VARCHAR" property="topicName" />
+    <result column="topic_type" jdbcType="SMALLINT" property="topicType" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="topic_content" jdbcType="LONGVARCHAR" property="topicContent" />
+    <result column="apply_dept_id" jdbcType="INTEGER" property="applyDeptId" />
+    <result column="attend_dept_id" jdbcType="VARCHAR" property="attendDeptId" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="audit_user" jdbcType="VARCHAR" property="auditUser" />
+    <result column="current_audit_user_id" jdbcType="INTEGER" property="currentAuditUserId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_delete" jdbcType="SMALLINT" property="isDelete" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, topic_name, topic_type, start_date, topic_content, apply_dept_id, attend_dept_id, 
+    `status`, user_id, audit_user, current_audit_user_id, create_time, update_time, is_delete, 
+    delete_time
+  </sql>
+  <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.DiscussionTopicApplyExample" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biu_discussion_topic_apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from biu_discussion_topic_apply
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from biu_discussion_topic_apply
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.DiscussionTopicApplyExample">
+    <!--@mbg.generated-->
+    delete from biu_discussion_topic_apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.DiscussionTopicApply" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into biu_discussion_topic_apply (topic_name, topic_type, start_date, 
+      topic_content, apply_dept_id, attend_dept_id, 
+      `status`, user_id, audit_user, 
+      current_audit_user_id, create_time, update_time, 
+      is_delete, delete_time)
+    values (#{topicName,jdbcType=VARCHAR}, #{topicType,jdbcType=SMALLINT}, #{startDate,jdbcType=TIMESTAMP}, 
+      #{topicContent,jdbcType=LONGVARCHAR}, #{applyDeptId,jdbcType=INTEGER}, #{attendDeptId,jdbcType=VARCHAR}, 
+      #{status,jdbcType=SMALLINT}, #{userId,jdbcType=INTEGER}, #{auditUser,jdbcType=VARCHAR}, 
+      #{currentAuditUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDelete,jdbcType=SMALLINT}, #{deleteTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.DiscussionTopicApply" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into biu_discussion_topic_apply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="topicName != null">
+        topic_name,
+      </if>
+      <if test="topicType != null">
+        topic_type,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="topicContent != null">
+        topic_content,
+      </if>
+      <if test="applyDeptId != null">
+        apply_dept_id,
+      </if>
+      <if test="attendDeptId != null">
+        attend_dept_id,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="auditUser != null">
+        audit_user,
+      </if>
+      <if test="currentAuditUserId != null">
+        current_audit_user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="topicName != null">
+        #{topicName,jdbcType=VARCHAR},
+      </if>
+      <if test="topicType != null">
+        #{topicType,jdbcType=SMALLINT},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="topicContent != null">
+        #{topicContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="applyDeptId != null">
+        #{applyDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="attendDeptId != null">
+        #{attendDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="auditUser != null">
+        #{auditUser,jdbcType=VARCHAR},
+      </if>
+      <if test="currentAuditUserId != null">
+        #{currentAuditUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.DiscussionTopicApplyExample" resultType="java.lang.Long">
+    <!--@mbg.generated-->
+    select count(*) from biu_discussion_topic_apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--@mbg.generated-->
+    update biu_discussion_topic_apply
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.topicName != null">
+        topic_name = #{record.topicName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.topicType != null">
+        topic_type = #{record.topicType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.topicContent != null">
+        topic_content = #{record.topicContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.applyDeptId != null">
+        apply_dept_id = #{record.applyDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="record.attendDeptId != null">
+        attend_dept_id = #{record.attendDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=SMALLINT},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.auditUser != null">
+        audit_user = #{record.auditUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.currentAuditUserId != null">
+        current_audit_user_id = #{record.currentAuditUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=SMALLINT},
+      </if>
+      <if test="record.deleteTime != null">
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--@mbg.generated-->
+    update biu_discussion_topic_apply
+    set id = #{record.id,jdbcType=INTEGER},
+      topic_name = #{record.topicName,jdbcType=VARCHAR},
+      topic_type = #{record.topicType,jdbcType=SMALLINT},
+      start_date = #{record.startDate,jdbcType=TIMESTAMP},
+      topic_content = #{record.topicContent,jdbcType=LONGVARCHAR},
+      apply_dept_id = #{record.applyDeptId,jdbcType=INTEGER},
+      attend_dept_id = #{record.attendDeptId,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=SMALLINT},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      audit_user = #{record.auditUser,jdbcType=VARCHAR},
+      current_audit_user_id = #{record.currentAuditUserId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{record.isDelete,jdbcType=SMALLINT},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.DiscussionTopicApply">
+    <!--@mbg.generated-->
+    update biu_discussion_topic_apply
+    <set>
+      <if test="topicName != null">
+        topic_name = #{topicName,jdbcType=VARCHAR},
+      </if>
+      <if test="topicType != null">
+        topic_type = #{topicType,jdbcType=SMALLINT},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="topicContent != null">
+        topic_content = #{topicContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="applyDeptId != null">
+        apply_dept_id = #{applyDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="attendDeptId != null">
+        attend_dept_id = #{attendDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="auditUser != null">
+        audit_user = #{auditUser,jdbcType=VARCHAR},
+      </if>
+      <if test="currentAuditUserId != null">
+        current_audit_user_id = #{currentAuditUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.DiscussionTopicApply">
+    <!--@mbg.generated-->
+    update biu_discussion_topic_apply
+    set topic_name = #{topicName,jdbcType=VARCHAR},
+      topic_type = #{topicType,jdbcType=SMALLINT},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      topic_content = #{topicContent,jdbcType=LONGVARCHAR},
+      apply_dept_id = #{applyDeptId,jdbcType=INTEGER},
+      attend_dept_id = #{attendDeptId,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=SMALLINT},
+      user_id = #{userId,jdbcType=INTEGER},
+      audit_user = #{auditUser,jdbcType=VARCHAR},
+      current_audit_user_id = #{currentAuditUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=SMALLINT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="myDiscussionTopicApplyList" resultType="java.util.HashMap">
+    select
+    a.id,
+    a.topic_name topicName,
+    a.topic_type topicType,
+    a.start_date startDate,
+    a.topic_content topicContent,
+    a.apply_dept_id applyDeptId,
+    a.attend_dept_id attendDeptId,
+    a.`status`,
+    a.user_id userId,
+    a.audit_user auditUser,
+    a.current_audit_user_id currentAuditUserId,
+    a.create_time createTime,
+    a.update_time updateTime,
+    a.is_delete isDelete,
+    a.delete_time deleteTime,
+    b.`name` currentAuditUserName,
+    c.`name` userName
+    from biu_discussion_topic_apply a
+    left join biu_user b on a.current_audit_user_id = b.id
+    left join biu_user c on a.user_id = c.id
+    <where>
+      a.is_delete=2
+      <if test="userId != null">
+        and a.user_id=#{userId}
+      </if>
+      <if test="statusList != null and statusList.size() != 0">
+        and a.`status` in
+        <foreach collection="statusList" item="status" separator="," open="(" close=")">
+          #{status}
+        </foreach>
+      </if>
+      <if test="startDate != null and startDate != ''">
+        and a.create_time &gt;= #{startDate}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        and a.create_time &lt;= #{endDate}
+      </if>
+      order by a.create_time desc
+    </where>
+  </select>
+
+  <select id="myAuditDiscussionTopicApplyList" resultType="java.util.HashMap">
+    select
+    a.id,
+    a.topic_name topicName,
+    a.topic_type topicType,
+    a.start_date startDate,
+    a.topic_content topicContent,
+    a.apply_dept_id applyDeptId,
+    a.attend_dept_id attendDeptId,
+    case d.is_pass
+    when 1 then 2
+    when 2 then 3
+    else 1
+    end `status`,
+    a.user_id userId,
+    a.audit_user auditUser,
+    a.current_audit_user_id currentAuditUserId,
+    a.create_time createTime,
+    a.update_time updateTime,
+    a.is_delete isDelete,
+    a.delete_time deleteTime,
+    b.`name` currentAuditUserName,
+    c.`name` userName
+    from biu_discussion_topic_apply a
+    left join biu_user b on a.current_audit_user_id = b.id
+    left join biu_user c on a.user_id = c.id
+    left join biu_discussion_topic_audit d on a.id=d.apply_id
+    <where>
+      a.is_delete=2
+      <if test="userId != null">
+        and d.user_id=#{userId}
+      </if>
+      <choose>
+        <when test="statusList != null and statusList.size() != 0">
+          and d.is_pass in
+          <foreach collection="statusList" item="status" separator="," open="(" close=")">
+            #{status}
+          </foreach>
+        </when>
+        <otherwise>
+          and d.is_pass is null
+        </otherwise>
+      </choose>
+      <if test="startDate != null and startDate != ''">
+        and a.create_time &gt;= #{startDate}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        and a.create_time &lt;= #{endDate}
+      </if>
+      order by a.create_time desc
+    </where>
+  </select>
+</mapper>

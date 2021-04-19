@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.AuditInfoMapperEx">
+
+    <select id="findList" parameterType="java.lang.Integer" resultType="java.util.Map">
+    SELECT
+    `id`,
+    `type`,
+    `biz_id` AS bizId,
+    `user_id` AS userId,
+    CASE
+	WHEN is_pass is NULL THEN 1
+	ELSE 2
+    END AS `psssType`
+    FROM biu_audit_info
+    WHERE `user_id` = #{userId}
+    GROUP BY `psssType`,`id`
+    ORDER BY `psssType` ASC,`id` DESC
+  </select>
+
+    <select id="findMapList" resultType="java.util.HashMap">
+        select
+        a.id,
+        a.`type`,
+        a.biz_id bizId,
+        a.user_id userId,
+        a.is_pass isPass,
+        b.name userName,
+        c.`name` instituteName
+        from biu_audit_info a
+        left join biu_user b on a.user_id=b.id
+        left join biu_institute c on b.institute_id=c.id
+        where a.`type`=#{type} and a.biz_id=#{bizId}
+    </select>
+</mapper>

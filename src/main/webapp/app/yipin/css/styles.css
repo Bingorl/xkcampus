@@ -1,0 +1,125 @@
+@charset "utf-8";
+/* CSS Document */
+* {
+    word-break: break-all;
+    font-family: Verdana, Arial
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    background: #eee;
+    font-family: "宋体,Arial,微软雅黑";
+    min-width: 240px;
+    padding: 20px;
+}
+
+div, ul, ol, li, h1, h2, h3, h4, h5, h6, form, button, p, th, td, dl, textarea, input, select, button, table, iframe, img, a img {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+li {
+    list-style: none;
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    outline: none;
+    blr: expression(this.onFocus=this.blur());
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+img, a img, textarea, button, table {
+    border: none;
+}
+
+input, img, select, button, table {
+    vertical-align: middle;
+}
+
+input, button, select, textarea {
+    outline: none;
+}
+
+input {
+    border: 0;
+}
+
+textarea {
+    resize: none;
+    border: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.marr85 {
+    margin-right: 85px;
+}
+
+/*basic*/
+.body_01 {
+    background: #fff url(../images/body_bg.jpg) repeat-x center top;
+}
+
+.f_l {
+    float: left;
+}
+
+.f_r {
+    float: right;
+}
+
+.c_b {
+    clear: both;
+}
+
+.clearfix:after {
+    clear: both;
+    display: block;
+    visibility: hidden;
+    height: 0;
+    line-height: 0;
+    content: ".";
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.t_l {
+    text-align: left;
+}
+
+.t_c {
+    text-align: center;
+}
+
+.t_r {
+    text-align: right;
+}
+
+.d_n {
+    display: none;
+}
+
+.p_r {
+    position: relative;
+}

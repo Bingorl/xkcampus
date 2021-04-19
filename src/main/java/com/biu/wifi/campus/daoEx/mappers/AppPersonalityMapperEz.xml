@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.AppPersonalityMapperEz">
+
+    <select id="getMyOwnOrPublicPage" resultType="map">
+	select b.headimg,b.name,b.signature as sig,b.news_num,b.post_num,b.focus_num,b.fans_num,b.school_id
+	from biu_user b 
+	where b.id = #{userId} and b.is_delete = '2'
+</select>
+
+    <select id="getMyOwnOrPublicPagee" resultType="map">
+	select b.headimg,b.name,b.news_num,b.post_num,b.focus_num,b.fans_num,b.introduction,b.id as pageId,b.school_id
+	from biu_user b 
+	where  b.id = #{userId} and b.is_delete = '2'
+</select>
+
+    <update id="editInfo">
+        update biu_user
+        <set>
+            <if test="headimg != null and headimg != '' ">
+                headimg = #{headimg,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null and area != '' ">
+                area = #{area,jdbcType=VARCHAR},
+            </if>
+            <if test="signature != null and signature != '' ">
+                signature = #{signature,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{userId}
+    </update>
+
+    <select id="getMyOwnInfo" resultType="map">
+	select bu.headimg,bu.name,bu.sex,bu.focus_num,bu.fans_num,bu.signature as sig,bu.grade,
+	bs.name as school_name,bi.name as institute_name,bc.name as class_name,bm.name as major_name,
+	bu.huanxin_id,bu.school_id,bu.phone,bu.class_id,bu.id as user_id,bu.area,bu.introduction
+	from biu_user bu
+	left join biu_institute bi on bu.institute_id = bi.id
+	left join biu_school bs on bs.id = bu.school_id
+	left join biu_class bc on bc.id = bu.class_id
+	left join biu_major bm on bm.id = bu.major_id
+	where bu.id = #{0}  and bu.is_delete = '2'
+</select>
+
+    <select id="getMyOwnInfoo" resultType="map">
+	select bu.headimg,bu.name,bu.introduction,bu.fans_num,bu.focus_num,bu.id
+	from biu_user bu
+	where bu.id = #{0} and bu.is_delete = '2'
+</select>
+
+
+    <select id="getMyOwnOrPublicDetails" resultType="map">
+	 select 
+        a.id
+	from biu_saying a
+	where a.creator_id = #{userId}  and a.is_delete = '2'
+</select>
+
+    <select id="getOtherPublicDetails" resultType="hashmap">
+	 select 
+        a.id,
+        a.creator_id,
+        b.headimg as creator_head,
+        b.`name` as creator_name,
+        a.create_time,
+        a.privacy,
+        a.is_forward,
+        a.content,
+        a.img,
+        a.origin_id,
+        a.origin_type,
+        a.watch_count,
+        a.like_number,
+        a.comment_number,
+        a.forward_number,
+        a.is_delete,
+        a.at_user,
+        b.type,
+		IF((select count(id) from biu_saying_like where user_id = #{userId} and saying_id = a.id) = 0,2,1) likeStatus,
+		(CASE a.origin_type
+			WHEN 1 THEN
+				(select creator_id from biu_post where a.origin_id = id)
+			WHEN 2 THEN
+				(select creator_id from biu_saying where a.origin_id = id)
+		    ELSE 0
+		END) origin_creator_id,
+		(CASE a.origin_type
+			WHEN 1 THEN
+				(select d.headimg from biu_post c left join biu_user d on c.creator_id = d.id where a.origin_id = c.id)
+			WHEN 2 THEN
+				(select f.headimg from biu_saying e left join biu_user f on e.creator_id = f.id where a.origin_id = e.id)
+			ELSE ""
+		END) origin_creator_head,
+		(CASE a.origin_type
+			WHEN 1 THEN
+				(select d.`name` from biu_post c left join biu_user d on c.creator_id = d.id where a.origin_id = c.id)
+			WHEN 2 THEN
+				(select f.`name` from biu_saying e left join biu_user f on e.creator_id = f.id where a.origin_id = e.id)
+			ELSE ""
+		END) origin_creator_name,
+		(CASE a.origin_type
+			WHEN 1 THEN
+				(select title from biu_post where a.origin_id = id)
+			WHEN 2 THEN
+				(select content from biu_saying where a.origin_id = id)
+			ELSE ""
+		END) origin_content,
+		(CASE a.origin_type
+			WHEN 1 THEN
+				(select img from biu_post where a.origin_id = id)
+			WHEN 2 THEN
+				(select img from biu_saying where a.origin_id = id)
+			ELSE null
+		END) origin_img
+	from biu_saying a 
+	left join biu_user b on a.creator_id = b.id
+	where (a.creator_id = #{userId}  and (a.privacy = #{is_friend} or a.privacy = 3)  )
+	      and (
+	      		(a.is_delete = 2 and UNIX_TIMESTAMP(a.create_time) &lt;= UNIX_TIMESTAMP(#{time}))    
+	         	or 
+	         	(a.is_delete = 1 and UNIX_TIMESTAMP(a.delete_time) &gt;= UNIX_TIMESTAMP(#{time}))
+	           )
+	order by a.create_time DESC
+</select>
+    <select id="getMyPublicDetails" resultType="hashmap">
+ select 
+        a.id,
+        a.creator_id,
+        b.headimg as creator_head,
+        b.`name` as creator_name,
+        a.create_time,
+        a.privacy,
+        a.is_forward,
+        a.content,
+        a.img,
+        a.origin_id,
+        a.origin_type,
+        a.watch_count,
+        a.like_number,
+        a.comment_number,
+        a.forward_number,
+        a.is_delete,
+        a.at_user,
+        b.type,
+		IF((select count(id) from biu_saying_like where user_id = #{userId} and saying_id = a.id) = 0,2,1) likeStatus,
+		(CASE a.origin_type
+			WHEN 1 THEN
+				(select creator_id from biu_post where a.origin_id = id)
+			WHEN 2 THEN
+				(select creator_id from biu_saying where a.origin_id = id)
+		    ELSE 0
+		END) origin_creator_id,
+		(CASE a.origin_type
+			WHEN 1 THEN
+				(select d.headimg from biu_post c left join biu_user d on c.creator_id = d.id where a.origin_id = c.id)
+			WHEN 2 THEN
+				(select f.headimg from biu_saying e left join biu_user f on e.creator_id = f.id where a.origin_id = e.id)
+			ELSE ""
+		END) origin_creator_head,
+		(CASE a.origin_type
+			WHEN 1 THEN
+				(select d.`name` from biu_post c left join biu_user d on c.creator_id = d.id where a.origin_id = c.id)
+			WHEN 2 THEN
+				(select f.`name` from biu_saying e left join biu_user f on e.creator_id = f.id where a.origin_id = e.id)
+			ELSE ""
+		END) origin_creator_name,
+		(CASE a.origin_type
+			WHEN 1 THEN
+				(select title from biu_post where a.origin_id = id)
+			WHEN 2 THEN
+				(select content from biu_saying where a.origin_id = id)
+			ELSE ""
+		END) origin_content,
+		(CASE a.origin_type
+			WHEN 1 THEN
+				(select img from biu_post where a.origin_id = id)
+			WHEN 2 THEN
+				(select img from biu_saying where a.origin_id = id)
+			ELSE null
+		END) origin_img
+	from biu_saying a 
+	left join biu_user b on a.creator_id = b.id
+	where a.creator_id = #{userId}
+	      and (
+	      (a.is_delete = 2 and UNIX_TIMESTAMP(a.create_time) &lt;= UNIX_TIMESTAMP(#{time})) 
+	   or (a.is_delete = 1 and UNIX_TIMESTAMP(a.delete_time) &gt;= UNIX_TIMESTAMP(#{time}))
+	            )
+	order by a.create_time DESC
+</select>
+
+    <select id="likeSayingMap" resultType="map">
+	select bsl.saying_id as saying_like_id,bsl.user_id,bsl.user as like_user_name
+	from biu_saying_like bsl
+	where bsl.saying_id = #{0}
+</select>
+
+    <select id="commentSayingMap" resultType="map">
+	select bsc.id as comment_id , bsc.saying_id as comment_say_id, 
+			(select t.name from biu_user t where t.id = bsc.user_id and t.is_delete = 2 and t.status = 1) as comment_name,
+	 bsc.content as comment_content,bsc.create_time as comment_time
+	from biu_saying_comment bsc
+	where bsc.is_delete = 2 and bsc.saying_id = #{0}
+	order by bsc.create_time ASC
+</select>
+
+    <select id="replySayingMap" resultType="map">
+		select bu.name as reply_name,bsr.content as reply_content,bsr.create_time as reply_time,
+		 (select t.name from biu_user t where t.id = bsr.to_user_id) as to_user_name
+		from biu_saying_reply bsr
+		left join biu_user bu on bu.id = bsr.replier_id
+		where bsr.saying_id = #{0} 
+		order by bsr.create_time ASC
+</select>
+
+    <select id="getReleasePostList" resultType="map">
+	select bp.id as post_id,bp.create_time,bp.img,bp.title,bp.like_number, bp.watch_count watchCount
+	from biu_post bp
+	where bp.creator_id = #{0} and bp.is_delete = '2'
+	order by bp.create_time desc
+</select>
+
+    <select id="getPostComment" resultType="java.lang.Integer">
+select count(1) from biu_post_comment t where t.post_id = #{0} 
+</select>
+
+    <select id="getMyFocusOn" resultType="map">
+	select bf.id,bu.name as followed_name,bu.headimg,bf.is_two_way,bf.be_followed_id,bu.type
+	from biu_follow bf
+	left join biu_user bu on bu.id = bf.be_followed_id
+	where bf.follower_id = #{0} and is_cancel = '2'
+	order by bf.create_time desc
+</select>
+
+    <select id="getMyFans" resultType="map">
+	select bf.id,bu.name as followed_name,bu.headimg,bf.is_two_way,bf.follower_id,bu.type
+	from biu_follow bf
+	left join biu_user bu on bu.id = bf.follower_id
+	where bf.be_followed_id = #{0} and is_cancel = '2'
+	order by bf.create_time desc
+</select>
+
+    <select id="getMyCollect" resultType="map">
+	select bc.id as collectId,bc.type,bc.post_id,bc.is_detele,bc.user_id
+	from biu_collection bc
+	left join biu_user bu on bu.id = bc.user_id
+	where bc.user_id = #{0} and bc.is_detele = '2'
+	order by bc.create_time desc
+</select>
+
+    <update id="cancelMyCollect">
+	update biu_collection 
+	set is_detele = '1' , delete_time = #{2} 
+	where id = #{1}  and user_id = #{0}
+</update>
+
+    <select id="getMessageList" resultType="map">
+	select bcrm.origin_content,bcrm.object_id,bcrm.content,bcrm.is_read,bcrm.user,bcrm.type,bu.headimg,
+	bcrm.create_time,bcrm.is_detele,bcrm.id,bu.type as user_type,bcrm.user_id
+	from biu_comment_reply_message bcrm
+	left join biu_user bu on bu.id = bcrm.user_id
+	where bcrm.toer_id = #{0}
+	AND (
+	(
+		DATE_FORMAT(bcrm.create_time, "%Y-%m-%d") &lt;= #{1}
+		AND bcrm.is_detele = '2'
+	)
+	OR 
+	(
+		DATE_FORMAT(bcrm.delete_time, "%Y-%m-%d") &gt;= #{1}
+		AND bcrm.is_detele = '1'
+	)
+  		)
+	order by bcrm.is_read desc,bcrm.create_time desc
+</select>
+
+    <select id="getAtMessageList" resultType="map">
+	select 
+		bam.origin_content,bam.type,bam.user,bam.content,bam.is_read,bam.create_time,bu.headimg,
+		bam.is_detele,bam.object_id,bam.id,bam.user_id,bu.type as user_type
+	from biu_at_message bam
+	left join biu_user bu on bu.id = bam.user_id
+	where  bam.toer_id = #{0}
+	AND (
+	(
+		DATE_FORMAT(bam.create_time, "%Y-%m-%d") &lt;= #{1}
+		AND bam.is_detele = '2'
+	)
+	OR 
+	(
+		DATE_FORMAT(bam.delete_time, "%Y-%m-%d") &gt;= #{1}
+		AND bam.is_detele = '1'
+	)
+  		)
+	order by bam.is_read desc,bam.create_time desc
+</select>
+
+    <select id="getZanMessageList" resultType="map">
+	select blm.is_detele,blm.object_id,blm.type,blm.user,blm.content,blm.is_read,blm.create_time,
+			bu.headimg,blm.id,blm.user_id,bu.type as user_type
+	from biu_like_message blm
+	left join biu_user bu on bu.id = blm.user_id
+	where blm.toer_id = #{0}
+		AND (
+	(
+		DATE_FORMAT(blm.create_time, "%Y-%m-%d") &lt;= #{1}
+		AND blm.is_detele = 2
+	)
+	OR 
+	(
+		DATE_FORMAT(blm.delete_time, "%Y-%m-%d") &gt;= #{1}
+		AND blm.is_detele = 1
+	)
+  		)
+	order by blm.is_read desc,blm.create_time desc
+</select>
+
+    <select id="getQuestionMessList" resultType="map">
+	select 
+	bqm.is_detele,bqm.object_id,bqm.type,bqm.user,bqm.origin_content,bqm.content,bqm.is_read,bqm.create_time,
+		bu.headimg,bqm.id,bu.type as user_type,bqm.user_id
+	from biu_question_message bqm
+	left join biu_user bu on bu.id = bqm.user_id
+	where bqm.toer_id = #{0} and bqm.is_detele = '2'
+		AND (
+	(
+		DATE_FORMAT(bqm.create_time, "%Y-%m-%d") &lt;= #{1}
+		AND bqm.is_detele = 2
+	)
+	OR 
+	(
+		DATE_FORMAT(bqm.delete_time, "%Y-%m-%d") &gt;= #{1}
+		AND bqm.is_detele = 1
+	)
+  		)
+	order by bqm.is_read desc,bqm.create_time desc
+</select>
+
+    <select id="getHelpList" resultType="map">
+	select bh.id as helpId, bh.title
+	from biu_help bh
+	where bh.is_delete = '2'
+	order by bh.update_time desc
+</select>
+
+    <select id="getHelpDetail" resultType="map">
+	select bh.content,bh.title
+	from biu_help bh
+	where bh.is_delete = '2' and bh.id = #{0}
+	order by bh.update_time desc
+</select>
+
+    <select id="getPublicPage" resultType="com.biu.wifi.campus.dao.model.User">
+	select t.*
+	from biu_user t
+	where t.creator_id = #{0} and t.is_delete = '2'
+</select>
+
+    <select id="selectPush" resultType="map">
+	select t.is_push_at,t.is_push_cmt,t.is_push_like,t.is_push_question
+	from biu_user t
+	where t.id = #{0} and is_delete = '2'
+</select>
+
+    <select id="findCommentAndReplyList" resultType="hashmap">
+	select a.id,a.user_id,b.`name` as user_name,a.content,null as to_user_id,null as to_user_name,1 as type,a.create_time
+	from biu_saying_comment a 
+	left join biu_user b on a.user_id = b.id
+	where a.saying_id = #{sayingId} and a.is_delete = 2
+	
+	union
+	
+	select a.id,a.replier_id as user_id,b.`name` as user_name,a.content,a.to_user_id,c.`name` as to_user_name,2 as type,a.create_time
+	from biu_saying_reply a
+	left join biu_user b on a.replier_id = b.id
+	left join biu_user c on a.to_user_id = c.id
+	where a.saying_id = #{sayingId} and a.is_delete = 2
+	
+	order by create_time DESC
+
+</select>
+
+    <select id="getPostInfo" resultType="map">
+select t.title,t.img,bu.name,bu.headimg,t.is_delete
+from biu_post t
+left join biu_user bu on bu.id = t.creator_id
+where t.id = #{0} 
+</select>
+
+    <select id="getSayingInfo" resultType="map">
+select t.content,t.img,bu.name,bu.headimg,t.is_delete
+from biu_saying t
+left join biu_user bu on bu.id = t.creator_id
+where t.id = #{0}
+</select>
+
+    <update id="updateIsRead">
+	update biu_comment_reply_message 
+	set is_read = '1'
+	where id = #{0}
+</update>
+
+    <update id="updateIsReadAT">
+	update biu_at_message 
+	set is_read = '1'
+	where id = #{0}
+</update>
+
+    <update id="updateIsReadLike">
+	update biu_like_message 
+	set is_read = '1'
+	where id = #{0}
+</update>
+
+    <update id="updateIsReadquestion">
+	update biu_question_message 
+	set is_read = '1'
+	where id = #{0}
+</update>
+
+
+    <select id="selectPostCommen" resultType="map">
+select t.is_delete,t.id
+from biu_post t
+where t.id = #{0}
+</select>
+
+    <select id="selectPostComm" resultType="short">
+select t.is_delete
+from biu_post t
+where t.id = #{0}
+</select>
+
+
+    <select id="selectPostRe" resultType="map">
+select t.is_delete,t.post_id
+from biu_post_reply t
+where t.id = #{0}
+</select>
+
+    <select id="selectPostReply" resultType="short">
+select t.is_delete
+from biu_post_reply t
+where t.id = #{0}
+</select>
+
+
+    <select id="selectSayingCommen" resultType="map">
+select t.is_delete,t.saying_id
+from biu_saying_comment t
+where t.id = #{0}
+</select>
+
+    <select id="selectSayingComm" resultType="short">
+select t.is_delete
+from biu_saying_comment t
+where t.id = #{0}
+</select>
+
+    <select id="selectSayingRe" resultType="map">
+select t.is_delete,t.saying_id
+from biu_saying_reply t
+where t.id = #{0}
+</select>
+
+    <select id="selectSayingReply" resultType="short">
+select t.is_delete
+from biu_saying_reply t
+where t.id = #{0}
+</select>
+
+    <select id="selectLeaveMess" resultType="map">
+select t.is_delete,t.page_id
+from biu_page_leavemessage t
+where t.id = #{0}
+</select>
+
+    <select id="selectLeaveMessage" resultType="short">
+select t.is_delete
+from biu_page_leavemessage t
+where t.id = #{0}
+</select>
+
+    <select id="getPostSta" resultType="map">
+	select t.is_delete,t.id from biu_post t where t.id = #{0}	
+</select>
+
+    <select id="getPostStatus" resultType="short">
+	select t.is_delete from biu_post t where t.id = #{0}	
+</select>
+
+    <select id="getCommentSta" resultType="map">
+	select t.is_delete,t.post_id from biu_post_comment t where t.id = #{0}	
+</select>
+
+    <select id="getCommentStatus" resultType="short">
+	select t.is_delete from biu_post_comment t where t.id = #{0}	
+</select>
+
+    <select id="getCommentReplySta" resultType="map">
+	select t.is_delete,t.post_id from biu_post_reply t where t.id = #{0}	
+</select>
+
+    <select id="getCommentReplyStatus" resultType="short">
+	select t.is_delete from biu_post_reply t where t.id = #{0}	
+</select>
+
+    <select id="getSayingSta" resultType="map">
+	select t.is_delete,t.id from biu_saying t where t.id = #{0}	
+</select>
+
+    <select id="getSayingStatus" resultType="short">
+	select t.is_delete from biu_saying t where t.id = #{0}	
+</select>
+
+    <select id="getNoticeStatus" resultType="short">
+	select t.is_delete from biu_group_notice t where t.id = #{0}	
+</select>
+
+    <select id="getNoticeId" resultType="java.lang.Integer">
+	select t.id from biu_question_message t where t.object_id = #{0} and t.is_detele = '2'	
+</select>
+
+
+</mapper>

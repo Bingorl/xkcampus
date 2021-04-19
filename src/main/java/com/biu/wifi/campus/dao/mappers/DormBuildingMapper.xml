@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biu.wifi.campus.dao.DormBuildingMapper">
+    <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.DormBuilding">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="school_id" jdbcType="INTEGER" property="schoolId"/>
+        <result column="institute_id" jdbcType="INTEGER" property="instituteId"/>
+        <result column="area_position" jdbcType="VARCHAR" property="areaPosition"/>
+        <result column="no" jdbcType="VARCHAR" property="no"/>
+        <result column="unit_no" jdbcType="VARCHAR" property="unitNo"/>
+        <result column="floor_count" jdbcType="INTEGER" property="floorCount"/>
+        <result column="room_count" jdbcType="VARCHAR" property="roomCount"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="is_delete" jdbcType="SMALLINT" property="isDelete"/>
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, school_id, institute_id, area_position, `no`, unit_no, floor_count, room_count, 
+    phone, create_time, update_time, is_delete, delete_time
+  </sql>
+    <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.DormBuildingCriteria"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from biu_dorm_building
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from biu_dorm_building
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from biu_dorm_building
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.DormBuildingCriteria">
+        delete from biu_dorm_building
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.DormBuilding"
+            useGeneratedKeys="true">
+    insert into biu_dorm_building (school_id, institute_id, area_position, 
+      `no`, unit_no, floor_count, 
+      room_count, phone, create_time, 
+      update_time, is_delete, delete_time
+      )
+    values (#{schoolId,jdbcType=INTEGER}, #{instituteId,jdbcType=INTEGER}, #{areaPosition,jdbcType=VARCHAR}, 
+      #{no,jdbcType=VARCHAR}, #{unitNo,jdbcType=VARCHAR}, #{floorCount,jdbcType=INTEGER}, 
+      #{roomCount,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=SMALLINT}, #{deleteTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.biu.wifi.campus.dao.model.DormBuilding" useGeneratedKeys="true">
+        insert into biu_dorm_building
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="schoolId != null">
+                school_id,
+            </if>
+            <if test="instituteId != null">
+                institute_id,
+            </if>
+            <if test="areaPosition != null">
+                area_position,
+            </if>
+            <if test="no != null">
+                `no`,
+            </if>
+            <if test="unitNo != null">
+                unit_no,
+            </if>
+            <if test="floorCount != null">
+                floor_count,
+            </if>
+            <if test="roomCount != null">
+                room_count,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="deleteTime != null">
+                delete_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="schoolId != null">
+                #{schoolId,jdbcType=INTEGER},
+            </if>
+            <if test="instituteId != null">
+                #{instituteId,jdbcType=INTEGER},
+            </if>
+            <if test="areaPosition != null">
+                #{areaPosition,jdbcType=VARCHAR},
+            </if>
+            <if test="no != null">
+                #{no,jdbcType=VARCHAR},
+            </if>
+            <if test="unitNo != null">
+                #{unitNo,jdbcType=VARCHAR},
+            </if>
+            <if test="floorCount != null">
+                #{floorCount,jdbcType=INTEGER},
+            </if>
+            <if test="roomCount != null">
+                #{roomCount,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=SMALLINT},
+            </if>
+            <if test="deleteTime != null">
+                #{deleteTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.DormBuildingCriteria"
+            resultType="java.lang.Long">
+        select count(*) from biu_dorm_building
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update biu_dorm_building
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.schoolId != null">
+                school_id = #{record.schoolId,jdbcType=INTEGER},
+            </if>
+            <if test="record.instituteId != null">
+                institute_id = #{record.instituteId,jdbcType=INTEGER},
+            </if>
+            <if test="record.areaPosition != null">
+                area_position = #{record.areaPosition,jdbcType=VARCHAR},
+            </if>
+            <if test="record.no != null">
+                `no` = #{record.no,jdbcType=VARCHAR},
+            </if>
+            <if test="record.unitNo != null">
+                unit_no = #{record.unitNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.floorCount != null">
+                floor_count = #{record.floorCount,jdbcType=INTEGER},
+            </if>
+            <if test="record.roomCount != null">
+                room_count = #{record.roomCount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.phone != null">
+                phone = #{record.phone,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.isDelete != null">
+                is_delete = #{record.isDelete,jdbcType=SMALLINT},
+            </if>
+            <if test="record.deleteTime != null">
+                delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update biu_dorm_building
+        set id = #{record.id,jdbcType=INTEGER},
+        school_id = #{record.schoolId,jdbcType=INTEGER},
+        institute_id = #{record.instituteId,jdbcType=INTEGER},
+        area_position = #{record.areaPosition,jdbcType=VARCHAR},
+        `no` = #{record.no,jdbcType=VARCHAR},
+        unit_no = #{record.unitNo,jdbcType=VARCHAR},
+        floor_count = #{record.floorCount,jdbcType=INTEGER},
+        room_count = #{record.roomCount,jdbcType=VARCHAR},
+        phone = #{record.phone,jdbcType=VARCHAR},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        is_delete = #{record.isDelete,jdbcType=SMALLINT},
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.DormBuilding">
+        update biu_dorm_building
+        <set>
+            <if test="schoolId != null">
+                school_id = #{schoolId,jdbcType=INTEGER},
+            </if>
+            <if test="instituteId != null">
+                institute_id = #{instituteId,jdbcType=INTEGER},
+            </if>
+            <if test="areaPosition != null">
+                area_position = #{areaPosition,jdbcType=VARCHAR},
+            </if>
+            <if test="no != null">
+                `no` = #{no,jdbcType=VARCHAR},
+            </if>
+            <if test="unitNo != null">
+                unit_no = #{unitNo,jdbcType=VARCHAR},
+            </if>
+            <if test="floorCount != null">
+                floor_count = #{floorCount,jdbcType=INTEGER},
+            </if>
+            <if test="roomCount != null">
+                room_count = #{roomCount,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=SMALLINT},
+            </if>
+            <if test="deleteTime != null">
+                delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.DormBuilding">
+    update biu_dorm_building
+    set school_id = #{schoolId,jdbcType=INTEGER},
+      institute_id = #{instituteId,jdbcType=INTEGER},
+      area_position = #{areaPosition,jdbcType=VARCHAR},
+      `no` = #{no,jdbcType=VARCHAR},
+      unit_no = #{unitNo,jdbcType=VARCHAR},
+      floor_count = #{floorCount,jdbcType=INTEGER},
+      room_count = #{roomCount,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=SMALLINT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biu.wifi.campus.daoEx.ExamArrangeMapperEx">
+    <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.ExamArrange">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="school_id" jdbcType="INTEGER" property="schoolId"/>
+        <result column="course_no" jdbcType="VARCHAR" property="courseNo"/>
+        <result column="course_serial_no" jdbcType="VARCHAR" property="courseSerialNo"/>
+        <result column="course_name" jdbcType="VARCHAR" property="courseName"/>
+        <result column="teacher_name" jdbcType="VARCHAR" property="teacherName"/>
+        <result column="teacher_no" jdbcType="VARCHAR" property="teacherNo"/>
+        <result column="class_no" jdbcType="VARCHAR" property="classNo"/>
+        <result column="student_id" jdbcType="VARCHAR" property="studentId"/>
+        <result column="classroom_no" jdbcType="VARCHAR" property="classroomNo"/>
+        <result column="old_classroom_no" jdbcType="VARCHAR" property="oldClassroomNo"/>
+        <result column="course_end_time" jdbcType="DATE" property="courseEndTime"/>
+        <result column="course_end_time_week_index" jdbcType="INTEGER" property="courseEndTimeWeekIndex"/>
+        <result column="course_end_time_week_name" jdbcType="VARCHAR" property="courseEndTimeWeekName"/>
+        <result column="course_end_time_section" jdbcType="VARCHAR" property="courseEndTimeSection"/>
+        <result column="invigilate_teacher_id" jdbcType="VARCHAR" property="invigilateTeacherId"/>
+        <result column="patrol_teacher_id" jdbcType="VARCHAR" property="patrolTeacherId"/>
+        <result column="exam_time" jdbcType="DATE" property="examTime"/>
+        <result column="exam_time_week_index" jdbcType="INTEGER" property="examTimeWeekIndex"/>
+        <result column="exam_time_week_name" jdbcType="VARCHAR" property="examTimeWeekName"/>
+        <result column="exam_time_section" jdbcType="VARCHAR" property="examTimeSection"/>
+        <result column="exam_time_period" jdbcType="VARCHAR" property="examTimePeriod"/>
+        <result column="old_exam_time" jdbcType="DATE" property="oldExamTime"/>
+        <result column="old_exam_time_week_index" jdbcType="INTEGER" property="oldExamTimeWeekIndex"/>
+        <result column="old_exam_time_week_name" jdbcType="VARCHAR" property="oldExamTimeWeekName"/>
+        <result column="old_exam_time_section" jdbcType="VARCHAR" property="oldExamTimeSection"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="attachment" jdbcType="VARCHAR" property="attachment"/>
+        <result column="audit_user_id" jdbcType="INTEGER" property="auditUserId"/>
+        <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime"/>
+        <result column="audit_remark" jdbcType="VARCHAR" property="auditRemark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <select id="findListByCourseNo" resultMap="BaseResultMap">
+        select * from biu_exam_arrange
+        where status != 2
+        and school_id = #{schoolId}
+        <if test="courseNo!=null and courseNo!=''">
+            and course_no = #{courseNo}
+        </if>
+        <if test="courseSerialNo!=null and courseSerialNo!=''">
+            and course_serial_no = #{courseSerialNo}
+        </if>
+        and exam_time = #{examTime}
+        <if test="startTimePeriodList!=null">
+            and
+            <foreach collection="startTimePeriodList" item="startTime" separator="or" open="(" close=")">
+                FIND_IN_SET(#{startTime},exam_time_period)
+            </foreach>
+        </if>
+    </select>
+
+    <select id="findListByClassroomNo" resultMap="BaseResultMap">
+        select * from biu_exam_arrange
+        where status != 2
+        and school_id = #{schoolId}
+        and classroom_no = #{classroomNo}
+        and exam_time = #{examTime}
+        <if test="startTimePeriodList!=null">
+            and
+            <foreach collection="startTimePeriodList" item="startTime" separator="or" open="(" close=")">
+                FIND_IN_SET(#{startTime},exam_time_period)
+            </foreach>
+        </if>
+    </select>
+</mapper>

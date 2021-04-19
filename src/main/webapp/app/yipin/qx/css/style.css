@@ -1,0 +1,104 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ul, li {
+    list-style: none;
+}
+
+body {
+    width: 100%;
+    margin: 0px auto;
+    font-size: 14px;
+    min-width: 780px;
+}
+
+.fl_l {
+    float: left;
+}
+
+.first-list {
+    height: 50px;
+    background: #edeeee;
+    border-bottom: 1px solid #d7d7d7;
+}
+
+.first-list ul {
+    padding-top: 12px;
+    padding-left: 10px;
+}
+
+.first-list ul li {
+    float: left;
+    margin-left: 10px;
+    cursor: pointer;
+    height: 26px;
+    line-height: 26px;
+}
+
+.first-list ul li a {
+    margin-left: 10px;
+    margin-right: 10px;
+    color: #000000;
+    text-decoration: none;
+}
+
+/* .first-list ul li:hover {border:1px solid #9d9fa0; border-radius:3px;} */
+.on {
+    border: 1px solid #9d9fa0;
+    border-radius: 3px;
+}
+
+.tabList {
+    background: #f0f0f1;
+    width: 13%;
+}
+
+.tabList ul li a {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#menu {
+    overflow: hidden;
+}
+
+#menu #nav {
+    height: 550px;
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/*#menu #nav li {width:100px;}*/
+#menu #nav li a {
+    display: block;
+    line-height: 50px;
+    text-decoration: none;
+    text-align: center;
+    color: #333;
+    cursor: pointer;
+}
+
+.tag {
+    padding: 10px;
+    overflow: hidden;
+}
+
+.selected {
+    background: #fff;
+    color: #fff;
+}
+
+.tabCon {
+    height: 450px;
+    width: 87%;
+    overflow: auto;
+}
+
+.tag table tr td {
+    border-bottom: 1px dotted #E4E4E4;
+}

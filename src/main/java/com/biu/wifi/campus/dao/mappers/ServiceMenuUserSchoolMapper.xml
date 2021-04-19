@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biu.wifi.campus.dao.ServiceMenuUserSchoolMapper">
+    <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.ServiceMenuUserSchool">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="school_id" jdbcType="INTEGER" property="schoolId"/>
+        <result column="service_menu_id" jdbcType="INTEGER" property="serviceMenuId"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="sort_time" jdbcType="TIMESTAMP" property="sortTime"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, user_id, school_id, service_menu_id, sort, sort_time
+  </sql>
+    <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.ServiceMenuUserSchoolCriteria"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from biu_service_menu_user_school
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from biu_service_menu_user_school
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from biu_service_menu_user_school
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.ServiceMenuUserSchoolCriteria">
+        delete from biu_service_menu_user_school
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id"
+            parameterType="com.biu.wifi.campus.dao.model.ServiceMenuUserSchool" useGeneratedKeys="true">
+    insert into biu_service_menu_user_school (user_id, school_id, service_menu_id, 
+      sort, sort_time)
+    values (#{userId,jdbcType=INTEGER}, #{schoolId,jdbcType=INTEGER}, #{serviceMenuId,jdbcType=INTEGER}, 
+      #{sort,jdbcType=INTEGER}, #{sortTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.biu.wifi.campus.dao.model.ServiceMenuUserSchool" useGeneratedKeys="true">
+        insert into biu_service_menu_user_school
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="schoolId != null">
+                school_id,
+            </if>
+            <if test="serviceMenuId != null">
+                service_menu_id,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="sortTime != null">
+                sort_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="schoolId != null">
+                #{schoolId,jdbcType=INTEGER},
+            </if>
+            <if test="serviceMenuId != null">
+                #{serviceMenuId,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="sortTime != null">
+                #{sortTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.ServiceMenuUserSchoolCriteria"
+            resultType="java.lang.Long">
+        select count(*) from biu_service_menu_user_school
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update biu_service_menu_user_school
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.userId != null">
+                user_id = #{record.userId,jdbcType=INTEGER},
+            </if>
+            <if test="record.schoolId != null">
+                school_id = #{record.schoolId,jdbcType=INTEGER},
+            </if>
+            <if test="record.serviceMenuId != null">
+                service_menu_id = #{record.serviceMenuId,jdbcType=INTEGER},
+            </if>
+            <if test="record.sort != null">
+                sort = #{record.sort,jdbcType=INTEGER},
+            </if>
+            <if test="record.sortTime != null">
+                sort_time = #{record.sortTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update biu_service_menu_user_school
+        set id = #{record.id,jdbcType=INTEGER},
+        user_id = #{record.userId,jdbcType=INTEGER},
+        school_id = #{record.schoolId,jdbcType=INTEGER},
+        service_menu_id = #{record.serviceMenuId,jdbcType=INTEGER},
+        sort = #{record.sort,jdbcType=INTEGER},
+        sort_time = #{record.sortTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.ServiceMenuUserSchool">
+        update biu_service_menu_user_school
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="schoolId != null">
+                school_id = #{schoolId,jdbcType=INTEGER},
+            </if>
+            <if test="serviceMenuId != null">
+                service_menu_id = #{serviceMenuId,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="sortTime != null">
+                sort_time = #{sortTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.ServiceMenuUserSchool">
+    update biu_service_menu_user_school
+    set user_id = #{userId,jdbcType=INTEGER},
+      school_id = #{schoolId,jdbcType=INTEGER},
+      service_menu_id = #{serviceMenuId,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      sort_time = #{sortTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

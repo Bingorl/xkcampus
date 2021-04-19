@@ -1,0 +1,146 @@
+<html>
+<head>#parse("/common/include.htm")
+</head>
+<body>
+<div id="condition">
+    <table class="tablestyle">
+        <tr>
+            <th align="left">查询条件</th>
+        </tr>
+        <tr>
+            <td>
+                <table class="table1">
+                    <tr>
+                        <td width="4%" nowrap="nowrap">名称</td>
+                        <td width="16%"><input type="text" name="name" style="width: 152px" id="name" class="txt"/></td>
+                        <td width="4%" nowrap="nowrap">存储路径</td>
+                        <td width="16%"><input type="text" name="path" style="width: 152px" id="path" class="txt"/></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="toolbar">
+    <input type="button" name="qryBtn" class="btn" value=" 查 询 " onClick="f_query();"/> <input type="button"
+                                                                                               name="AddBtn" class="btn"
+                                                                                               value=" 新 增 "
+                                                                                               onclick="on_add_fun();"/> <!-- <input type="button" name="EditBtn" class="btn" value=" 修 改 " onClick="on_edit_fun();" /> <input
+			type="button" name="DelBtn" class="btn" value=" 删 除 " onClick="f_del();" /> -->
+</div>
+<div id="gridcontainer"></div>
+</body>
+
+<script type="text/javascript">
+    var grid = null;
+    AppEngine
+        .ready(function () {
+
+            grid = new AppGrid()
+                .bindTo(
+                    "gridcontainer",
+                    {
+                        url: 'DataStoreService.selectDataStores',
+                        colModel: [
+                            {
+                                name: "id",
+                                display: "选择",
+                                width: "120px",
+                                align: "center",
+                                width: "50px",
+                                type: "checkbox"
+                            },
+                            {
+                                name: "name",
+                                display: "名称"
+                            },
+                            {
+                                name: "typeName",
+                                display: "存储类型"
+                            },
+                            {
+                                name: "path",
+                                display: "存储路径"
+                            },
+                            {
+                                name: "bakPath",
+                                display: "备份存储路径"
+                            },
+                            {
+                                name: "tpl",
+                                display: "操作",
+                                tpl: "<a  href='#' onclick='f_clearTmpFile(\"#name#\");'>清理临时文件</a>"
+                            }],
+                        load: true,
+                        param: {
+                            appId: "$!appId"
+                        },
+                        width: "100%"
+                    });
+        });
+
+    //查询
+    function f_query() {
+        grid.load("condition");
+    }
+
+    function on_add_fun() {
+        AppEngine.UI.xWinEx("datastore/datastoreFormatSet", "flag=add", "700",
+            "350");
+    }
+
+    function f_clearTmpFile(v_storeName) {
+
+        if (confirm("此操作会每天自动定时执行,业务时间段内人工执行会影响涉及文件处理的业务,请执行前确保已经过管理员允许!")) {
+            AE.ServiceEx('FileSupportService.clearTemp', {
+                storeName: v_storeName
+            }, function () {
+                alert("临时文件清理完成!");
+            });
+        }
+    }
+
+    function on_edit_fun() {
+        var array = grid.getSelectData();
+        if (array.length != 1) {
+            alert('请选择一条需要修改的信息!');
+            return;
+        }
+        if (array[0].name == "default") {
+            alert("该记录不允许被编辑");
+            return;
+        }
+        AppEngine.UI.xWinEx("datastore/datastoreFormatSet", "flag=edit", "700",
+            "350");
+    }
+
+    function f_del() {
+
+        var array = grid.getSelectData();
+        if (array.length == 0) {
+            alert('请选择需要删除的信息!');
+            return;
+        }
+
+        if (!confirm("确定要删除吗?"))
+            return;
+
+        for (var i = 0; i < array.length; i++) {
+            if (array[i].name == "default" || array[i].name == "ds_archive"
+                || array[i].name == "ds_report") {
+                alert(array[i].name + "记录不允许被删除");
+                break;
+            }
+            AE.ServiceEx('DataStoreService.deleteDataStore', {
+                id: array[i].id
+            });
+        }
+        alert("删除成功！");
+        f_query();
+    }
+
+    function testcopy() {
+        //	AE.ServiceEx('FileSupportService.downFileToCilent',{strPath:"c:\\a"});
+    }
+</script>
+</html>

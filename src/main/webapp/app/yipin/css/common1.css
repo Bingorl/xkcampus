@@ -1,0 +1,193 @@
+/*===============================================
+     1、样式重置
+===============================================*/
+body {
+    font: 12px/1.5 "\5FAE\8F6F\96C5\9ED1";
+    color: #545454;
+}
+
+h1, h2, h3, ul, li, dl, dt, dd, img, p, input {
+    margin: 0;
+    padding: 0;
+}
+
+input {
+    border: none;
+    outline: none;
+}
+
+li {
+    list-style: none;
+}
+
+
+.celar {
+    *zoom: 1;
+}
+
+.celar:after {
+    display: block;
+    clear: both;
+    content: "";
+    visibility: hidden;
+    height: 0
+}
+
+a {
+    color: #666;
+    text-decoration: none;
+    outline: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.w1000 {
+    width: 1000px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.mt {
+    margin-top: 10px;
+}
+
+.nav {
+    background: #0f5dd8;
+    height: 61px;
+    line-height: 61px;
+    width: 100%
+}
+
+.logo {
+    float: left;
+    margin-top: 6px;
+}
+
+.nav_fr {
+    color: #fff;
+    font-size: 14px;
+}
+
+.nav_fr a {
+    margin: 0 10px;
+    color: #fff;
+}
+
+.nav_fr span {
+    margin-left: 25px;
+}
+
+.main {
+    background: #f0f0f0;
+    padding-bottom: 25px;
+}
+
+.main_a {
+    padding-top: 28px;
+}
+
+.main_b {
+    background: #fff;
+}
+
+.main_c {
+    background: url(../images/yj_04.jpg) no-repeat 30px 046px;
+    padding: 40px 0 0 60px;
+    color: #010101;
+    font-size: 24px;
+    line-height: 24px;
+}
+
+.main_dl {
+    margin: 30px 0 0 87px;
+    width: 822px;
+    font-size: 14px;
+    color: #555;
+    line-height: 30px;
+    padding-bottom: 60px;
+}
+
+.main_dl dt {
+    float: left;
+    width: 120px;
+    height: 120px;
+    padding-right: 45px;
+}
+
+.main_dl dd {
+    float: left;
+    width: 650px;
+    margin-top: 10px;
+}
+
+.main_d {
+    background: #fff;
+    margin-top: 10px;
+    padding-bottom: 90px;
+}
+
+.main_e {
+    margin: 44px 0 0 80px;
+}
+
+.main_e li {
+    float: left;
+    margin-right: 10px;
+}
+
+.footer {
+    background: #2e2e2e;
+    height: 84px;
+    line-height: 64px;
+    text-align: center;
+    color: #FFF;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

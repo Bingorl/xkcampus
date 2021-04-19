@@ -1,0 +1,122 @@
+/*===============================================
+     1、样式重置
+===============================================*/
+body {
+    font: 12px/1.5 "\5FAE\8F6F\96C5\9ED1";
+    color: #545454;
+}
+
+h1, h2, h3, ul, li, dl, dt, dd, img, p, input {
+    margin: 0;
+    padding: 0;
+}
+
+input {
+    border: none;
+    outline: none;
+}
+
+li {
+    list-style: none;
+}
+
+.celar {
+    *zoom: 1;
+}
+
+.celar:after {
+    display: block;
+    clear: both;
+    content: "";
+    visibility: hidden;
+    height: 0
+}
+
+a {
+    color: #666;
+    text-decoration: none;
+    outline: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.w1000 {
+    width: 1000px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.w918 {
+    width: 918px;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.mt {
+    margin-top: 10px;
+}
+
+.mt3 {
+    margin-top: 3px;
+}
+
+.ml8 {
+    margin-left: 8px;
+}
+
+
+.navigate {
+    background: url(../images/rainstorm_bg.jpg) repeat-x;
+    height: 61px;
+    line-height: 61px;
+}
+
+.logo {
+    margin-top: 7px;
+}
+
+.navigate ul li {
+    float: left;
+    margin-right: 15px;
+    display: inline;
+    font-size: 14px;
+    color: #0d0d0d;
+}
+
+.navigate a {
+    color: #0d0d0d;
+}
+
+.bg {
+    background: #f0f0f0;
+    padding: 28px 0;
+}
+
+.bg_fff {
+    background: #fff;
+}
+
+.banner {
+    width: 918px;
+    margin: 0 auto;
+    padding: 42px 0;
+}
+
+.rainstorm_title {
+    background: url(../images/rainstorm_02.jpg) no-repeat 0 8px;
+    font-size: 22px;
+    line-height: 24px;
+    color: #343434;
+    padding-left: 26px;
+}
+

@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biu.wifi.campus.dao.SayingMapper">
+    <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.Saying">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="creator_id" jdbcType="INTEGER" property="creatorId"/>
+        <result column="at_user" jdbcType="VARCHAR" property="atUser"/>
+        <result column="img" jdbcType="VARCHAR" property="img"/>
+        <result column="watch_count" jdbcType="INTEGER" property="watchCount"/>
+        <result column="privacy" jdbcType="SMALLINT" property="privacy"/>
+        <result column="is_forward" jdbcType="SMALLINT" property="isForward"/>
+        <result column="origin_type" jdbcType="SMALLINT" property="originType"/>
+        <result column="origin_id" jdbcType="INTEGER" property="originId"/>
+        <result column="origin_saying_id" jdbcType="INTEGER" property="originSayingId"/>
+        <result column="forward_number" jdbcType="INTEGER" property="forwardNumber"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="like_number" jdbcType="INTEGER" property="likeNumber"/>
+        <result column="comment_number" jdbcType="INTEGER" property="commentNumber"/>
+        <result column="is_delete" jdbcType="SMALLINT" property="isDelete"/>
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.biu.wifi.campus.dao.model.Saying">
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, creator_id, at_user, img, watch_count, privacy, is_forward, origin_type, origin_id, 
+    origin_saying_id, forward_number, create_time, like_number, comment_number, is_delete, 
+    delete_time
+  </sql>
+    <sql id="Blob_Column_List">
+    content
+  </sql>
+    <select id="selectByExampleWithBLOBs" parameterType="com.biu.wifi.campus.dao.model.SayingCriteria"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from biu_saying
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.SayingCriteria" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from biu_saying
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from biu_saying
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from biu_saying
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.SayingCriteria">
+        delete from biu_saying
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.Saying"
+            useGeneratedKeys="true">
+    insert into biu_saying (creator_id, at_user, img, 
+      watch_count, privacy, is_forward, 
+      origin_type, origin_id, origin_saying_id, 
+      forward_number, create_time, like_number, 
+      comment_number, is_delete, delete_time, 
+      content)
+    values (#{creatorId,jdbcType=INTEGER}, #{atUser,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, 
+      #{watchCount,jdbcType=INTEGER}, #{privacy,jdbcType=SMALLINT}, #{isForward,jdbcType=SMALLINT}, 
+      #{originType,jdbcType=SMALLINT}, #{originId,jdbcType=INTEGER}, #{originSayingId,jdbcType=INTEGER}, 
+      #{forwardNumber,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{likeNumber,jdbcType=INTEGER}, 
+      #{commentNumber,jdbcType=INTEGER}, #{isDelete,jdbcType=SMALLINT}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.Saying"
+            useGeneratedKeys="true">
+        insert into biu_saying
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="creatorId != null">
+                creator_id,
+            </if>
+            <if test="atUser != null">
+                at_user,
+            </if>
+            <if test="img != null">
+                img,
+            </if>
+            <if test="watchCount != null">
+                watch_count,
+            </if>
+            <if test="privacy != null">
+                privacy,
+            </if>
+            <if test="isForward != null">
+                is_forward,
+            </if>
+            <if test="originType != null">
+                origin_type,
+            </if>
+            <if test="originId != null">
+                origin_id,
+            </if>
+            <if test="originSayingId != null">
+                origin_saying_id,
+            </if>
+            <if test="forwardNumber != null">
+                forward_number,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="likeNumber != null">
+                like_number,
+            </if>
+            <if test="commentNumber != null">
+                comment_number,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="deleteTime != null">
+                delete_time,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="creatorId != null">
+                #{creatorId,jdbcType=INTEGER},
+            </if>
+            <if test="atUser != null">
+                #{atUser,jdbcType=VARCHAR},
+            </if>
+            <if test="img != null">
+                #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="watchCount != null">
+                #{watchCount,jdbcType=INTEGER},
+            </if>
+            <if test="privacy != null">
+                #{privacy,jdbcType=SMALLINT},
+            </if>
+            <if test="isForward != null">
+                #{isForward,jdbcType=SMALLINT},
+            </if>
+            <if test="originType != null">
+                #{originType,jdbcType=SMALLINT},
+            </if>
+            <if test="originId != null">
+                #{originId,jdbcType=INTEGER},
+            </if>
+            <if test="originSayingId != null">
+                #{originSayingId,jdbcType=INTEGER},
+            </if>
+            <if test="forwardNumber != null">
+                #{forwardNumber,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="likeNumber != null">
+                #{likeNumber,jdbcType=INTEGER},
+            </if>
+            <if test="commentNumber != null">
+                #{commentNumber,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=SMALLINT},
+            </if>
+            <if test="deleteTime != null">
+                #{deleteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.SayingCriteria"
+            resultType="java.lang.Long">
+        select count(*) from biu_saying
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update biu_saying
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.creatorId != null">
+                creator_id = #{record.creatorId,jdbcType=INTEGER},
+            </if>
+            <if test="record.atUser != null">
+                at_user = #{record.atUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.img != null">
+                img = #{record.img,jdbcType=VARCHAR},
+            </if>
+            <if test="record.watchCount != null">
+                watch_count = #{record.watchCount,jdbcType=INTEGER},
+            </if>
+            <if test="record.privacy != null">
+                privacy = #{record.privacy,jdbcType=SMALLINT},
+            </if>
+            <if test="record.isForward != null">
+                is_forward = #{record.isForward,jdbcType=SMALLINT},
+            </if>
+            <if test="record.originType != null">
+                origin_type = #{record.originType,jdbcType=SMALLINT},
+            </if>
+            <if test="record.originId != null">
+                origin_id = #{record.originId,jdbcType=INTEGER},
+            </if>
+            <if test="record.originSayingId != null">
+                origin_saying_id = #{record.originSayingId,jdbcType=INTEGER},
+            </if>
+            <if test="record.forwardNumber != null">
+                forward_number = #{record.forwardNumber,jdbcType=INTEGER},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.likeNumber != null">
+                like_number = #{record.likeNumber,jdbcType=INTEGER},
+            </if>
+            <if test="record.commentNumber != null">
+                comment_number = #{record.commentNumber,jdbcType=INTEGER},
+            </if>
+            <if test="record.isDelete != null">
+                is_delete = #{record.isDelete,jdbcType=SMALLINT},
+            </if>
+            <if test="record.deleteTime != null">
+                delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.content != null">
+                content = #{record.content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        update biu_saying
+        set id = #{record.id,jdbcType=INTEGER},
+        creator_id = #{record.creatorId,jdbcType=INTEGER},
+        at_user = #{record.atUser,jdbcType=VARCHAR},
+        img = #{record.img,jdbcType=VARCHAR},
+        watch_count = #{record.watchCount,jdbcType=INTEGER},
+        privacy = #{record.privacy,jdbcType=SMALLINT},
+        is_forward = #{record.isForward,jdbcType=SMALLINT},
+        origin_type = #{record.originType,jdbcType=SMALLINT},
+        origin_id = #{record.originId,jdbcType=INTEGER},
+        origin_saying_id = #{record.originSayingId,jdbcType=INTEGER},
+        forward_number = #{record.forwardNumber,jdbcType=INTEGER},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        like_number = #{record.likeNumber,jdbcType=INTEGER},
+        comment_number = #{record.commentNumber,jdbcType=INTEGER},
+        is_delete = #{record.isDelete,jdbcType=SMALLINT},
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+        content = #{record.content,jdbcType=LONGVARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update biu_saying
+        set id = #{record.id,jdbcType=INTEGER},
+        creator_id = #{record.creatorId,jdbcType=INTEGER},
+        at_user = #{record.atUser,jdbcType=VARCHAR},
+        img = #{record.img,jdbcType=VARCHAR},
+        watch_count = #{record.watchCount,jdbcType=INTEGER},
+        privacy = #{record.privacy,jdbcType=SMALLINT},
+        is_forward = #{record.isForward,jdbcType=SMALLINT},
+        origin_type = #{record.originType,jdbcType=SMALLINT},
+        origin_id = #{record.originId,jdbcType=INTEGER},
+        origin_saying_id = #{record.originSayingId,jdbcType=INTEGER},
+        forward_number = #{record.forwardNumber,jdbcType=INTEGER},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        like_number = #{record.likeNumber,jdbcType=INTEGER},
+        comment_number = #{record.commentNumber,jdbcType=INTEGER},
+        is_delete = #{record.isDelete,jdbcType=SMALLINT},
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.Saying">
+        update biu_saying
+        <set>
+            <if test="creatorId != null">
+                creator_id = #{creatorId,jdbcType=INTEGER},
+            </if>
+            <if test="atUser != null">
+                at_user = #{atUser,jdbcType=VARCHAR},
+            </if>
+            <if test="img != null">
+                img = #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="watchCount != null">
+                watch_count = #{watchCount,jdbcType=INTEGER},
+            </if>
+            <if test="privacy != null">
+                privacy = #{privacy,jdbcType=SMALLINT},
+            </if>
+            <if test="isForward != null">
+                is_forward = #{isForward,jdbcType=SMALLINT},
+            </if>
+            <if test="originType != null">
+                origin_type = #{originType,jdbcType=SMALLINT},
+            </if>
+            <if test="originId != null">
+                origin_id = #{originId,jdbcType=INTEGER},
+            </if>
+            <if test="originSayingId != null">
+                origin_saying_id = #{originSayingId,jdbcType=INTEGER},
+            </if>
+            <if test="forwardNumber != null">
+                forward_number = #{forwardNumber,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="likeNumber != null">
+                like_number = #{likeNumber,jdbcType=INTEGER},
+            </if>
+            <if test="commentNumber != null">
+                comment_number = #{commentNumber,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=SMALLINT},
+            </if>
+            <if test="deleteTime != null">
+                delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.biu.wifi.campus.dao.model.Saying">
+    update biu_saying
+    set creator_id = #{creatorId,jdbcType=INTEGER},
+      at_user = #{atUser,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      watch_count = #{watchCount,jdbcType=INTEGER},
+      privacy = #{privacy,jdbcType=SMALLINT},
+      is_forward = #{isForward,jdbcType=SMALLINT},
+      origin_type = #{originType,jdbcType=SMALLINT},
+      origin_id = #{originId,jdbcType=INTEGER},
+      origin_saying_id = #{originSayingId,jdbcType=INTEGER},
+      forward_number = #{forwardNumber,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      like_number = #{likeNumber,jdbcType=INTEGER},
+      comment_number = #{commentNumber,jdbcType=INTEGER},
+      is_delete = #{isDelete,jdbcType=SMALLINT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.Saying">
+    update biu_saying
+    set creator_id = #{creatorId,jdbcType=INTEGER},
+      at_user = #{atUser,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      watch_count = #{watchCount,jdbcType=INTEGER},
+      privacy = #{privacy,jdbcType=SMALLINT},
+      is_forward = #{isForward,jdbcType=SMALLINT},
+      origin_type = #{originType,jdbcType=SMALLINT},
+      origin_id = #{originId,jdbcType=INTEGER},
+      origin_saying_id = #{originSayingId,jdbcType=INTEGER},
+      forward_number = #{forwardNumber,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      like_number = #{likeNumber,jdbcType=INTEGER},
+      comment_number = #{commentNumber,jdbcType=INTEGER},
+      is_delete = #{isDelete,jdbcType=SMALLINT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

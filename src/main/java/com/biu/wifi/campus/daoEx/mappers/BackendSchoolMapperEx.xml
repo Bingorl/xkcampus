@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.BackendSchoolMapperEx">
+
+    <select id="findStudentNumbers" resultType="hashMap">
+        select * from
+        (
+        select a.stu_num stuNum, bi.name institute, bm.name major, bc.name clazz, bg.name grade, a.id,
+        if((select count(b.id) from biu_user b where b.stu_number = a.stu_num and b.institute_id = a.institute_id and
+        b.major_id = a.major_id and b.class_id = a.class_id and b.grade_id = a.grade_id and b.is_auth = 1) = 1,1,2) as
+        isRegist
+        from biu_student_info a
+        left join biu_institute bi on a.institute_id = bi.id
+        left join biu_major bm on a.major_id = bm.id
+        left join biu_class bc on a.class_id = bc.id
+        left join biu_grade bg on a.grade_id = bg.id
+        where a.is_delete = 2
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        <if test="stuNumber != null and stuNumber != '' ">
+            and a.stu_num like CONCAT('%',#{stuNumber},'%')
+        </if>
+        ) as tmp
+        <if test="status != 0 ">
+            where tmp.isRegist = #{status}
+        </if>
+        order by tmp.id ASC
+    </select>
+
+    <select id="findSchoolInfoList" resultType="hashMap">
+        select a.name, a.id, b.username, b.id accountId,
+        (select count(c.id) from biu_user c where c.school_id = a.id and c.is_auth = 1 and c.is_delete = 2 and
+        c.`status` = 1) as authCount
+        from biu_school a
+        left join biu_account b on a.id = b.school_id
+        where a.is_delete = 2 and a.is_delete = 2
+        <if test="name != null and name != '' ">
+            and a.name like CONCAT('%',#{name},'%')
+        </if>
+        order by a.id ASC
+    </select>
+
+</mapper>

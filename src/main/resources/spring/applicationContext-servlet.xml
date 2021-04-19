@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc
+			http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd"
+       default-autowire="byName" default-lazy-init="false">
+
+    <!-- velocity文件路径依赖appid -->
+    <context:property-placeholder location="classpath*:application.properties"
+                                  ignore-unresolvable="true"/>
+
+    <!-- 所有标记@Controller的类 -->
+    <context:component-scan base-package="com.biu.wifi"
+                            use-default-filters="false">
+        <context:include-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+
+    <!--文件上传 100M限制 -->
+    <!-- id="multipartResolver"必须是multipartResolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- maxUploadSize:文件上传的最大值以byte为单位 -->
+        <property name="maxUploadSize" value="1024000"></property>
+    </bean>
+
+    <!-- 页面模板渲染 项目自身最优先使用,其次为基础版本,最后为框架与组件页面 -->
+    <!-- velocity文件路径依赖appid -->
+    <bean id="velocityConfig"
+          class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="configLocation" value="classpath:velocity.properties"/>
+        <property name="resourceLoaderPath"
+                  value="/WEB-INF/pages.app/${application.name}/,/WEB-INF/pages.base/,/WEB-INF/pages.frame/,/component/,/resources/"/>
+    </bean>
+
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+        <property name="suffix" value=".htm"/>
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+        <property name="exposeSpringMacroHelpers" value="true"/>
+        <property name="exposeRequestAttributes" value="false"/>
+        <property name="exposeSessionAttributes" value="false"/>
+        <property name="requestContextAttribute" value="req"/>
+        <!-- 		<property name="toolboxConfigLocation">
+                    <value>/WEB-INF/classes/spring/velocity-toolbox.xml</value>
+                </property> -->
+    </bean>
+
+    <mvc:annotation-driven/>
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.biu.wifi.campus.Listener.PermissionInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>

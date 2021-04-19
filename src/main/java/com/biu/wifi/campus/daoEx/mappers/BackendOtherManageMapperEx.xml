@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.BackendOtherManageMapperEx">
+
+    <select id="findReportList" resultType="hashMap">
+        select a.id, a.user_id userId, b.`name`, a.create_time createTime, a.type, a.content, a.has_handle hasHandle,
+        a.other_id otherId, a.school_id
+        from biu_report a
+        left join biu_user b on a.user_id = b.id
+        where a.is_delete = 2
+        <if test="schoolId != null and schoolId != 0 ">
+            and a.school_id = #{schoolId}
+        </if>
+    </select>
+
+    <select id="findFeedbackList" resultType="hashMap">
+ 	select a.id, a.user_id userId, b.`name`, a.create_time createTime, a.content, a.is_read isRead
+	from biu_feedback a
+	left join biu_user b on a.user_id = b.id
+  </select>
+
+    <select id="findUserListByName" resultType="map">
+        select a.id, a.name from biu_user a
+        where a.status = 1 and a.is_delete = 2 and a.type = 1
+        <if test="name != null and name != '' ">
+            and a.name LIKE CONCAT('%',#{name},'%')
+        </if>
+    </select>
+</mapper>

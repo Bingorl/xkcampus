@@ -1,0 +1,92 @@
+.dvClock {
+    border-top: dashed 1px;
+    border-bottom: dashed 1px;
+    padding: 3px 0px 3px 0px;
+    width: 180px;
+    text-align: center;
+    background-color: White;
+}
+
+.numberPic {
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+.alertPicture {
+    vertical-align: top;
+}
+
+.msgBox {
+    border-right: #455690 1px solid;
+    border-top: #a6b4cf 1px solid;
+    z-index: 99999;
+    left: 200px;
+    border-left: #a6b4cf 1px solid;
+    width: 180px;
+    border-bottom: #455690 1px solid;
+    position: absolute;
+    top: 0px;
+    height: 116px;
+    visibility: hidden;
+    background-color: #c9d3f3;
+
+}
+
+.box {
+    border-top: #ffffff 1px solid;
+    border-left: #ffffff 1px solid;
+    width: 100%;
+    background-color: #AFDCF3;
+    border: none 0px;
+    background-image: url(../resources/images/box.jpg);
+}
+
+.topLine {
+    /*BACKGROUND-COLOR:#6699cc;*/
+}
+
+.titlePic {
+    font-size: 12px;
+    color: #0f2c8c;
+    height: 24px;
+    width: 30px;
+}
+
+.titleContent {
+    font-weight: normal;
+    font-size: 12px;
+    background-image: url(msgTopBg.gif);
+    color: #000;
+    padding-top: 4px;
+    width: 116px;
+}
+
+.closeTd {
+    text-align: right;
+    vertical-align: middle;
+    width: 20px;
+    cursor: hand;
+}
+
+.contentBorder {
+    padding-right: 1px;
+    background-image: url(1msgBottomBg.jpg);
+    padding-bottom: 1px;
+    height: 90px;
+}
+
+.content {
+    border-right: #b9c9ef 1px solid;
+    padding-right: 6px;
+    border-top: #728eb8 1px solid;
+    padding-left: 6px;
+    font-size: 14px;
+    padding-bottom: 6px;
+    border-left: #728eb8 1px solid;
+    color: #1f336b;
+    padding-top: 6px;
+    border-bottom: #b9c9ef 1px solid;
+    height: 100%;
+    width: 100%;
+    line-height: 16px;
+}

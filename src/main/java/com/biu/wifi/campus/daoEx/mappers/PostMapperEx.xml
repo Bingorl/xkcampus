@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.PostMapperEx">
+
+    <select id="findPostListByName" resultType="map">
+    	SELECT
+			t.id,
+			t.title,
+			t.content,
+			t.create_time ,
+			t.is_delete,
+			t.type
+		FROM
+			(
+				(
+					SELECT
+						bp.id,
+						bp.title,
+						bp.content,
+						bp.create_time ,
+						bp.is_delete,
+						1 AS type
+					FROM
+						biu_post bp 
+					WHERE
+						1 = 1 
+					AND (
+					( UNIX_TIMESTAMP( bp.create_time) &lt;= UNIX_TIMESTAMP(#{time}) AND bp.is_delete = 2 ) 
+						OR ( UNIX_TIMESTAMP( bp.delete_time) >= UNIX_TIMESTAMP(#{time})  AND bp.is_delete = 1 ) 
+					) 
+					AND ( bp.title LIKE CONCAT('%',#{search_word},'%') OR bp.content LIKE CONCAT('%',#{search_word},'%') ) 
+				) UNION
+				(
+					SELECT
+						p.id,
+						p.title,
+						bpc.content,
+						bpc.create_time,
+						p.is_delete,
+						2 AS type
+					FROM
+						biu_post_comment bpc
+					LEFT JOIN biu_post p ON bpc.post_id = p.id 
+					WHERE
+						1 = 1 
+					AND (
+					( UNIX_TIMESTAMP( bpc.create_time)&lt;= UNIX_TIMESTAMP(#{time})  AND bpc.is_delete = 2 ) 
+						OR ( UNIX_TIMESTAMP( bpc.delete_time) >= UNIX_TIMESTAMP(#{time})  AND bpc.is_delete = 1 ) 
+					) 
+					AND bpc.content LIKE CONCAT('%',#{search_word},'%')
+				) 
+			) t 
+		ORDER BY
+			t.create_time DESC
+	</select>
+
+    <select id="findSayingListByName" resultType="map">
+		SELECT
+			bs.id,
+			bs.create_time,
+			bs.content,
+			bu.headimg,
+			bu.`name`,
+			bs.is_delete,
+			bs.creator_id AS user_id,
+			bu.type
+		FROM
+			biu_saying bs
+			LEFT JOIN biu_user bu ON bs.creator_id = bu.id
+			WHERE 1=1
+			AND bs.content LIKE CONCAT('%',#{search_word},'%')
+			AND (bs.creator_id = #{user_id} 
+	       or 
+	       (bs.privacy = 2 and bs.creator_id in (select be_followed_id from biu_follow where follower_id = #{user_id} and is_cancel = 2 and is_two_way = 1))
+		   or
+		   (bs.privacy = 3 and bs.creator_id in (select be_followed_id from biu_follow where follower_id = #{user_id} and is_cancel = 2))
+          )
+			AND (
+			( UNIX_TIMESTAMP( bs.create_time) &lt;= UNIX_TIMESTAMP(#{time}) AND bs.is_delete = 2 ) 
+			OR ( UNIX_TIMESTAMP( bs.delete_time) >= UNIX_TIMESTAMP(#{time}) AND bs.is_delete = 1 ) 
+			) 
+			ORDER BY bs.create_time DESC
+	</select>
+
+    <select id="findGroupListByname" resultType="map">
+		SELECT
+			bg.id,
+			bg.headimg,
+			bg.`name`,
+			bg.number 
+		FROM
+			biu_group bg
+		WHERE 1=1
+		AND (
+			(
+				UNIX_TIMESTAMP(bg.create_time) &lt;= UNIX_TIMESTAMP(#{time})
+				AND bg.is_delete = 2
+			)
+			OR (
+				UNIX_TIMESTAMP(bg.delete_time) >= UNIX_TIMESTAMP(#{time})
+				AND bg.is_delete = 1
+			)
+		)
+		AND (bg.`name` LIKE CONCAT('%',#{search_word},'%') OR bg.number LIKE CONCAT('%',#{search_word},'%'))
+		ORDER BY bg.create_time DESC
+	</select>
+
+    <select id="findTopPostList" resultType="map">
+		SELECT
+			bp.id,
+			bp.post_type AS type,
+			bp.title,
+			bu.type AS user_type
+		FROM
+			biu_post bp
+		LEFT JOIN biu_user bu ON bp.creator_id = bu.id
+		WHERE
+			1 = 1
+		AND (
+			(
+				UNIX_TIMESTAMP(bp.create_time) &lt;= UNIX_TIMESTAMP(#{time})
+				AND bp.is_delete = 2
+			)
+			OR (
+				UNIX_TIMESTAMP(bp.delete_time) >= UNIX_TIMESTAMP(#{time})
+				AND bp.is_delete = 1
+			)
+		)
+		AND bp.school_id = #{school_id}
+		AND (bp.post_type = 2 OR bp.post_type = 3)
+		ORDER BY bp.weight DESC
+	</select>
+
+    <select id="findPostList" resultType="map">
+        SELECT
+        bp.id,
+        bp.create_time,
+        bp.title,
+        bp.img,
+        bp.comment_number,
+        bu.headimg,
+        bu.`name`,
+        bp.creator_id,
+        bp.is_delete,
+        bu.type,
+        bp.like_number,
+        bp.watch_count watchCount
+        FROM
+        biu_post bp
+        LEFT JOIN biu_user bu ON bp.creator_id = bu.id
+        WHERE
+        1 = 1
+        AND (
+        (
+        UNIX_TIMESTAMP(bp.create_time) &lt;= UNIX_TIMESTAMP(#{time})
+        AND bp.is_delete = 2
+        )
+        OR (
+        UNIX_TIMESTAMP(bp.delete_time) >= UNIX_TIMESTAMP(#{time})
+        AND bp.is_delete = 1
+        )
+        )
+        AND bp.school_id = #{school_id}
+        <if test="search_type != null and search_type == 2">
+            AND bp.is_select = 1
+            <if test="essence_type != null and essence_type != 0">
+                AND bp.select_type_id = #{essence_type}
+            </if>
+        </if>
+        <if test="essence_type == null and type != null and type == 1">
+            ORDER BY bp.newest_cmt_time DESC
+        </if>
+        <if test="essence_type == null and  type != null and type == 2">
+            ORDER BY bp.create_time DESC
+        </if>
+        <if test="essence_type == null and  type != null and type == 3">
+            ORDER BY bp.hot DESC
+        </if>
+        <if test="essence_type != null">
+            ORDER BY bp.select_time DESC
+        </if>
+    </select>
+
+    <select id="findPostFloorList" resultType="map">
+        SELECT
+        bpc.user_id,
+        bpc.id,
+        bpc.content,
+        bpc.img,
+        bpc.create_time,
+        bpc.floor AS floor_num,
+        bpc.like_count AS like_number,
+        bu.headimg AS user_headimg,
+        bu.`name` AS user_name,
+        bpc.is_delete,
+        bpc.at_user,
+        bu.type
+        FROM
+        biu_post_comment bpc
+        LEFT JOIN biu_user bu ON bpc.user_id = bu.id
+        WHERE
+        1 = 1
+        AND bpc.post_id = #{post_id}
+        AND (
+        (
+        UNIX_TIMESTAMP(bpc.create_time) &lt;= UNIX_TIMESTAMP(#{time})
+        AND bpc.is_delete = 2
+        )
+        OR (
+        UNIX_TIMESTAMP(bpc.delete_time) >= UNIX_TIMESTAMP(#{time})
+        AND bpc.is_delete = 1
+        )
+        )
+        <if test="search_type == 2 and user_id != null">
+            AND bpc.user_id = #{user_id}
+        </if>
+        <if test="type == 1">
+            ORDER BY
+            bpc.create_time ASC
+        </if>
+        <if test="type == 2">
+            ORDER BY
+            bpc.create_time DESC
+        </if>
+    </select>
+
+    <select id="findPostReplyList" resultType="map">
+        SELECT
+        r.replier_id AS user_id,
+        u.headimg,
+        u.`name` AS user_name,
+        (SELECT bu.`name` FROM biu_user bu WHERE bu.id = r.to_user_id) AS to_name,
+        r.to_user_id,
+        r.content,
+        r.id,
+        r.create_time,
+        r.to_id,
+        r.is_delete
+        FROM
+        biu_post_reply r
+        LEFT JOIN biu_user u ON r.replier_id = u.id
+        WHERE
+        1 = 1
+        AND r.comment_id = #{id}
+        <if test="time != null">
+            AND (
+            (
+            UNIX_TIMESTAMP(r.create_time) &lt;= UNIX_TIMESTAMP(#{time})
+            AND r.is_delete = 2
+            )
+            OR (
+            UNIX_TIMESTAMP(r.delete_time) >= UNIX_TIMESTAMP(#{time})
+            AND r.is_delete = 1
+            )
+            )
+        </if>
+        <if test="time == null">
+            AND r.is_delete = 2
+        </if>
+        ORDER BY r.create_time ASC
+    </select>
+</mapper>

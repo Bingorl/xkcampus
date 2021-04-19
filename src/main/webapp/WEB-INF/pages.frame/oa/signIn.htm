@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <title>签到</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .banner {
+            width: 100%;
+            height: 200px;
+            text-align: center;
+            line-height: 150px;
+            background: url($req.contextPath/resources/assets/img/banner.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-size: cover;
+        }
+
+        .sign-select {
+            width: 200px;
+            height: 50px;
+            margin: 30px auto;
+            display: block;
+        }
+
+        .signIn-btn {
+            display: block;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 50px auto;
+            background: #51C332;
+            text-align: center;
+            line-height: 120px;
+        }
+
+        div.history-container {
+            display: none;
+        }
+
+        div.history-container ul {
+            width: 100%;
+            margin: 10px auto;
+            padding: 0;
+        }
+
+        div.history-container li {
+            list-style: none;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+        }
+
+        .footer {
+            width: 100%;
+            height: 60px;
+            position: fixed;
+            bottom: 0;
+        }
+
+        .footer ul {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: #F3F3F3;
+        }
+
+        .footer li {
+            list-style: none;
+            float: left;
+            width: 50%;
+            height: 100%;
+            border: solid 0px;
+            text-align: center;
+            line-height: 60px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="report-container">
+        <div class="banner"></div>
+        <div class="form">
+            <form id="signInForm" action="$req.contextPath/app_addSignIn.do" method="post">
+                <input type="hidden" id="token" name="token" value="$token"/>
+                <input type="hidden" id="msg" name="msg" value="$msg"/>
+                <input type="hidden" id="pageType" name="pageType" value="$pageType"/>
+                <select class="sign-select" id="type" name="type">
+                    #foreach($!signType in $!signTypeList)
+                    <option value="$signType.value">$signType.name</option>
+                    #end
+                </select>
+                <div class="signIn-btn">立即签到</div>
+            </form>
+        </div>
+    </div>
+    <div class="history-container">
+        <ul>
+            #foreach($!item in $!signIns)
+            <li>$item.type 签到时间为：$item.createTime</li>
+            #end
+        </ul>
+    </div>
+    <div class="footer">
+        <ul>
+            <li class="report-tab">签到登记</li>
+            <li class="history-tab">历史记录</li>
+        </ul>
+    </div>
+</div>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.report-tab').click(function () {
+            $('.report-container').show();
+            $('.history-container').hide();
+        })
+
+        $('.history-tab').click(function () {
+            $('.report-container').hide();
+            $('.history-container').show();
+        })
+
+        $('.signIn-btn').click(function () {
+            $('#signInForm').submit();
+        })
+
+        if ($('#msg').val() != '') {
+            alert($('#msg').val());
+        }
+    })
+</script>
+</body>
+</html>

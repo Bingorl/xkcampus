@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biu.wifi.campus.dao.ExamArrangeNoticeMapper">
+  <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.ExamArrangeNotice">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="exam_arrange_id" jdbcType="INTEGER" property="examArrangeId" />
+    <result column="is_received" jdbcType="INTEGER" property="isReceived" />
+    <result column="received_time" jdbcType="TIMESTAMP" property="receivedTime" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="to_user" jdbcType="INTEGER" property="toUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="is_pushed" jdbcType="INTEGER" property="isPushed" />
+    <result column="pushed_time" jdbcType="TIMESTAMP" property="pushedTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, exam_arrange_id, is_received, received_time, title, content, to_user, create_time, 
+    update_time, is_delete, delete_time, is_pushed, pushed_time
+  </sql>
+  <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.ExamArrangeNoticeCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biu_exam_arrange_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from biu_exam_arrange_notice
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from biu_exam_arrange_notice
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.ExamArrangeNoticeCriteria">
+    delete from biu_exam_arrange_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.ExamArrangeNotice" useGeneratedKeys="true">
+    insert into biu_exam_arrange_notice (exam_arrange_id, is_received, received_time, 
+      title, content, to_user, 
+      create_time, update_time, is_delete, 
+      delete_time, is_pushed, pushed_time
+      )
+    values (#{examArrangeId,jdbcType=INTEGER}, #{isReceived,jdbcType=INTEGER}, #{receivedTime,jdbcType=TIMESTAMP}, 
+      #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{toUser,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER}, 
+      #{deleteTime,jdbcType=TIMESTAMP}, #{isPushed,jdbcType=INTEGER}, #{pushedTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.ExamArrangeNotice" useGeneratedKeys="true">
+    insert into biu_exam_arrange_notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="examArrangeId != null">
+        exam_arrange_id,
+      </if>
+      <if test="isReceived != null">
+        is_received,
+      </if>
+      <if test="receivedTime != null">
+        received_time,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="toUser != null">
+        to_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+      <if test="isPushed != null">
+        is_pushed,
+      </if>
+      <if test="pushedTime != null">
+        pushed_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="examArrangeId != null">
+        #{examArrangeId,jdbcType=INTEGER},
+      </if>
+      <if test="isReceived != null">
+        #{isReceived,jdbcType=INTEGER},
+      </if>
+      <if test="receivedTime != null">
+        #{receivedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="toUser != null">
+        #{toUser,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPushed != null">
+        #{isPushed,jdbcType=INTEGER},
+      </if>
+      <if test="pushedTime != null">
+        #{pushedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.ExamArrangeNoticeCriteria" resultType="java.lang.Long">
+    select count(*) from biu_exam_arrange_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update biu_exam_arrange_notice
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.examArrangeId != null">
+        exam_arrange_id = #{record.examArrangeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isReceived != null">
+        is_received = #{record.isReceived,jdbcType=INTEGER},
+      </if>
+      <if test="record.receivedTime != null">
+        received_time = #{record.receivedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toUser != null">
+        to_user = #{record.toUser,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="record.deleteTime != null">
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isPushed != null">
+        is_pushed = #{record.isPushed,jdbcType=INTEGER},
+      </if>
+      <if test="record.pushedTime != null">
+        pushed_time = #{record.pushedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update biu_exam_arrange_notice
+    set id = #{record.id,jdbcType=INTEGER},
+      exam_arrange_id = #{record.examArrangeId,jdbcType=INTEGER},
+      is_received = #{record.isReceived,jdbcType=INTEGER},
+      received_time = #{record.receivedTime,jdbcType=TIMESTAMP},
+      title = #{record.title,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      to_user = #{record.toUser,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{record.isDelete,jdbcType=INTEGER},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      is_pushed = #{record.isPushed,jdbcType=INTEGER},
+      pushed_time = #{record.pushedTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.ExamArrangeNotice">
+    update biu_exam_arrange_notice
+    <set>
+      <if test="examArrangeId != null">
+        exam_arrange_id = #{examArrangeId,jdbcType=INTEGER},
+      </if>
+      <if test="isReceived != null">
+        is_received = #{isReceived,jdbcType=INTEGER},
+      </if>
+      <if test="receivedTime != null">
+        received_time = #{receivedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="toUser != null">
+        to_user = #{toUser,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPushed != null">
+        is_pushed = #{isPushed,jdbcType=INTEGER},
+      </if>
+      <if test="pushedTime != null">
+        pushed_time = #{pushedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.ExamArrangeNotice">
+    update biu_exam_arrange_notice
+    set exam_arrange_id = #{examArrangeId,jdbcType=INTEGER},
+      is_received = #{isReceived,jdbcType=INTEGER},
+      received_time = #{receivedTime,jdbcType=TIMESTAMP},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      to_user = #{toUser,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      is_pushed = #{isPushed,jdbcType=INTEGER},
+      pushed_time = #{pushedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

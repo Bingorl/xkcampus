@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.AppPublicPageMapperEz">
+
+    <select id="getAudit" resultType="map">
+	select t.status,t.audit_time,t.reason
+	from biu_page_apply t
+	where t.applicant_id = #{0} 
+	order by t.create_time desc   limit 1
+</select>
+
+    <select id="getAuditBack" resultType="map">
+	select t.status,t.audit_time,t.reason,t.name,t.introduction,t.des,t.headimg
+	from biu_page_apply t
+	where t.applicant_id = #{0} 
+	order by t.create_time desc   limit 1
+</select>
+
+    <select id="getUserPublic" resultType="com.biu.wifi.campus.dao.model.User">
+	select t.*
+	from biu_user t 
+	where t.creator_id = #{0} and t.is_delete = '2'
+</select>
+
+    <select id="getMessageBoardList" resultType="map">
+	select bpl.id,bpl.page_id,bpl.to_id,bu.name as reply_name,bpl.content,bpl.toer_id,bpl.reply_content,
+	bu.headimg,bpl.create_time,bpl.user_id
+	from biu_page_leavemessage bpl
+	left join biu_user bu on bpl.user_id = bu.id 
+	where bpl.is_delete = '2' and  bpl.page_id = #{0}
+	order by bpl.create_time ASC
+</select>
+
+    <select id="getToReplyName" resultType="string">
+	select t.name  from biu_user t where t.id = #{0}
+</select>
+
+    <select id="getPublicFansList" resultType="map">
+	select bf.id,bu.name,bu.headimg,bu.id as userId,bf.is_two_way
+	from biu_follow bf
+	left join biu_user bu on bu.id = bf.follower_id
+	where bf.be_followed_id = #{0}
+	order by bf.create_time desc
+</select>
+
+    <select id="getPublicSameFansList" resultType="map">
+        select bf.id,bu.name,bu.headimg,bu.id as userId
+        from biu_follow bf
+        left join biu_user bu on bu.id = bf.follower_id
+        where bu.is_delete = '2' and bu.type = '1' and bf.is_cancel = '2' and bu.school_id = #{schoolId} and
+        bf.be_followed_id = #{id}
+        <if test="name != null">
+            and bu.name like CONCAT('%',#{name},'%')
+        </if>
+        order by bf.create_time desc
+    </select>
+
+
+    <select id="getPublicManage" resultType="map">
+	select bupr.id,bu.headimg,bu.name,bupr.type,bupr.page_id,bupr.user_id
+	from biu_user_page_relationship bupr
+	left join biu_user bu on bu.id =  bupr.user_id
+	where bupr.page_id = #{0} and bupr.is_delete = '2'
+	order by bupr.type ASC ,bupr.create_time ASC
+</select>
+
+    <select id="getReleaveMessage" resultType="com.biu.wifi.campus.dao.model.LeaveMessage">
+select * 
+from biu_page_leavemessage 
+where to_id = #{0} and toer_id = #{1}
+</select>
+
+    <select id="getUserInfo" resultType="com.biu.wifi.campus.dao.model.User">
+ select * from 
+  biu_user where id = #{0} and is_delete = '2' and status = '1'
+</select>
+
+    <select id="getUserInfoo" resultType="com.biu.wifi.campus.dao.model.User">
+ select * from 
+  biu_user where id = #{0} and is_delete = '2' 
+</select>
+
+    <select id="getPageId" resultType="java.lang.Integer">
+	 select t.id  from biu_user t where t.creator_id = #{0}
+</select>
+
+    <select id="getAdminId" resultType="java.lang.Integer">
+	select t.user_id
+	from biu_user_page_relationship t
+	where t.is_delete = '2' and t.page_id = #{0}
+</select>
+
+    <select id="selectPublicFansList" resultType="map">
+ select a.id,a.headimg,a.`name`
+	from biu_user a      
+	left join  biu_follow bf on bf.follower_id = a.id
+	where  a.is_delete = 2 and a.`name` like CONCAT('%',#{2},'%') and a.id != #{0} and a.school_id = #{1}
+</select>
+
+    <select id="getUserPageRelationship" resultType="com.biu.wifi.campus.dao.model.UserPageRelationship">
+ select * from biu_user_page_relationship where user_id = #{0} and is_delete = '2'
+       order by create_time desc limit 1
+</select>
+
+</mapper>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.XiaoXinMapperEx">
+    <select id="app_findShareGroupUserList" resultType="hashMap">
+    select a.user_id,b.headimg,b.`name`,a.is_notify
+	from biu_group_user a
+	left join biu_user b on a.user_id = b.id
+	where a.group_id = #{groupId} and a.type in (1,2) and a.is_delete = 2
+	order by a.type ASC
+  </select>
+
+    <select id="user_selectAtUserList" resultType="hashMap">
+    select b.id,b.headimg,b.`name`
+	from biu_follow a
+	left join biu_user b on a.follower_id = b.id
+	where a.be_followed_id = #{userId} and a.is_cancel = 2
+  </select>
+
+    <select id="user_selectAtUserListForSchool" resultType="hashMap">
+        select a.id,a.headimg,a.`name`
+        from biu_user a
+        where a.is_auth = 1 and a.`status` = 1
+        and a.is_delete = 2 and a.`name` like CONCAT('%',#{search},'%')
+        and a.id != #{userId}
+        <if test="schoolId != null">
+            and a.school_id = #{schoolId}
+        </if>
+    </select>
+
+    <select id="user_findStudentList" resultType="hashMap">
+        select a.id,a.headimg,a.`name`,a.stu_number
+        from biu_user a
+        where a.is_auth = 1 and a.`status` = 1 and a.is_delete = 2
+        and a.id not in (select b.user_id from biu_group_user b where b.group_id = #{groupId} and b.is_delete = 2)
+        <if test="classId != null">
+            and a.class_id = #{classId}
+        </if>
+        <if test="instituteId != null">
+            and a.institute_id = #{instituteId}
+        </if>
+        <if test="gradeId != null">
+            and a.grade_id = #{gradeId}
+        </if>
+        <if test="majorId != null">
+            and a.major_id = #{majorId}
+        </if>
+    </select>
+
+    <select id="findChatUserFromXiaoXin" resultType="hashMap">
+    select a.user_id as id,b.headimg,b.`name`,b.huanxin_id,b.create_time
+	from biu_chat a
+	left join biu_user b on a.user_id = b.id
+	where a.to_user_id = #{userId} and a.is_delete = 2
+	      and b.`name` like CONCAT('%',#{search},'%') 
+	order by b.create_time DESC
+  </select>
+
+    <select id="findGroupUserFromXiaoXin" resultType="hashMap">
+    select b.id,b.headimg,b.`name`
+	from biu_group_user a 
+	left join biu_group b on a.group_id = b.id
+	where a.user_id = #{userId} and a.is_delete = 2 and b.`name` like CONCAT('%',#{search},'%') 
+  </select>
+
+    <select id="user_findChatList" resultType="hashMap">
+    select a.user_id,b.headimg,b.`name`,b.huanxin_id,a.is_delete
+	from biu_chat a
+	left join biu_user b on a.user_id = b.id
+	where a.to_user_id = #{userId} and a.is_delete = 2 and a.is_follow = #{isFollow}
+	      and ((a.is_delete = 2 and UNIX_TIMESTAMP(a.create_time) &lt;= UNIX_TIMESTAMP(#{time})) 
+	           or (a.is_delete = 1 and UNIX_TIMESTAMP(a.delete_time) &gt;= UNIX_TIMESTAMP(#{time})))
+	order by a.create_time DESC
+  </select>
+
+    <select id="user_findGroupList" resultType="hashMap">
+    select d.id,d.headimg,d.`name`,a.is_delete,
+	       (select count(b.id) from biu_notice_receive b left join biu_group_notice c on b.notice_id = c.id  where b.group_id = d.id and b.user_id = #{userId} and b.is_received = 2 and b.is_delete = 2 and c.is_delete = 2) notReadNoticeNum,
+	       (select c.title from biu_notice_receive b 
+	          left join biu_group_notice c on b.notice_id = c.id 
+	          where b.group_id = d.id and b.user_id = #{userId} and b.is_delete = 2 order by b.create_time desc limit 1) lastNoticeTitle,
+	       (select c.create_time from biu_notice_receive b 
+	          left join biu_group_notice c on b.notice_id = c.id 
+	          where b.group_id = d.id and b.user_id = #{userId} and b.is_delete = 2 order by b.create_time desc limit 1) lastNoticeTime
+	from biu_group_user a
+	left join biu_group d on a.group_id = d.id
+	where a.user_id = #{userId} and d.is_delete = 2
+	      and ((a.is_delete = 2 and UNIX_TIMESTAMP(a.create_time) &lt;= UNIX_TIMESTAMP(#{time})) 
+	           or (a.is_delete = 1 and UNIX_TIMESTAMP(a.delete_time) &gt;= UNIX_TIMESTAMP(#{time})))
+	order by lastNoticeTime DESC
+  </select>
+
+    <select id="findNineMemberList" resultType="hashMap">
+    select a.user_id,b.headimg,b.`name`
+	from biu_group_user a
+	left join biu_user b on a.user_id = b.id
+	where a.group_id = #{groupId} and a.is_delete = 2
+	order by a.type,a.create_time
+	limit 9
+  </select>
+
+    <select id="user_findGroupMemberList" resultType="hashMap">
+        select a.user_id,b.headimg,b.`name`,a.type,a.is_notify
+        from biu_group_user a
+        left join biu_user b on a.user_id = b.id
+        where a.group_id = #{groupId} and a.is_delete = 2
+        <if test="search != null and search != '' ">
+            and b.`name` like CONCAT('%',#{search},'%')
+        </if>
+        order by a.type
+    </select>
+
+    <select id="user_findStudentBySchool" resultType="hashMap">
+        select a.id,a.headimg,a.`name`,a.stu_number,
+        IF((select count(id) from biu_group_user where group_id = #{groupId} and user_id = a.id and is_delete = 2) =
+        0,2,1) isAddGroup
+        from biu_user a
+        where a.type = 1 and a.is_auth = 1 and a.`status` = 1 and a.is_delete = 2
+        and a.id != #{userId}
+        <if test="search != null and search != '' ">
+            and a.`name` like CONCAT('%',#{search},'%')
+        </if>
+    </select>
+
+    <insert id="insertAllApplyAdd">
+        insert into biu_group_message (group_id,type,user_id,user,receiver_id,recceiver,create_time,status)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{groupId},1,#{userId},#{user},#{item.user_id},#{item.name},now(),1)
+        </foreach>
+    </insert>
+
+    <insert id="insertAllOutGroup">
+        insert into biu_group_message (group_id,type,user_id,user,receiver_id,recceiver,create_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{groupId},3,#{userId},#{user},#{item.user_id},#{item.name},now())
+        </foreach>
+    </insert>
+
+    <select id="user_findGroupMsgList" resultType="hashMap">
+    select a.id,a.user_id,b.headimg,b.`name` as user_name,c.`name` as group_name,
+           a.`status`,a.type,a.is_detele,c.headimg as group_head,a.group_id
+	from biu_group_message a
+	left join biu_user b on a.user_id = b.id
+	left join biu_group c on a.group_id = c.id
+	where a.receiver_id = #{userId} 
+	      and ((a.is_detele = 2 and UNIX_TIMESTAMP(a.create_time) &lt;= UNIX_TIMESTAMP(#{time})) 
+	           or (a.is_detele = 1 and UNIX_TIMESTAMP(a.delete_time) &gt;= UNIX_TIMESTAMP(#{time})))
+	order by a.create_time DESC
+  </select>
+
+    <select id="insertAllDeleteGroup">
+        insert into biu_group_message (group_id,type,user_id,user,receiver_id,recceiver,create_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{groupId},7,#{userId},#{user},#{item.user_id},#{item.name},now())
+        </foreach>
+    </select>
+
+    <select id="findUserByIds" resultType="hashMap">
+        select id,`name` from biu_user where id in
+        <foreach item="item" collection="array" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

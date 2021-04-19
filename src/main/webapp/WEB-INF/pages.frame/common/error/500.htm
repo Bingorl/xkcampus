@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=7"/>
+    <title>内部服务器错误页面</title>
+    <script type='text/javascript' src="$!req.contextPath/resources/js/jquery-1.8.1.min.js"></script>
+    <style type="text/css">
+        * {
+            word-break: break-all;
+            font-family: Verdana, Arial
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+            background: #acacac;
+            font-family: "宋体,Arial,微软雅黑";
+            min-width: 1230px;
+        }
+
+        div, ul, ol, li, h1, h2, h3, h4, h5, h6, form, button, p, th, td, dl, textarea, input, select, button, table {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            overflow-y: scroll
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        a {
+            text-decoration: none;
+            outline: none;
+        }
+
+        img, a img, textarea, button, table {
+            border: none;
+        }
+
+        input, img, select, button, table {
+            vertical-align: middle;
+        }
+
+        input, button, select, textarea {
+            outline: none;
+        }
+
+        input {
+            border: 0;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        .con {
+            width: 800px;
+            margin: 200px auto;
+        }
+    </style>
+</head>
+
+<body>
+<div class="con">
+    <a href="#" onclick="$('#detail_error_msg').toggle();"><img src="$!req.contextPath/base/images/500.png"/></a>
+    <div id="detail_error_msg" style="display: none">
+        <pre>$exceptionStackTrace</pre>
+    </div>
+</div>
+</body>
+</html>

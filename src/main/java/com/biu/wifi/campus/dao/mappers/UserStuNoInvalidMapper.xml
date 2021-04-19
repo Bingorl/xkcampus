@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biu.wifi.campus.dao.UserStuNoInvalidMapper">
+    <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.UserStuNoInvalid">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="school_id" jdbcType="INTEGER" property="schoolId"/>
+        <result column="school_name" jdbcType="VARCHAR" property="schoolName"/>
+        <result column="stu_no" jdbcType="VARCHAR" property="stuNo"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="is_teacher" jdbcType="SMALLINT" property="isTeacher"/>
+        <result column="dev_type" jdbcType="SMALLINT" property="devType"/>
+        <result column="dev_token" jdbcType="VARCHAR" property="devToken"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, school_id, school_name, stu_no, username, is_teacher, dev_type, dev_token, create_time
+  </sql>
+    <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.UserStuNoInvalidCriteria"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from biu_user_stu_no_invalid
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from biu_user_stu_no_invalid
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from biu_user_stu_no_invalid
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.UserStuNoInvalidCriteria">
+        delete from biu_user_stu_no_invalid
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.UserStuNoInvalid"
+            useGeneratedKeys="true">
+    insert into biu_user_stu_no_invalid (school_id, school_name, stu_no, 
+      username, is_teacher, dev_type, 
+      dev_token, create_time)
+    values (#{schoolId,jdbcType=INTEGER}, #{schoolName,jdbcType=VARCHAR}, #{stuNo,jdbcType=VARCHAR}, 
+      #{username,jdbcType=VARCHAR}, #{isTeacher,jdbcType=SMALLINT}, #{devType,jdbcType=SMALLINT}, 
+      #{devToken,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.biu.wifi.campus.dao.model.UserStuNoInvalid" useGeneratedKeys="true">
+        insert into biu_user_stu_no_invalid
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="schoolId != null">
+                school_id,
+            </if>
+            <if test="schoolName != null">
+                school_name,
+            </if>
+            <if test="stuNo != null">
+                stu_no,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="isTeacher != null">
+                is_teacher,
+            </if>
+            <if test="devType != null">
+                dev_type,
+            </if>
+            <if test="devToken != null">
+                dev_token,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="schoolId != null">
+                #{schoolId,jdbcType=INTEGER},
+            </if>
+            <if test="schoolName != null">
+                #{schoolName,jdbcType=VARCHAR},
+            </if>
+            <if test="stuNo != null">
+                #{stuNo,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="isTeacher != null">
+                #{isTeacher,jdbcType=SMALLINT},
+            </if>
+            <if test="devType != null">
+                #{devType,jdbcType=SMALLINT},
+            </if>
+            <if test="devToken != null">
+                #{devToken,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.UserStuNoInvalidCriteria"
+            resultType="java.lang.Long">
+        select count(*) from biu_user_stu_no_invalid
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update biu_user_stu_no_invalid
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.schoolId != null">
+                school_id = #{record.schoolId,jdbcType=INTEGER},
+            </if>
+            <if test="record.schoolName != null">
+                school_name = #{record.schoolName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.stuNo != null">
+                stu_no = #{record.stuNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.username != null">
+                username = #{record.username,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isTeacher != null">
+                is_teacher = #{record.isTeacher,jdbcType=SMALLINT},
+            </if>
+            <if test="record.devType != null">
+                dev_type = #{record.devType,jdbcType=SMALLINT},
+            </if>
+            <if test="record.devToken != null">
+                dev_token = #{record.devToken,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update biu_user_stu_no_invalid
+        set id = #{record.id,jdbcType=INTEGER},
+        school_id = #{record.schoolId,jdbcType=INTEGER},
+        school_name = #{record.schoolName,jdbcType=VARCHAR},
+        stu_no = #{record.stuNo,jdbcType=VARCHAR},
+        username = #{record.username,jdbcType=VARCHAR},
+        is_teacher = #{record.isTeacher,jdbcType=SMALLINT},
+        dev_type = #{record.devType,jdbcType=SMALLINT},
+        dev_token = #{record.devToken,jdbcType=VARCHAR},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.UserStuNoInvalid">
+        update biu_user_stu_no_invalid
+        <set>
+            <if test="schoolId != null">
+                school_id = #{schoolId,jdbcType=INTEGER},
+            </if>
+            <if test="schoolName != null">
+                school_name = #{schoolName,jdbcType=VARCHAR},
+            </if>
+            <if test="stuNo != null">
+                stu_no = #{stuNo,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="isTeacher != null">
+                is_teacher = #{isTeacher,jdbcType=SMALLINT},
+            </if>
+            <if test="devType != null">
+                dev_type = #{devType,jdbcType=SMALLINT},
+            </if>
+            <if test="devToken != null">
+                dev_token = #{devToken,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.UserStuNoInvalid">
+    update biu_user_stu_no_invalid
+    set school_id = #{schoolId,jdbcType=INTEGER},
+      school_name = #{schoolName,jdbcType=VARCHAR},
+      stu_no = #{stuNo,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      is_teacher = #{isTeacher,jdbcType=SMALLINT},
+      dev_type = #{devType,jdbcType=SMALLINT},
+      dev_token = #{devToken,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

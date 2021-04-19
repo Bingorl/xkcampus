@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.BackendUserMapperEx">
+
+    <select id="findUserLists" resultType="hashMap">
+        select a.id, a.create_time createTime, a.phone, a.headimg, a.`name`, a.stu_number stuNumber, a.sex, a.signature,
+        b.name instituteName, c.name majorName, d.name className, a.grade, a.focus_num focusNum, a.fans_num fansNum,
+        a.area,
+        a.post_num postNum, a.news_num newsNum, a.is_auth isAuth, e.name schoolName, e.id schoolId, a.status
+        from biu_user a
+        left join biu_institute b on a.institute_id = b.id
+        left join biu_major c on a.major_id = c.id
+        left join biu_class d on a.class_id = d.id
+        left join biu_school e on a.school_id = e.id
+        where a.is_delete = 2 and a.type = 1
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        <if test="startTime != null and startTime != '' ">
+            and TO_DAYS(a.create_time) &gt;= TO_DAYS(#{startTime})
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and TO_DAYS(a.create_time) &lt;= TO_DAYS(#{endTime})
+        </if>
+        <if test="name != null and name != '' ">
+            and a.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="studentNumber != null and studentNumber != '' ">
+            and a.stu_number like CONCAT('%',#{studentNumber},'%')
+        </if>
+        <if test="instituteId != 0 ">
+            and a.institute_id = #{instituteId}
+        </if>
+        <if test="majorId != 0 ">
+            and a.major_id = #{majorId}
+        </if>
+        <if test="classId != 0 ">
+            and a.class_id = #{classId}
+        </if>
+        <if test="gradeId != 0 ">
+            and a.grade_id = #{gradeId}
+        </if>
+        <if test="id != 0 ">
+            and a.id = #{id}
+        </if>
+        <if test="status != 0 ">
+            and a.status = #{status}
+        </if>
+        <if test="isTeacher != 0 ">
+            and a.is_teacher = #{isTeacher}
+        </if>
+        order by a.create_time asc
+    </select>
+
+    <select id="findUserTeacherLists" resultType="hashMap">
+        select a.id, a.create_time createTime, a.phone, a.headimg, a.`name`, a.stu_number stuNumber, a.sex, a.signature,
+        a.grade, a.focus_num focusNum, a.fans_num fansNum, a.area,
+        a.post_num postNum, a.news_num newsNum, a.is_auth isAuth, e.name schoolName, e.id schoolId, a.status
+        from biu_user a
+        left join biu_school e on a.school_id = e.id
+        where a.is_delete = 2 and a.type = 1 and a.is_teacher = 1
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        <if test="startTime != null and startTime != '' ">
+            and TO_DAYS(a.create_time) &gt;= TO_DAYS(#{startTime})
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and TO_DAYS(a.create_time) &lt;= TO_DAYS(#{endTime})
+        </if>
+        <if test="name != null and name != '' ">
+            and a.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="studentNumber != null and studentNumber != '' ">
+            and a.stu_number like CONCAT('%',#{studentNumber},'%')
+        </if>
+        <if test="id != 0 ">
+            and a.id = #{id}
+        </if>
+        <if test="status != 0 ">
+            and a.status = #{status}
+        </if>
+        order by a.create_time asc
+    </select>
+
+    <select id="findUserListByCondition" resultType="hashMap">
+        select a.id, a.headimg, a.`name`, a.stu_number stuNumber
+        from biu_user a
+        where a.is_delete = 2 and a.type = 1 and a.is_auth = 1
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        <if test="name != null and name != '' ">
+            and a.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="stuNumber != null and stuNumber != '' ">
+            and a.stu_number like CONCAT('%',#{stuNumber},'%')
+        </if>
+        <if test="instituteId != 0 ">
+            and a.institute_id = #{instituteId}
+        </if>
+        <if test="majorId != 0 ">
+            and a.major_id = #{majorId}
+        </if>
+        <if test="classId != 0 ">
+            and a.class_id = #{classId}
+        </if>
+        <if test="gradeId != 0 ">
+            and a.grade_id = #{gradeId}
+        </if>
+        order by a.create_time asc
+    </select>
+
+    <select id="querySchoolIndexPageData" resultType="hashMap">
+        select
+        (select count(a.id) from biu_post a where a.is_delete = 2
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        and TO_DAYS(a.create_time) = TO_DAYS(NOW())) as todays,
+        (select count(a.id) from biu_post a where a.is_delete = 2
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        ) as post,
+        (select count(a.id) from biu_user a where a.type = 1 and a.is_delete = 2 and a.is_auth = 1 and a.`status` = 1
+        and a.`is_teacher` = 2
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        ) as students,
+        (select count(a.id) from biu_user a where a.type = 1 and a.is_delete = 2 and a.is_auth = 1 and a.`status` = 1
+        and a.`is_teacher` = 1
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        ) as teachers,
+        (select count(a.id) from biu_user a where a.type = 1 and a.is_delete = 2 and a.is_auth = 2 and a.`status` = 1
+        and a.`is_teacher` = 2
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        ) as noAuths,
+        (select count(a.id) from biu_user a where a.type = 1 and a.is_delete = 2 and a.is_auth = 2 and a.`status` = 1
+        and a.`is_teacher` = 1
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        ) as noAuthTeachers,
+        (select count(a.id) from biu_user a where a.type = 2 and a.is_delete = 2
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        ) as pages,
+        (select count(a.id) from biu_page_apply a where a.status = 1
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        ) as noAuthPages
+    </select>
+
+    <select id="findStudentAuthLists" resultType="hashMap">
+        select a.id, a.phone, a.`name`, a.stu_number stuNumber, a.sex, a.image, b.name instituteName, c.name majorName,
+        d.name className, e.name grade, a.school_id schoolId, f.name schoolName,
+        if((select count(t.id) from biu_student_info t where t.school_id = a.school_id and t.institute_id =
+        a.institute_id and
+        t.major_id = a.major_id and t.grade_id = a.grade_id and t.class_id = a.class_id and t.stu_num = a.stu_number) =
+        1,1,2) as isMatch
+        from biu_user_auth a
+        left join biu_institute b on a.institute_id = b.id
+        left join biu_major c on a.major_id = c.id
+        left join biu_class d on a.class_id = d.id
+        left join biu_grade e on a.grade_id = e.id
+        left join biu_school f on a.school_id = f.id
+        left join biu_user g on a.user_id = g.id
+        where a.`status` = 1 and g.`is_teacher` = 2
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        <if test="name != null and name != '' ">
+            and a.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="studentNumber != null and studentNumber != '' ">
+            and a.stu_number like CONCAT('%',#{studentNumber},'%')
+        </if>
+        <if test="instituteId != 0 ">
+            and a.institute_id = #{instituteId}
+        </if>
+        <if test="majorId != 0 ">
+            and a.major_id = #{majorId}
+        </if>
+        <if test="classId != 0 ">
+            and a.class_id = #{classId}
+        </if>
+        <if test="gradeId != 0 ">
+            and a.grade_id = #{gradeId}
+        </if>
+        order by a.create_time desc
+    </select>
+
+    <select id="findTeacherAuthLists" resultType="hashMap">
+        select a.id, a.phone, a.`name`, a.stu_number stuNumber, a.sex, a.image, a.school_id schoolId, f.name schoolName,
+        if((select count(t.id) from biu_student_info t where t.school_id = a.school_id
+        and t.stu_num = a.stu_number) = 1,1,2) as isMatch
+        from biu_user_auth a
+        left join biu_user b on a.user_id = b.id
+        left join biu_school f on a.school_id = f.id
+        where a.`status` = 1 and b.`is_teacher` = 1
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        <if test="name != null and name != '' ">
+            and a.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="studentNumber != null and studentNumber != '' ">
+            and a.stu_number like CONCAT('%',#{studentNumber},'%')
+        </if>
+        order by a.create_time desc
+    </select>
+
+    <select id="findPublicPages" resultType="hashMap">
+        select a.id, a.create_time createTime, a.headimg, a.`name`, a.signature,
+        a.focus_num focusNum, a.fans_num fansNum, a.post_num postNum, a.news_num newsNum, a.introduction,
+        a.school_id schoolId, b.name schoolName
+        from biu_user a
+        left join biu_school b on a.school_id = b.id
+        where a.is_delete = 2 and a.type = 2
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        <if test="startTime != null and startTime != '' ">
+            and TO_DAYS(a.create_time) &gt;= TO_DAYS(#{startTime})
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and TO_DAYS(a.create_time) &lt;= TO_DAYS(#{endTime})
+        </if>
+        <if test="name != null and name != '' ">
+            and a.name like CONCAT('%',#{name},'%')
+        </if>
+        order by a.create_time asc
+    </select>
+
+    <select id="findPublicPageManagers" resultType="hashMap">
+		select a.id, b.`name`, a.type
+		from biu_user_page_relationship a
+		left join biu_user b on a.user_id = b.id
+		where a.page_id = #{pageId} and a.is_delete = 2
+		order by a.type
+  </select>
+
+    <select id="findPublicPageAuthLists" resultType="hashMap">
+        select a.id, b.stu_number applicantNumber, b.name applicant, a.`name` name, a.introduction, a.headimg, a.des,
+        a.school_id schoolId, c.name schoolName, a.create_time createTime
+        from biu_page_apply a
+        left join biu_user b on a.applicant_id = b.id
+        left join biu_school c on a.school_id = c.id
+        where a.`status` = 1
+        <if test="schoolId != 0">
+            and a.school_id = #{schoolId}
+        </if>
+        order by a.create_time desc
+    </select>
+
+    <select id="findUserById" resultType="hashMap">
+		select a.id, a.create_time createTime, a.phone, a.headimg, a.`name`, a.stu_number stuNumber, a.sex, a.signature,
+		b.name instituteName, c.name majorName, d.name className, a.grade, a.focus_num focusNum, a.fans_num fansNum, a.area, 
+		a.post_num postNum, a.news_num newsNum, a.is_auth isAuth
+		from biu_user a 
+		left join biu_institute b on a.institute_id = b.id
+		left join biu_major c on a.major_id = c.id
+		left join biu_class d on a.class_id = d.id
+		where a.id = #{id}
+  </select>
+</mapper>

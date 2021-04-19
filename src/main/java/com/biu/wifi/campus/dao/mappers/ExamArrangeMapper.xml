@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biu.wifi.campus.dao.ExamArrangeMapper">
+  <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.ExamArrange">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="school_id" jdbcType="INTEGER" property="schoolId" />
+    <result column="term_code" jdbcType="VARCHAR" property="termCode" />
+    <result column="course_no" jdbcType="VARCHAR" property="courseNo" />
+    <result column="course_serial_no" jdbcType="VARCHAR" property="courseSerialNo" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+    <result column="teacher_no" jdbcType="VARCHAR" property="teacherNo" />
+    <result column="class_no" jdbcType="VARCHAR" property="classNo" />
+    <result column="student_id" jdbcType="VARCHAR" property="studentId" />
+    <result column="classroom_no" jdbcType="VARCHAR" property="classroomNo" />
+    <result column="old_classroom_no" jdbcType="VARCHAR" property="oldClassroomNo" />
+    <result column="course_end_time" jdbcType="DATE" property="courseEndTime" />
+    <result column="course_end_time_week_index" jdbcType="INTEGER" property="courseEndTimeWeekIndex" />
+    <result column="course_end_time_week_name" jdbcType="VARCHAR" property="courseEndTimeWeekName" />
+    <result column="course_end_time_section" jdbcType="VARCHAR" property="courseEndTimeSection" />
+    <result column="invigilate_teacher_id" jdbcType="VARCHAR" property="invigilateTeacherId" />
+    <result column="patrol_teacher_id" jdbcType="VARCHAR" property="patrolTeacherId" />
+    <result column="exam_time" jdbcType="DATE" property="examTime" />
+    <result column="exam_time_week_index" jdbcType="INTEGER" property="examTimeWeekIndex" />
+    <result column="exam_time_week_name" jdbcType="VARCHAR" property="examTimeWeekName" />
+    <result column="exam_time_section" jdbcType="VARCHAR" property="examTimeSection" />
+    <result column="exam_time_period" jdbcType="VARCHAR" property="examTimePeriod" />
+    <result column="old_exam_time" jdbcType="DATE" property="oldExamTime" />
+    <result column="old_exam_time_week_index" jdbcType="INTEGER" property="oldExamTimeWeekIndex" />
+    <result column="old_exam_time_week_name" jdbcType="VARCHAR" property="oldExamTimeWeekName" />
+    <result column="old_exam_time_section" jdbcType="VARCHAR" property="oldExamTimeSection" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="attachment" jdbcType="VARCHAR" property="attachment" />
+    <result column="audit_user_id" jdbcType="INTEGER" property="auditUserId" />
+    <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
+    <result column="audit_remark" jdbcType="VARCHAR" property="auditRemark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, school_id, term_code, course_no, course_serial_no, course_name, teacher_name, 
+    teacher_no, class_no, student_id, classroom_no, old_classroom_no, course_end_time, 
+    course_end_time_week_index, course_end_time_week_name, course_end_time_section, invigilate_teacher_id, 
+    patrol_teacher_id, exam_time, exam_time_week_index, exam_time_week_name, exam_time_section, 
+    exam_time_period, old_exam_time, old_exam_time_week_index, old_exam_time_week_name, 
+    old_exam_time_section, `status`, attachment, audit_user_id, audit_time, audit_remark, 
+    create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.ExamArrangeCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biu_exam_arrange
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from biu_exam_arrange
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from biu_exam_arrange
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.ExamArrangeCriteria">
+    delete from biu_exam_arrange
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.ExamArrange" useGeneratedKeys="true">
+    insert into biu_exam_arrange (school_id, term_code, course_no, 
+      course_serial_no, course_name, teacher_name, 
+      teacher_no, class_no, student_id, 
+      classroom_no, old_classroom_no, course_end_time, 
+      course_end_time_week_index, course_end_time_week_name, 
+      course_end_time_section, invigilate_teacher_id, 
+      patrol_teacher_id, exam_time, exam_time_week_index, 
+      exam_time_week_name, exam_time_section, exam_time_period, 
+      old_exam_time, old_exam_time_week_index, old_exam_time_week_name, 
+      old_exam_time_section, `status`, attachment, 
+      audit_user_id, audit_time, audit_remark, 
+      create_time, update_time)
+    values (#{schoolId,jdbcType=INTEGER}, #{termCode,jdbcType=VARCHAR}, #{courseNo,jdbcType=VARCHAR}, 
+      #{courseSerialNo,jdbcType=VARCHAR}, #{courseName,jdbcType=VARCHAR}, #{teacherName,jdbcType=VARCHAR}, 
+      #{teacherNo,jdbcType=VARCHAR}, #{classNo,jdbcType=VARCHAR}, #{studentId,jdbcType=VARCHAR}, 
+      #{classroomNo,jdbcType=VARCHAR}, #{oldClassroomNo,jdbcType=VARCHAR}, #{courseEndTime,jdbcType=DATE}, 
+      #{courseEndTimeWeekIndex,jdbcType=INTEGER}, #{courseEndTimeWeekName,jdbcType=VARCHAR}, 
+      #{courseEndTimeSection,jdbcType=VARCHAR}, #{invigilateTeacherId,jdbcType=VARCHAR}, 
+      #{patrolTeacherId,jdbcType=VARCHAR}, #{examTime,jdbcType=DATE}, #{examTimeWeekIndex,jdbcType=INTEGER}, 
+      #{examTimeWeekName,jdbcType=VARCHAR}, #{examTimeSection,jdbcType=VARCHAR}, #{examTimePeriod,jdbcType=VARCHAR}, 
+      #{oldExamTime,jdbcType=DATE}, #{oldExamTimeWeekIndex,jdbcType=INTEGER}, #{oldExamTimeWeekName,jdbcType=VARCHAR}, 
+      #{oldExamTimeSection,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{attachment,jdbcType=VARCHAR}, 
+      #{auditUserId,jdbcType=INTEGER}, #{auditTime,jdbcType=TIMESTAMP}, #{auditRemark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.ExamArrange" useGeneratedKeys="true">
+    insert into biu_exam_arrange
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="schoolId != null">
+        school_id,
+      </if>
+      <if test="termCode != null">
+        term_code,
+      </if>
+      <if test="courseNo != null">
+        course_no,
+      </if>
+      <if test="courseSerialNo != null">
+        course_serial_no,
+      </if>
+      <if test="courseName != null">
+        course_name,
+      </if>
+      <if test="teacherName != null">
+        teacher_name,
+      </if>
+      <if test="teacherNo != null">
+        teacher_no,
+      </if>
+      <if test="classNo != null">
+        class_no,
+      </if>
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="classroomNo != null">
+        classroom_no,
+      </if>
+      <if test="oldClassroomNo != null">
+        old_classroom_no,
+      </if>
+      <if test="courseEndTime != null">
+        course_end_time,
+      </if>
+      <if test="courseEndTimeWeekIndex != null">
+        course_end_time_week_index,
+      </if>
+      <if test="courseEndTimeWeekName != null">
+        course_end_time_week_name,
+      </if>
+      <if test="courseEndTimeSection != null">
+        course_end_time_section,
+      </if>
+      <if test="invigilateTeacherId != null">
+        invigilate_teacher_id,
+      </if>
+      <if test="patrolTeacherId != null">
+        patrol_teacher_id,
+      </if>
+      <if test="examTime != null">
+        exam_time,
+      </if>
+      <if test="examTimeWeekIndex != null">
+        exam_time_week_index,
+      </if>
+      <if test="examTimeWeekName != null">
+        exam_time_week_name,
+      </if>
+      <if test="examTimeSection != null">
+        exam_time_section,
+      </if>
+      <if test="examTimePeriod != null">
+        exam_time_period,
+      </if>
+      <if test="oldExamTime != null">
+        old_exam_time,
+      </if>
+      <if test="oldExamTimeWeekIndex != null">
+        old_exam_time_week_index,
+      </if>
+      <if test="oldExamTimeWeekName != null">
+        old_exam_time_week_name,
+      </if>
+      <if test="oldExamTimeSection != null">
+        old_exam_time_section,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="attachment != null">
+        attachment,
+      </if>
+      <if test="auditUserId != null">
+        audit_user_id,
+      </if>
+      <if test="auditTime != null">
+        audit_time,
+      </if>
+      <if test="auditRemark != null">
+        audit_remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="schoolId != null">
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="termCode != null">
+        #{termCode,jdbcType=VARCHAR},
+      </if>
+      <if test="courseNo != null">
+        #{courseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="courseSerialNo != null">
+        #{courseSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherName != null">
+        #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherNo != null">
+        #{teacherNo,jdbcType=VARCHAR},
+      </if>
+      <if test="classNo != null">
+        #{classNo,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null">
+        #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomNo != null">
+        #{classroomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="oldClassroomNo != null">
+        #{oldClassroomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="courseEndTime != null">
+        #{courseEndTime,jdbcType=DATE},
+      </if>
+      <if test="courseEndTimeWeekIndex != null">
+        #{courseEndTimeWeekIndex,jdbcType=INTEGER},
+      </if>
+      <if test="courseEndTimeWeekName != null">
+        #{courseEndTimeWeekName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseEndTimeSection != null">
+        #{courseEndTimeSection,jdbcType=VARCHAR},
+      </if>
+      <if test="invigilateTeacherId != null">
+        #{invigilateTeacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="patrolTeacherId != null">
+        #{patrolTeacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="examTime != null">
+        #{examTime,jdbcType=DATE},
+      </if>
+      <if test="examTimeWeekIndex != null">
+        #{examTimeWeekIndex,jdbcType=INTEGER},
+      </if>
+      <if test="examTimeWeekName != null">
+        #{examTimeWeekName,jdbcType=VARCHAR},
+      </if>
+      <if test="examTimeSection != null">
+        #{examTimeSection,jdbcType=VARCHAR},
+      </if>
+      <if test="examTimePeriod != null">
+        #{examTimePeriod,jdbcType=VARCHAR},
+      </if>
+      <if test="oldExamTime != null">
+        #{oldExamTime,jdbcType=DATE},
+      </if>
+      <if test="oldExamTimeWeekIndex != null">
+        #{oldExamTimeWeekIndex,jdbcType=INTEGER},
+      </if>
+      <if test="oldExamTimeWeekName != null">
+        #{oldExamTimeWeekName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldExamTimeSection != null">
+        #{oldExamTimeSection,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="attachment != null">
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="auditUserId != null">
+        #{auditUserId,jdbcType=INTEGER},
+      </if>
+      <if test="auditTime != null">
+        #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditRemark != null">
+        #{auditRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.ExamArrangeCriteria" resultType="java.lang.Long">
+    select count(*) from biu_exam_arrange
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update biu_exam_arrange
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.schoolId != null">
+        school_id = #{record.schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="record.termCode != null">
+        term_code = #{record.termCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseNo != null">
+        course_no = #{record.courseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseSerialNo != null">
+        course_serial_no = #{record.courseSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseName != null">
+        course_name = #{record.courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherName != null">
+        teacher_name = #{record.teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherNo != null">
+        teacher_no = #{record.teacherNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classNo != null">
+        class_no = #{record.classNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentId != null">
+        student_id = #{record.studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classroomNo != null">
+        classroom_no = #{record.classroomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oldClassroomNo != null">
+        old_classroom_no = #{record.oldClassroomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseEndTime != null">
+        course_end_time = #{record.courseEndTime,jdbcType=DATE},
+      </if>
+      <if test="record.courseEndTimeWeekIndex != null">
+        course_end_time_week_index = #{record.courseEndTimeWeekIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.courseEndTimeWeekName != null">
+        course_end_time_week_name = #{record.courseEndTimeWeekName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseEndTimeSection != null">
+        course_end_time_section = #{record.courseEndTimeSection,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invigilateTeacherId != null">
+        invigilate_teacher_id = #{record.invigilateTeacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.patrolTeacherId != null">
+        patrol_teacher_id = #{record.patrolTeacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.examTime != null">
+        exam_time = #{record.examTime,jdbcType=DATE},
+      </if>
+      <if test="record.examTimeWeekIndex != null">
+        exam_time_week_index = #{record.examTimeWeekIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.examTimeWeekName != null">
+        exam_time_week_name = #{record.examTimeWeekName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.examTimeSection != null">
+        exam_time_section = #{record.examTimeSection,jdbcType=VARCHAR},
+      </if>
+      <if test="record.examTimePeriod != null">
+        exam_time_period = #{record.examTimePeriod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oldExamTime != null">
+        old_exam_time = #{record.oldExamTime,jdbcType=DATE},
+      </if>
+      <if test="record.oldExamTimeWeekIndex != null">
+        old_exam_time_week_index = #{record.oldExamTimeWeekIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.oldExamTimeWeekName != null">
+        old_exam_time_week_name = #{record.oldExamTimeWeekName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oldExamTimeSection != null">
+        old_exam_time_section = #{record.oldExamTimeSection,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.attachment != null">
+        attachment = #{record.attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditUserId != null">
+        audit_user_id = #{record.auditUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.auditTime != null">
+        audit_time = #{record.auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.auditRemark != null">
+        audit_remark = #{record.auditRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update biu_exam_arrange
+    set id = #{record.id,jdbcType=INTEGER},
+      school_id = #{record.schoolId,jdbcType=INTEGER},
+      term_code = #{record.termCode,jdbcType=VARCHAR},
+      course_no = #{record.courseNo,jdbcType=VARCHAR},
+      course_serial_no = #{record.courseSerialNo,jdbcType=VARCHAR},
+      course_name = #{record.courseName,jdbcType=VARCHAR},
+      teacher_name = #{record.teacherName,jdbcType=VARCHAR},
+      teacher_no = #{record.teacherNo,jdbcType=VARCHAR},
+      class_no = #{record.classNo,jdbcType=VARCHAR},
+      student_id = #{record.studentId,jdbcType=VARCHAR},
+      classroom_no = #{record.classroomNo,jdbcType=VARCHAR},
+      old_classroom_no = #{record.oldClassroomNo,jdbcType=VARCHAR},
+      course_end_time = #{record.courseEndTime,jdbcType=DATE},
+      course_end_time_week_index = #{record.courseEndTimeWeekIndex,jdbcType=INTEGER},
+      course_end_time_week_name = #{record.courseEndTimeWeekName,jdbcType=VARCHAR},
+      course_end_time_section = #{record.courseEndTimeSection,jdbcType=VARCHAR},
+      invigilate_teacher_id = #{record.invigilateTeacherId,jdbcType=VARCHAR},
+      patrol_teacher_id = #{record.patrolTeacherId,jdbcType=VARCHAR},
+      exam_time = #{record.examTime,jdbcType=DATE},
+      exam_time_week_index = #{record.examTimeWeekIndex,jdbcType=INTEGER},
+      exam_time_week_name = #{record.examTimeWeekName,jdbcType=VARCHAR},
+      exam_time_section = #{record.examTimeSection,jdbcType=VARCHAR},
+      exam_time_period = #{record.examTimePeriod,jdbcType=VARCHAR},
+      old_exam_time = #{record.oldExamTime,jdbcType=DATE},
+      old_exam_time_week_index = #{record.oldExamTimeWeekIndex,jdbcType=INTEGER},
+      old_exam_time_week_name = #{record.oldExamTimeWeekName,jdbcType=VARCHAR},
+      old_exam_time_section = #{record.oldExamTimeSection,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=INTEGER},
+      attachment = #{record.attachment,jdbcType=VARCHAR},
+      audit_user_id = #{record.auditUserId,jdbcType=INTEGER},
+      audit_time = #{record.auditTime,jdbcType=TIMESTAMP},
+      audit_remark = #{record.auditRemark,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.ExamArrange">
+    update biu_exam_arrange
+    <set>
+      <if test="schoolId != null">
+        school_id = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="termCode != null">
+        term_code = #{termCode,jdbcType=VARCHAR},
+      </if>
+      <if test="courseNo != null">
+        course_no = #{courseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="courseSerialNo != null">
+        course_serial_no = #{courseSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherName != null">
+        teacher_name = #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherNo != null">
+        teacher_no = #{teacherNo,jdbcType=VARCHAR},
+      </if>
+      <if test="classNo != null">
+        class_no = #{classNo,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null">
+        student_id = #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomNo != null">
+        classroom_no = #{classroomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="oldClassroomNo != null">
+        old_classroom_no = #{oldClassroomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="courseEndTime != null">
+        course_end_time = #{courseEndTime,jdbcType=DATE},
+      </if>
+      <if test="courseEndTimeWeekIndex != null">
+        course_end_time_week_index = #{courseEndTimeWeekIndex,jdbcType=INTEGER},
+      </if>
+      <if test="courseEndTimeWeekName != null">
+        course_end_time_week_name = #{courseEndTimeWeekName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseEndTimeSection != null">
+        course_end_time_section = #{courseEndTimeSection,jdbcType=VARCHAR},
+      </if>
+      <if test="invigilateTeacherId != null">
+        invigilate_teacher_id = #{invigilateTeacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="patrolTeacherId != null">
+        patrol_teacher_id = #{patrolTeacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="examTime != null">
+        exam_time = #{examTime,jdbcType=DATE},
+      </if>
+      <if test="examTimeWeekIndex != null">
+        exam_time_week_index = #{examTimeWeekIndex,jdbcType=INTEGER},
+      </if>
+      <if test="examTimeWeekName != null">
+        exam_time_week_name = #{examTimeWeekName,jdbcType=VARCHAR},
+      </if>
+      <if test="examTimeSection != null">
+        exam_time_section = #{examTimeSection,jdbcType=VARCHAR},
+      </if>
+      <if test="examTimePeriod != null">
+        exam_time_period = #{examTimePeriod,jdbcType=VARCHAR},
+      </if>
+      <if test="oldExamTime != null">
+        old_exam_time = #{oldExamTime,jdbcType=DATE},
+      </if>
+      <if test="oldExamTimeWeekIndex != null">
+        old_exam_time_week_index = #{oldExamTimeWeekIndex,jdbcType=INTEGER},
+      </if>
+      <if test="oldExamTimeWeekName != null">
+        old_exam_time_week_name = #{oldExamTimeWeekName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldExamTimeSection != null">
+        old_exam_time_section = #{oldExamTimeSection,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="attachment != null">
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="auditUserId != null">
+        audit_user_id = #{auditUserId,jdbcType=INTEGER},
+      </if>
+      <if test="auditTime != null">
+        audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditRemark != null">
+        audit_remark = #{auditRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.ExamArrange">
+    update biu_exam_arrange
+    set school_id = #{schoolId,jdbcType=INTEGER},
+      term_code = #{termCode,jdbcType=VARCHAR},
+      course_no = #{courseNo,jdbcType=VARCHAR},
+      course_serial_no = #{courseSerialNo,jdbcType=VARCHAR},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      teacher_name = #{teacherName,jdbcType=VARCHAR},
+      teacher_no = #{teacherNo,jdbcType=VARCHAR},
+      class_no = #{classNo,jdbcType=VARCHAR},
+      student_id = #{studentId,jdbcType=VARCHAR},
+      classroom_no = #{classroomNo,jdbcType=VARCHAR},
+      old_classroom_no = #{oldClassroomNo,jdbcType=VARCHAR},
+      course_end_time = #{courseEndTime,jdbcType=DATE},
+      course_end_time_week_index = #{courseEndTimeWeekIndex,jdbcType=INTEGER},
+      course_end_time_week_name = #{courseEndTimeWeekName,jdbcType=VARCHAR},
+      course_end_time_section = #{courseEndTimeSection,jdbcType=VARCHAR},
+      invigilate_teacher_id = #{invigilateTeacherId,jdbcType=VARCHAR},
+      patrol_teacher_id = #{patrolTeacherId,jdbcType=VARCHAR},
+      exam_time = #{examTime,jdbcType=DATE},
+      exam_time_week_index = #{examTimeWeekIndex,jdbcType=INTEGER},
+      exam_time_week_name = #{examTimeWeekName,jdbcType=VARCHAR},
+      exam_time_section = #{examTimeSection,jdbcType=VARCHAR},
+      exam_time_period = #{examTimePeriod,jdbcType=VARCHAR},
+      old_exam_time = #{oldExamTime,jdbcType=DATE},
+      old_exam_time_week_index = #{oldExamTimeWeekIndex,jdbcType=INTEGER},
+      old_exam_time_week_name = #{oldExamTimeWeekName,jdbcType=VARCHAR},
+      old_exam_time_section = #{oldExamTimeSection,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      audit_user_id = #{auditUserId,jdbcType=INTEGER},
+      audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      audit_remark = #{auditRemark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

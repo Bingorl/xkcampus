@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biu.wifi.campus.daoEx.TeacherCoursePlanMapperEx">
+    <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.TeacherCoursePlan">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="term_code" jdbcType="VARCHAR" property="termCode"/>
+        <result column="school_id" jdbcType="INTEGER" property="schoolId"/>
+        <result column="building_id" jdbcType="INTEGER" property="buildingId"/>
+        <result column="classroom_no" jdbcType="VARCHAR" property="classroomNo"/>
+        <result column="course_name" jdbcType="VARCHAR" property="courseName"/>
+        <result column="course_no" jdbcType="VARCHAR" property="courseNo"/>
+        <result column="course_serial_no" jdbcType="VARCHAR" property="courseSerialNo"/>
+        <result column="course_week" jdbcType="VARCHAR" property="courseWeek"/>
+        <result column="course_week_day" jdbcType="VARCHAR" property="courseWeekDay"/>
+        <result column="course_section" jdbcType="VARCHAR" property="courseSection"/>
+        <result column="course_continue_section" jdbcType="VARCHAR" property="courseContinueSection"/>
+        <result column="teacher_no" jdbcType="VARCHAR" property="teacherNo"/>
+        <result column="teacher_name" jdbcType="VARCHAR" property="teacherName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="is_delete" jdbcType="SMALLINT" property="isDelete"/>
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime"/>
+    </resultMap>
+
+    <select id="findList" resultMap="BaseResultMap">
+        select * from biu_teacher_course_plan
+        where is_delete = 2
+        and school_id = #{schoolId}
+        <if test="courseWeek!=null">
+            and substring(course_week,#{courseWeek},1) = 1
+        </if>
+        <if test="courseWeekDay!=null and courseWeekDay!=''">
+            and course_week_day = #{courseWeekDay}
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,35 @@
+<!-- 使用IE最高版本解析,css选择器问题 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="renderer" content="webkit">
+
+<!-- 1.9.1时live方法改为了on方法 -->
+<script type='text/javascript' src="$!req.contextPath/resources/js/jquery-1.8.3.js"></script>
+
+<!-- by tyotann version 3.5 -->
+<script type='text/javascript' src="$!req.contextPath/resources/js/jsloader.js"></script>
+
+<script type='text/javascript' src="$!req.contextPath/resources/js/lib.js"></script>
+<script type='text/javascript' src="$!req.contextPath/base/lib.base.js"></script>
+<script type='text/javascript' src="$!req.contextPath/resources/js/timestamp.js"></script>
+<!-- 弹窗 -->
+<!-- <script type='text/javascript' src="$!req.contextPath/app/$!{appName}/js/dialog.js"></script> -->
+
+<script type='text/javascript'>
+    var v_contextPath = contextPath = "$!{req.contextPath}";
+    var v_userId = "$!{session.userId}";
+    var v_appid = "$!{appid}" == "" ? window.top["frame_appid"] : "$!{appid}";
+
+    //门店登录
+    var v_shopId = "$!{session.attribute.shopId}";
+
+    var v_serverIp = document.location.hostname;
+    var v_serverPort = (document.location.port == "" ? "80"
+        : document.location.port);
+
+    // 调整宽度，grid后调用
+    function f_event_resize() {
+        if (window.parent && window.parent.f_resize) {
+            window.parent.f_resize.call(window.opener);
+        }
+    }
+</script>

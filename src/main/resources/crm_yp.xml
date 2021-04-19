@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+
+<generatorConfiguration>
+
+    <classPathEntry location="D:\Project\campus\WebContent\WEB-INF\lib\mysql-connector-java-5.1.18-bin.jar"/>
+
+    <context id="mysqlTable" targetRuntime="MyBatis3">
+
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+
+        <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+            <property name="searchString" value="Example$"/>
+            <property name="replaceString" value="Criteria"/>
+        </plugin>
+
+        <!-- 去掉注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://139.196.93.74:3326/54campus?useUnicode=true" userId="school"
+                        password="Test123@"/>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="true"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.biu.wifi.campus.dao.model"
+                            targetProject="campus">
+            <property name="enableSubPackages" value="false"/>
+            <property name="rootClass" value="com.biu.wifi.core.base.CoreEntity"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="com.biu.wifi.campus.dao.mappers"
+                         targetProject="campus">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!--com.finstone.house.dao-->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.biu.wifi.campus.dao" targetProject="campus">
+            <property name="enableSubPackages" value="false"/>
+            <property name="rootInterface" value="com.biu.wifi.core.base.CoreDao"/>
+        </javaClientGenerator>
+
+        <table schema="54campus" tableName="biu_leave_info" domainObjectName="LeaveInfo">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+    </context>
+
+</generatorConfiguration>
+

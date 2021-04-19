@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task-3.0.xsd
+    http://www.springframework.org/schema/cache
+    http://www.springframework.org/schema/cache/spring-cache.xsd
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
+       default-autowire="byName" default-lazy-init="false">
+
+    <context:property-placeholder
+            location="classpath*:/config/database.properties"
+            ignore-unresolvable="true"/>
+
+    <context:component-scan
+            base-package="com.biu.wifi"/>
+
+    <!-- dataSource 配置 -->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy"
+          p:targetDataSource-ref="dynamicDataSource"/>
+
+    <!-- dataSource 多数据源支持 -->
+    <bean id="dynamicDataSource"
+          class="com.biu.wifi.core.support.DynamicDataSource">
+        <property name="targetDataSources">
+            <map key-type="java.lang.String">
+                <entry key="dataSource" value-ref="dataSourceJDBC"/>
+            </map>
+        </property>
+    </bean>
+
+
+    <bean id="dataSourceJDBC"
+          class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close" p:driverClass="${jdbc.driverClass}"
+          p:jdbcUrl="${jdbc.jdbcUrl}" p:user="${jdbc.user}"
+          p:password="${jdbc.password}"
+          p:initialPoolSize="${c3p0.initialPoolSize}"
+          p:minPoolSize="${c3p0.minPoolSize}"
+          p:maxPoolSize="${c3p0.maxPoolSize}"
+          p:acquireIncrement="${c3p0.acquireIncrement}"
+          p:maxIdleTime="${c3p0.maxIdleTime}"
+          p:maxStatements="${c3p0.maxStatements}" lazy-init="true"/>
+
+    <bean id="dataSourceJDBC2"
+          class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close" p:driverClass="${jdbc.driverClass}"
+          p:jdbcUrl="${jdbc.jdbcUrl2}" p:user="${jdbc.user}"
+          p:password="${jdbc.password}"
+          p:initialPoolSize="${c3p0.initialPoolSize}"
+          p:minPoolSize="${c3p0.minPoolSize}"
+          p:maxPoolSize="${c3p0.maxPoolSize}"
+          p:acquireIncrement="${c3p0.acquireIncrement}"
+          p:maxIdleTime="${c3p0.maxIdleTime}"
+          p:maxStatements="${c3p0.maxStatements}" lazy-init="true"/>
+
+    <!-- ibatis3 -->
+    <!-- id不能用sqlSessionFactory与spring3的context:property-placeholder location冲突 -->
+    <bean id="tysqlSessionFactory"
+          class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation"
+                  value="classpath:/config/mybatisConfig.xml"/>
+        <property name="mapperLocations"
+                  value="classpath*:com/**/mappers/**/*.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage"
+                  value="com.biu.wifi.dao,com.biu.wifi.*.dao,com.biu.wifi.*.daoEx,com.biu.wifi.*.*.dao,com.biu.wifi.*.*.daoEx"/>
+        <property name="sqlSessionFactoryBeanName"
+                  value="tysqlSessionFactory"/>
+    </bean>
+
+
+    <!-- spring jdbc -->
+    <bean id="jdbcTemplate"
+          class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="nativeJdbcExtractor"
+                  ref="nativeJdbcExtractor"/>
+    </bean>
+
+    <bean id="ojdbcTemplate"
+          class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSourceJDBC2"/>
+        <property name="nativeJdbcExtractor"
+                  ref="nativeJdbcExtractor"/>
+    </bean>
+
+    <bean id="nativeJdbcExtractor"
+          class="org.springframework.jdbc.support.nativejdbc.C3P0NativeJdbcExtractor"
+          lazy-init="true"/>
+
+    <bean id="lobHandler"
+          class="org.springframework.jdbc.support.lob.OracleLobHandler"
+          lazy-init="true">
+        <property name="nativeJdbcExtractor"
+                  ref="nativeJdbcExtractor"/>
+    </bean>
+
+    <!-- spring transaction -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <tx:annotation-driven
+            transaction-manager="transactionManager"/>
+
+    <aop:aspectj-autoproxy/>
+
+    <aop:config>
+        <aop:advisor
+                pointcut="execution(* com.biu.wifi..*Service.*(..))"
+                advice-ref="txAdvice"/>
+    </aop:config>
+
+    <tx:advice id="txAdvice">
+        <tx:attributes>
+            <tx:method name="get*" propagation="SUPPORTS"
+                       read-only="true"/>
+            <tx:method name="find*" propagation="SUPPORTS"
+                       read-only="true"/>
+            <tx:method name="query*" propagation="SUPPORTS"
+                       read-only="true"/>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 定义国际化消息 -->
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="messages"/>
+    </bean>
+
+    <!-- 保留SpringContext,获取容器的bean -->
+    <bean id="springContextUtils"
+          class="com.biu.wifi.campus.Tool.SpringContextUtils"/>
+
+    <!-- 获取本地 -->
+    <!-- <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"></bean> -->
+
+    <!--加载redis配置 -->
+    <bean id="redisUtils"
+          class="com.biu.wifi.campus.Tool.RedisUtils">
+        <property name="IP" value="${redis.ip}"></property>
+        <property name="PORT" value="${redis.port}"></property>
+        <property name="TIMEOUT" value="${redis.timeout}"></property>
+        <property name="DBINDEX" value="${redis.dbIndex}"></property>
+        <property name="PASSWORD" value="${redis.password}"></property>
+    </bean>
+
+    <!--配置线程池 -->
+    <bean id="taskExecutor"
+          class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <!-- 线程池活跃的线程数 -->
+        <property name="corePoolSize" value="5"/>
+        <!-- 线程池最大活跃的线程数 -->
+        <property name="maxPoolSize" value="10"/>
+        <!-- 队列的最大容量 -->
+        <property name="queueCapacity" value="600"/>
+    </bean>
+
+    <!--调度任务驱动-->
+    <task:annotation-driven/>
+
+    <!--缓存注解驱动-->
+    <cache:annotation-driven/>
+</beans>

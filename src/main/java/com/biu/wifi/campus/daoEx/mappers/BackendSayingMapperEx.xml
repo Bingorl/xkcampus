@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.BackendSayingMapperEx">
+
+    <select id="findSayingList" resultType="hashMap">
+        select a.id, a.creator_id creatorId, b.`name` creator, a.img, a.content, a.create_time createTime, a.watch_count
+        watchCount,
+        a.like_number likeNumber, a.comment_number commentNumber, a.privacy, a.origin_id originId, a.origin_type
+        originType
+        from biu_saying a
+        left join biu_user b on a.creator_id = b.id
+        where (a.is_delete = 2 or (a.is_delete = 1 and UNIX_TIMESTAMP(a.delete_time) &gt; #{time}) )
+        and UNIX_TIMESTAMP(a.create_time) &lt;= #{time}
+        <if test="content != null and content != '' ">
+            and a.content like CONCAT('%',#{content},'%')
+        </if>
+        <if test="startTime != null and startTime != '' ">
+            and TO_DAYS(a.create_time) &gt;= TO_DAYS(#{startTime})
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and TO_DAYS(a.create_time) &lt;= TO_DAYS(#{endTime})
+        </if>
+        <if test="creatorId != 0 and creatorId != null">
+            and a.creator_id = #{creatorId}
+        </if>
+        <if test="creatorName != '' and creatorName != null">
+            and b.name like CONCAT('%',#{creatorName},'%')
+        </if>
+        order by a.create_time DESC
+    </select>
+
+    <select id="findSayingComments" resultType="hashMap">
+  	select a.id, a.content, a.create_time createTime, a.user_id userId, b.name, a.like_count likeCount, b.headimg userImg
+	from biu_saying_comment a
+	left join biu_user b on a.user_id = b.id
+	where a.saying_id = #{sayingId}
+	and (a.is_delete = 2 or (a.is_delete = 1 and UNIX_TIMESTAMP(a.delete_time) &gt; #{time}) )
+	and UNIX_TIMESTAMP(a.create_time) &lt;= #{time}
+	order by a.create_time ASC
+  </select>
+
+    <select id="findSayingReplys" resultType="hashMap">
+ 
+	select tmp.*, e.name toUser, e.headimg toerImg from 
+	(	
+		select a.id, b.`name` replier, a.content, a.create_time createTime, b.headimg replierImg,
+			(
+				IF(
+						 a.to_id is null,
+						 (SELECT d.user_id from biu_saying_comment d where d.id = a.comment_id), 
+						 (SELECT c.replier_id from biu_saying_reply c where c.id = a.to_id )
+          )
+      ) as toer_id 
+			from biu_saying_reply a
+			left join biu_user b on a.replier_id = b.id
+			where a.comment_id = #{commentId} and a.is_delete = 2
+			order by a.create_time ASC
+	) as tmp
+	left join biu_user e on tmp.toer_id = e.id
+  </select>
+</mapper>

@@ -1,0 +1,157 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <style type="text/css">
+        body, html, #allmap {
+            width: 582px;
+            height: 500px;
+            overflow: hidden;
+            margin: 0;
+        }
+
+    </style>
+    <script type="text/javascript"
+            src="http://api.map.baidu.com/api?v=2.0&ak=56fcf9dd3597d584d13c3dd5ae63c40a"></script>
+    #parse("/common/include.htm")
+    <title>IP定位获取当前城市</title>
+</head>
+<body>
+<div>
+    <table style="width:582px;">
+        <tr>
+            <td align="left">
+                <input id="search" type="text" value="关键字" class="text_02" style="color: #666"/>
+                <input type="button" value=" 搜 索 " class="s_button" onclick="f_query();">
+            </td>
+            <td align="right">
+                <input type="button" class="s_button" value=" 确 定 " onclick="f_result();"/>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+    var v_callback = "$!{callback}";
+    var v_lng = "$!{lng}";
+    var v_lat = "$!{lat}";
+    var v_marker, v_result;
+    var v_map = new BMap.Map("allmap");
+
+    //创建地图
+    var point = new BMap.Point(v_lng, v_lat);
+    v_map.centerAndZoom(point, 12);
+
+    if (v_lng != null && v_lng != "" && v_lat != null && v_lat != "") {
+        f_setLocal(v_lng, v_lat);
+    } else {
+        //得到当前位置
+        var v_myCity = new BMap.LocalCity();
+        v_myCity.get(function (result) {
+            v_map.setCenter(result.name);
+        });
+    }
+
+
+    //设置支持滚动
+    v_map.enableScrollWheelZoom(true);
+
+    //添加默认缩放平移控件
+    v_map.addControl(new BMap.NavigationControl());
+
+    //右上角，默认地图控件
+    v_map.addControl(new BMap.MapTypeControl({
+        anchor: BMAP_ANCHOR_TOP_RIGHT
+    }));
+
+    //单击事件
+    v_map.addEventListener("click", function (e) {
+
+        //移除老标签
+        if (v_marker) {
+            v_map.removeOverlay(v_marker);
+        }
+
+        // 创建新标注
+        v_marker = new BMap.Marker(new BMap.Point(e.point.lng, e.point.lat));
+
+        // 将标注添加到地图中
+        v_map.addOverlay(v_marker);
+
+        v_result = e.point.lng + ", " + e.point.lat;
+
+        var myGeo = new BMap.Geocoder();
+        myGeo.getLocation(e.point, function (result) {
+            if (result) {
+                v_result = v_result + "," + result.address;
+            }
+        });
+    });
+
+    //初始化地图
+    if (v_lat != "undefined" && v_lng != "undefined") {
+        v_map.centerAndZoom(new BMap.Point(v_lng, v_lat), 11);
+    } else {
+        //定位当前城市
+        var local_ip = new BMap.LocalCity({
+            renderOptions: {map: v_map}
+        });
+        local_ip.get();
+    }
+
+    //返回结果
+    function f_result() {
+
+        if (!v_result || v_result == "0, 0") {
+            alert("请先搜索地址后进行描点");
+            return;
+        }
+
+        var v_parent = AE.UI.getxWinParent();
+
+        if (v_parent && v_parent[v_callback]) {
+            v_parent[v_callback].call(v_parent, {
+                point: v_result
+            });
+        }
+
+        AE.UI.closexWin();
+    }
+
+    function f_setLocal(v_lng, v_lat) {
+        var p = new BMap.Point(v_lng, v_lat);
+        if (v_marker) {
+            v_map.removeOverlay(v_marker);
+        }
+        v_marker = new BMap.Marker(p);
+        v_map.addOverlay(v_marker);
+        v_map.panTo(p);
+        v_result = p.lng + ", " + p.lat;
+    }
+
+    //查询框内容判断
+    jq("#search").focus(function () {
+        //获得焦点时，如果值为默认值，则设置为空
+        if (jq("#search").val() == "关键字") {
+            jq("#search").val("");
+            jq("#search").css("color", "");
+        }
+    });
+
+    //查询
+    function f_query() {
+        var v_content = jq("#search").val();
+        if (v_content == "关键字") {
+            v_content = "";
+        }
+        var local = new BMap.LocalSearch(v_map, {
+            renderOptions: {map: v_map, autoViewport: true}
+        });
+
+        local.search(v_content);
+    }
+</script>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.JwCjcxMapperEx">
+
+    <insert id="insert" keyColumn="id" parameterType="java.lang.String" useGeneratedKeys="true">
+        insert into biu_jw_cjcx (school_id, real_name, sex,
+        stu_no, id_type, id_no,
+        edu_bg, edu_sys, enter_year,
+        grade, institute_name, major_name,
+        class_name, lan_type, is_apply,
+        class_code, class_no, major_no,
+        institute_no, exam_date, exam_score
+        )
+        values (
+        <foreach collection="arrayList" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </insert>
+</mapper>

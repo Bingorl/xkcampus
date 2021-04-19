@@ -1,0 +1,337 @@
+@charset "utf-8";
+/* CSS Document */
+* {
+    word-break: break-all;
+    font-family: Verdana, Arial;
+}
+
+body {
+    margin: 10px;
+    padding: 0;
+    font-size: 12px;
+    background: #fff;
+    font-family: "宋体,Arial,微软雅黑";
+    min-width: 1000px;
+}
+
+div, ul, ol, li, h1, h2, h3, h4, h5, h6, form, button, p, th, td, dl, textarea, input, select, button, table, iframe {
+    margin: 0;
+    padding: 0;
+}
+
+/* 不显示滚动条,因为iframe中已经做了适应 */
+html {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    outline: none; /** blr: expression(this.onFocus = this.blur () ); **/
+}
+
+img, a img, textarea, button, table, iframe {
+    border: none;
+}
+
+input, img, select, button, table {
+    vertical-align: middle;
+}
+
+input, button, select, textarea {
+    outline: none;
+}
+
+input {
+    border: 0;
+}
+
+textarea {
+    resize: none;
+}
+
+i {
+    font-style: normal;
+}
+
+/*basic*/
+.f_l {
+    float: left;
+}
+
+.f_r {
+    float: right;
+}
+
+.c_b {
+    clear: both;
+}
+
+.p_r {
+    position: relative;
+}
+
+.t_c {
+    text-align: center;
+}
+
+.wid1000 {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.w30 {
+    width: 30px;
+}
+
+.w100 {
+    width: 100px;
+}
+
+.marl5 {
+    margin-left: 5px;
+}
+
+.marr5 {
+    margin-right: 5px;
+}
+
+.marl10 {
+    margin-left: 10px;
+}
+
+.marl15 {
+    margin-left: 15px;
+}
+
+.marl15_t2 {
+    margin-left: 15px;
+    margin-top: 2px;
+}
+
+.marl15_t35 {
+    margin-left: 15px;
+    margin-top: 35px;
+}
+
+.marl25 {
+    margin-left: 25px;
+}
+
+.mart25 {
+    margin-top: 25px;
+}
+
+.marr25 {
+    margin-right: 25px;
+}
+
+.marl30 {
+    margin-left: 30px;
+}
+
+.marr30 {
+    margin-right: 30px;
+}
+
+.padl10 {
+    padding-left: 10px;
+}
+
+.padl30 {
+    padding-left: 30px;
+}
+
+.high1 {
+    height: 1px;
+    font-size: 1px;
+}
+
+.high5 {
+    height: 5px;
+    font-size: 1px;
+}
+
+.high8 {
+    height: 8px;
+    font-size: 1px;
+}
+
+.high10 {
+    height: 10px;
+    font-size: 1px;
+}
+
+.high15 {
+    height: 15px;
+    font-size: 1px;
+}
+
+.high20 {
+    height: 20px;
+    font-size: 1px;
+}
+
+.high30 {
+    height: 30px;
+    font-size: 1px;
+}
+
+.high45 {
+    height: 45px;
+    font-size: 1px;
+}
+
+.high50 {
+    height: 50px;
+    font-size: 1px;
+}
+
+.high55 {
+    height: 55px;
+    font-size: 1px;
+}
+
+.lin20 {
+    line-height: 20px;
+}
+
+.lin25 {
+    line-height: 25px;
+}
+
+.linh20 {
+    height: 20px;
+    line-height: 20px;
+}
+
+.linh30 {
+    height: 30px;
+    line-height: 30px;
+}
+
+.line_01 {
+    border-bottom: 1px dashed #ababab;
+}
+
+/****************** new css by tyotann *********************/
+.text, input[type="text"], input[type="tel"], input[type="number"], input[type="numberic"], input[type="email"], input[type="phone"], input[type="password"] {
+    padding: 7px 10px;
+    height: 16px;
+    line-height: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    padding: 7px 10px;
+    height: 16px;
+    border: 0px;
+}
+
+.datePicker, input[type="datePicker"] {
+    padding: 7px 10px;
+    height: 16px;
+    line-height: 16px;
+    width: 160px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: url(../../component/My97DatePicker/skin/datePicker.gif) no-repeat right;
+}
+
+.select, select {
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    min-width: 100px;
+}
+
+.textarea, textarea {
+    padding: 7px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 600px;
+    height: 160px;
+    background: #ffffff;
+}
+
+input.validateError, textarea.validateError {
+    border: 1px solid #da3c18;
+}
+
+/* 输入框必须项icon */
+input.required, textarea.required {
+    color: #d68273;
+    left: auto;
+    right: 3px;
+    padding: 0 3px;
+    z-index: 2;
+    position: absolute;
+    top: 1px;
+    bottom: 1px;
+    line-height: 28px;
+    display: inline-block;
+    font-size: 16px;
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    content: "\f057";
+}
+
+textarea.on, input.on {
+    border-color: #66afea;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.btn, input[type="button"], input[type="reset"] {
+    display: inline-block;
+    padding: 7px 12px;
+    margin-bottom: 0;
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    font-family: inherit;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    min-width: 80px;
+    color: #fff;
+    background-color: #428bca;
+    border-color: #357ebd;
+}
+
+/*add_iframe*/
+.add_list {
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+.add_list tr {
+    line-height: 40px;
+}
+
+.add_list .add_notice {
+    position: relative;
+    left: -25px;
+    display: none;
+}
+
+.fl {
+    float: left;
+}

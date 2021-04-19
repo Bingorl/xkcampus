@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.MessageMapperEx">
+
+    <select id="getQuestionNotReadNum" resultType="int">
+		SELECT
+			COUNT(bqm.id)
+		FROM
+			biu_question_message bqm
+		LEFT JOIN biu_group_notice bgn ON bqm.object_id = bgn.id
+		WHERE
+			1 = 1
+		AND bqm.type = 1
+		AND bqm.is_detele = 2
+		AND bgn.is_delete = 2
+		AND bqm.is_read = 2
+		AND bqm.toer_id = #{user_id}
+	</select>
+
+    <select id="getQuestionReplyNotReadNum" resultType="int">
+		SELECT
+			COUNT(bqm.id)
+		FROM
+			biu_question_message bqm
+		LEFT JOIN biu_notice_question bnq ON bnq.id = bqm.object_id
+		WHERE
+			1 = 1
+		AND (
+			SELECT
+				bnq.is_delete
+			FROM
+				biu_group_notice bgn
+			WHERE
+				bgn.id = bnq.notice_id
+		) = 2
+		AND bqm.type = 2
+		AND bqm.is_detele = 2
+		AND bqm.is_read = 2
+		AND bqm.toer_id = #{user_id}
+	</select>
+
+    <select id="getPostNotReadNum" resultType="int">
+		SELECT
+			COUNT(bam.id)
+		FROM
+			biu_at_message bam
+		LEFT JOIN biu_post bp ON bam.object_id = bp.id
+		WHERE
+			1 = 1
+		AND bam.type = 1
+		AND bam.is_detele = 2
+		AND bp.is_delete = 2
+		AND bam.is_read = 2
+		AND bam.toer_id = #{user_id}
+	</select>
+
+    <select id="getPostCommentNotReadNum" resultType="int">
+		SELECT
+			COUNT(bam.id)
+		FROM
+			biu_at_message bam
+		LEFT JOIN biu_post_comment bpc ON bam.object_id = bpc.id
+		WHERE
+			1 = 1
+		AND (
+			SELECT
+				bp.is_delete
+			FROM
+				biu_post bp
+			WHERE
+				bp.id = bpc.post_id
+		) = 2
+		AND bam.type = 2
+		AND bam.is_detele = 2
+		AND bam.is_read = 2
+		AND bam.toer_id = #{user_id}
+	</select>
+
+    <select id="getSayingNotReadNum" resultType="int">
+		SELECT
+			COUNT(bam.id)
+		FROM
+			biu_at_message bam
+		LEFT JOIN biu_saying ba ON bam.object_id = ba.id
+		WHERE
+			1 = 1
+		AND bam.type = 4
+		AND bam.is_detele = 2
+		AND ba.is_delete = 2
+		AND bam.is_read = 2
+		AND bam.toer_id = #{user_id}
+	</select>
+
+    <select id="getPostLikeNotReadNum" resultType="int">
+		SELECT
+			COUNT(blm.id)
+		FROM
+			biu_like_message blm
+		LEFT JOIN biu_post bp ON blm.object_id = bp.id
+		WHERE
+			blm.type = 1
+		AND bp.is_delete = 2
+		AND blm.is_detele = 2
+		AND blm.is_read = 2
+		AND blm.toer_id = #{user_id}
+	</select>
+
+    <select id="getPostComemntLikeNotReadNum" resultType="int">
+		SELECT
+			COUNT(blm.id)
+		FROM
+			biu_like_message blm
+		LEFT JOIN biu_post_comment bpc ON blm.object_id = bpc.id
+		WHERE
+			blm.type = 2
+		AND (
+			SELECT
+				bp.is_delete
+			FROM
+				biu_post bp
+			WHERE
+				bp.id = bpc.post_id
+		) = 2
+		AND blm.is_detele = 2
+		AND blm.is_read = 2
+		AND blm.toer_id = #{user_id}
+	</select>
+
+    <select id="getSayingLikeNotReadNum" resultType="int">
+		SELECT
+			COUNT(blm.id)
+		FROM
+			biu_like_message blm
+		LEFT JOIN biu_saying bs ON blm.object_id = bs.id
+		WHERE
+			(blm.type = 3 OR blm.type = 4)
+		AND bs.is_delete = 2
+		AND blm.is_detele = 2
+		AND blm.is_read = 2
+		AND blm.toer_id = #{user_id}
+	</select>
+
+    <select id="getPostCommetReplyNotReadNum" resultType="int">
+		SELECT
+			COUNT(bcrm.id)
+		FROM
+			biu_comment_reply_message bcrm
+		LEFT JOIN biu_post_comment bpc ON bpc.id = bcrm.object_id
+		WHERE
+			1 = 1
+		AND (
+			SELECT
+				bp.is_delete
+			FROM
+				biu_post bp
+			WHERE
+				bp.id = bpc.post_id
+		) = 2
+		AND bcrm.type IN (1, 2)
+		AND bcrm.is_detele = 2
+		AND bcrm.is_read = 2
+		AND bcrm.toer_id = #{user_id}
+	</select>
+
+    <select id="getSayingComementNotReadNum" resultType="int">
+		SELECT
+			COUNT(bcrm.id)
+		FROM
+			biu_comment_reply_message bcrm
+		LEFT JOIN biu_saying bs ON bs.id = bcrm.object_id
+		WHERE
+			1 = 1
+		AND bs.is_delete = 2
+		AND bcrm.type IN (3, 4)
+		AND bcrm.is_detele = 2
+		AND bcrm.is_read = 2
+		AND bcrm.toer_id = #{user_id}
+	</select>
+
+</mapper>

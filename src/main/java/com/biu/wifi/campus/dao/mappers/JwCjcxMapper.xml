@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biu.wifi.campus.dao.JwCjcxMapper">
+    <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.JwCjcx">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="school_id" jdbcType="VARCHAR" property="schoolId"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="sex" jdbcType="VARCHAR" property="sex"/>
+        <result column="stu_no" jdbcType="VARCHAR" property="stuNo"/>
+        <result column="id_type" jdbcType="VARCHAR" property="idType"/>
+        <result column="id_no" jdbcType="VARCHAR" property="idNo"/>
+        <result column="edu_bg" jdbcType="VARCHAR" property="eduBg"/>
+        <result column="edu_sys" jdbcType="VARCHAR" property="eduSys"/>
+        <result column="enter_year" jdbcType="VARCHAR" property="enterYear"/>
+        <result column="grade" jdbcType="VARCHAR" property="grade"/>
+        <result column="institute_name" jdbcType="VARCHAR" property="instituteName"/>
+        <result column="major_name" jdbcType="VARCHAR" property="majorName"/>
+        <result column="class_name" jdbcType="VARCHAR" property="className"/>
+        <result column="lan_type" jdbcType="VARCHAR" property="lanType"/>
+        <result column="is_apply" jdbcType="VARCHAR" property="isApply"/>
+        <result column="class_code" jdbcType="VARCHAR" property="classCode"/>
+        <result column="class_no" jdbcType="VARCHAR" property="classNo"/>
+        <result column="major_no" jdbcType="VARCHAR" property="majorNo"/>
+        <result column="institute_no" jdbcType="VARCHAR" property="instituteNo"/>
+        <result column="exam_date" jdbcType="VARCHAR" property="examDate"/>
+        <result column="exam_score" jdbcType="VARCHAR" property="examScore"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, school_id, real_name, sex, stu_no, id_type, id_no, edu_bg, edu_sys, enter_year, 
+    grade, institute_name, major_name, class_name, lan_type, is_apply, class_code, class_no, 
+    major_no, institute_no, exam_date, exam_score
+  </sql>
+    <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.JwCjcxCriteria" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from biu_jw_cjcx
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from biu_jw_cjcx
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from biu_jw_cjcx
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.JwCjcxCriteria">
+        delete from biu_jw_cjcx
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.JwCjcx"
+            useGeneratedKeys="true">
+    insert into biu_jw_cjcx (school_id, real_name, sex, 
+      stu_no, id_type, id_no, 
+      edu_bg, edu_sys, enter_year, 
+      grade, institute_name, major_name, 
+      class_name, lan_type, is_apply, 
+      class_code, class_no, major_no, 
+      institute_no, exam_date, exam_score
+      )
+    values (#{schoolId,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{stuNo,jdbcType=VARCHAR}, #{idType,jdbcType=VARCHAR}, #{idNo,jdbcType=VARCHAR}, 
+      #{eduBg,jdbcType=VARCHAR}, #{eduSys,jdbcType=VARCHAR}, #{enterYear,jdbcType=VARCHAR}, 
+      #{grade,jdbcType=VARCHAR}, #{instituteName,jdbcType=VARCHAR}, #{majorName,jdbcType=VARCHAR}, 
+      #{className,jdbcType=VARCHAR}, #{lanType,jdbcType=VARCHAR}, #{isApply,jdbcType=VARCHAR}, 
+      #{classCode,jdbcType=VARCHAR}, #{classNo,jdbcType=VARCHAR}, #{majorNo,jdbcType=VARCHAR}, 
+      #{instituteNo,jdbcType=VARCHAR}, #{examDate,jdbcType=VARCHAR}, #{examScore,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.JwCjcx"
+            useGeneratedKeys="true">
+        insert into biu_jw_cjcx
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="schoolId != null">
+                school_id,
+            </if>
+            <if test="realName != null">
+                real_name,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="stuNo != null">
+                stu_no,
+            </if>
+            <if test="idType != null">
+                id_type,
+            </if>
+            <if test="idNo != null">
+                id_no,
+            </if>
+            <if test="eduBg != null">
+                edu_bg,
+            </if>
+            <if test="eduSys != null">
+                edu_sys,
+            </if>
+            <if test="enterYear != null">
+                enter_year,
+            </if>
+            <if test="grade != null">
+                grade,
+            </if>
+            <if test="instituteName != null">
+                institute_name,
+            </if>
+            <if test="majorName != null">
+                major_name,
+            </if>
+            <if test="className != null">
+                class_name,
+            </if>
+            <if test="lanType != null">
+                lan_type,
+            </if>
+            <if test="isApply != null">
+                is_apply,
+            </if>
+            <if test="classCode != null">
+                class_code,
+            </if>
+            <if test="classNo != null">
+                class_no,
+            </if>
+            <if test="majorNo != null">
+                major_no,
+            </if>
+            <if test="instituteNo != null">
+                institute_no,
+            </if>
+            <if test="examDate != null">
+                exam_date,
+            </if>
+            <if test="examScore != null">
+                exam_score,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="schoolId != null">
+                #{schoolId,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="stuNo != null">
+                #{stuNo,jdbcType=VARCHAR},
+            </if>
+            <if test="idType != null">
+                #{idType,jdbcType=VARCHAR},
+            </if>
+            <if test="idNo != null">
+                #{idNo,jdbcType=VARCHAR},
+            </if>
+            <if test="eduBg != null">
+                #{eduBg,jdbcType=VARCHAR},
+            </if>
+            <if test="eduSys != null">
+                #{eduSys,jdbcType=VARCHAR},
+            </if>
+            <if test="enterYear != null">
+                #{enterYear,jdbcType=VARCHAR},
+            </if>
+            <if test="grade != null">
+                #{grade,jdbcType=VARCHAR},
+            </if>
+            <if test="instituteName != null">
+                #{instituteName,jdbcType=VARCHAR},
+            </if>
+            <if test="majorName != null">
+                #{majorName,jdbcType=VARCHAR},
+            </if>
+            <if test="className != null">
+                #{className,jdbcType=VARCHAR},
+            </if>
+            <if test="lanType != null">
+                #{lanType,jdbcType=VARCHAR},
+            </if>
+            <if test="isApply != null">
+                #{isApply,jdbcType=VARCHAR},
+            </if>
+            <if test="classCode != null">
+                #{classCode,jdbcType=VARCHAR},
+            </if>
+            <if test="classNo != null">
+                #{classNo,jdbcType=VARCHAR},
+            </if>
+            <if test="majorNo != null">
+                #{majorNo,jdbcType=VARCHAR},
+            </if>
+            <if test="instituteNo != null">
+                #{instituteNo,jdbcType=VARCHAR},
+            </if>
+            <if test="examDate != null">
+                #{examDate,jdbcType=VARCHAR},
+            </if>
+            <if test="examScore != null">
+                #{examScore,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.JwCjcxCriteria"
+            resultType="java.lang.Long">
+        select count(*) from biu_jw_cjcx
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update biu_jw_cjcx
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.schoolId != null">
+                school_id = #{record.schoolId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.realName != null">
+                real_name = #{record.realName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sex != null">
+                sex = #{record.sex,jdbcType=VARCHAR},
+            </if>
+            <if test="record.stuNo != null">
+                stu_no = #{record.stuNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.idType != null">
+                id_type = #{record.idType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.idNo != null">
+                id_no = #{record.idNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.eduBg != null">
+                edu_bg = #{record.eduBg,jdbcType=VARCHAR},
+            </if>
+            <if test="record.eduSys != null">
+                edu_sys = #{record.eduSys,jdbcType=VARCHAR},
+            </if>
+            <if test="record.enterYear != null">
+                enter_year = #{record.enterYear,jdbcType=VARCHAR},
+            </if>
+            <if test="record.grade != null">
+                grade = #{record.grade,jdbcType=VARCHAR},
+            </if>
+            <if test="record.instituteName != null">
+                institute_name = #{record.instituteName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.majorName != null">
+                major_name = #{record.majorName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.className != null">
+                class_name = #{record.className,jdbcType=VARCHAR},
+            </if>
+            <if test="record.lanType != null">
+                lan_type = #{record.lanType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isApply != null">
+                is_apply = #{record.isApply,jdbcType=VARCHAR},
+            </if>
+            <if test="record.classCode != null">
+                class_code = #{record.classCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.classNo != null">
+                class_no = #{record.classNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.majorNo != null">
+                major_no = #{record.majorNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.instituteNo != null">
+                institute_no = #{record.instituteNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.examDate != null">
+                exam_date = #{record.examDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.examScore != null">
+                exam_score = #{record.examScore,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update biu_jw_cjcx
+        set id = #{record.id,jdbcType=INTEGER},
+        school_id = #{record.schoolId,jdbcType=VARCHAR},
+        real_name = #{record.realName,jdbcType=VARCHAR},
+        sex = #{record.sex,jdbcType=VARCHAR},
+        stu_no = #{record.stuNo,jdbcType=VARCHAR},
+        id_type = #{record.idType,jdbcType=VARCHAR},
+        id_no = #{record.idNo,jdbcType=VARCHAR},
+        edu_bg = #{record.eduBg,jdbcType=VARCHAR},
+        edu_sys = #{record.eduSys,jdbcType=VARCHAR},
+        enter_year = #{record.enterYear,jdbcType=VARCHAR},
+        grade = #{record.grade,jdbcType=VARCHAR},
+        institute_name = #{record.instituteName,jdbcType=VARCHAR},
+        major_name = #{record.majorName,jdbcType=VARCHAR},
+        class_name = #{record.className,jdbcType=VARCHAR},
+        lan_type = #{record.lanType,jdbcType=VARCHAR},
+        is_apply = #{record.isApply,jdbcType=VARCHAR},
+        class_code = #{record.classCode,jdbcType=VARCHAR},
+        class_no = #{record.classNo,jdbcType=VARCHAR},
+        major_no = #{record.majorNo,jdbcType=VARCHAR},
+        institute_no = #{record.instituteNo,jdbcType=VARCHAR},
+        exam_date = #{record.examDate,jdbcType=VARCHAR},
+        exam_score = #{record.examScore,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.JwCjcx">
+        update biu_jw_cjcx
+        <set>
+            <if test="schoolId != null">
+                school_id = #{schoolId,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                real_name = #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="stuNo != null">
+                stu_no = #{stuNo,jdbcType=VARCHAR},
+            </if>
+            <if test="idType != null">
+                id_type = #{idType,jdbcType=VARCHAR},
+            </if>
+            <if test="idNo != null">
+                id_no = #{idNo,jdbcType=VARCHAR},
+            </if>
+            <if test="eduBg != null">
+                edu_bg = #{eduBg,jdbcType=VARCHAR},
+            </if>
+            <if test="eduSys != null">
+                edu_sys = #{eduSys,jdbcType=VARCHAR},
+            </if>
+            <if test="enterYear != null">
+                enter_year = #{enterYear,jdbcType=VARCHAR},
+            </if>
+            <if test="grade != null">
+                grade = #{grade,jdbcType=VARCHAR},
+            </if>
+            <if test="instituteName != null">
+                institute_name = #{instituteName,jdbcType=VARCHAR},
+            </if>
+            <if test="majorName != null">
+                major_name = #{majorName,jdbcType=VARCHAR},
+            </if>
+            <if test="className != null">
+                class_name = #{className,jdbcType=VARCHAR},
+            </if>
+            <if test="lanType != null">
+                lan_type = #{lanType,jdbcType=VARCHAR},
+            </if>
+            <if test="isApply != null">
+                is_apply = #{isApply,jdbcType=VARCHAR},
+            </if>
+            <if test="classCode != null">
+                class_code = #{classCode,jdbcType=VARCHAR},
+            </if>
+            <if test="classNo != null">
+                class_no = #{classNo,jdbcType=VARCHAR},
+            </if>
+            <if test="majorNo != null">
+                major_no = #{majorNo,jdbcType=VARCHAR},
+            </if>
+            <if test="instituteNo != null">
+                institute_no = #{instituteNo,jdbcType=VARCHAR},
+            </if>
+            <if test="examDate != null">
+                exam_date = #{examDate,jdbcType=VARCHAR},
+            </if>
+            <if test="examScore != null">
+                exam_score = #{examScore,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.JwCjcx">
+    update biu_jw_cjcx
+    set school_id = #{schoolId,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      stu_no = #{stuNo,jdbcType=VARCHAR},
+      id_type = #{idType,jdbcType=VARCHAR},
+      id_no = #{idNo,jdbcType=VARCHAR},
+      edu_bg = #{eduBg,jdbcType=VARCHAR},
+      edu_sys = #{eduSys,jdbcType=VARCHAR},
+      enter_year = #{enterYear,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=VARCHAR},
+      institute_name = #{instituteName,jdbcType=VARCHAR},
+      major_name = #{majorName,jdbcType=VARCHAR},
+      class_name = #{className,jdbcType=VARCHAR},
+      lan_type = #{lanType,jdbcType=VARCHAR},
+      is_apply = #{isApply,jdbcType=VARCHAR},
+      class_code = #{classCode,jdbcType=VARCHAR},
+      class_no = #{classNo,jdbcType=VARCHAR},
+      major_no = #{majorNo,jdbcType=VARCHAR},
+      institute_no = #{instituteNo,jdbcType=VARCHAR},
+      exam_date = #{examDate,jdbcType=VARCHAR},
+      exam_score = #{examScore,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

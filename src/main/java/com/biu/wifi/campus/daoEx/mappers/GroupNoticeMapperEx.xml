@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.GroupNoticeMapperEx">
+
+    <select id="noticeList" resultType="map">
+        SELECT
+        bgn.id,
+        bgn.create_time,
+        bgn.title,
+        bgn.content,
+        bgn.`user` AS `name`,
+        bgn.question_count AS question_number,
+        (SELECT (COUNT(*)) FROM biu_notice_receive bnr WHERE bnr.notice_id = bgn.id) AS received_all,
+        bgn.receive_count AS received_number
+        FROM
+        biu_notice_receive bnr
+        LEFT JOIN biu_group_notice bgn ON bnr.notice_id = bgn.id
+        WHERE
+        1 = 1
+        AND bnr.is_delete = 2
+        AND bnr.user_id = #{user_id}
+        AND (
+        (
+        UNIX_TIMESTAMP(bgn.create_time) &lt;= UNIX_TIMESTAMP(#{time})
+        AND bgn.is_delete = 2
+        )
+        OR (
+        UNIX_TIMESTAMP(bgn.delete_time) >= UNIX_TIMESTAMP(#{time})
+        AND bgn.is_delete = 1
+        )
+        )
+        <if test="search_word != null and search_word != '' ">
+            AND (
+            bgn.title LIKE CONCAT('%',#{search_word},'%')
+            OR bgn.content LIKE CONCAT('%',#{search_word},'%')
+            )
+        </if>
+        <if test="group_id != null">
+            AND bgn.group_id = #{group_id}
+        </if>
+        <if test="type != null and type == 1">
+            AND DATE_FORMAT(bgn.create_time, "%Y-%m-%d") = DATE_FORMAT(NOW(), "%Y-%m-%d")
+        </if>
+        <if test="type != null and type == 2">
+            AND DATE_FORMAT(bgn.create_time, "%Y-%m") = #{date}
+        </if>
+        <if test="type != null and type == 3">
+            AND DATE_FORMAT(bgn.create_time, "%Y-%m-%d") = #{date}
+        </if>
+        ORDER BY bgn.create_time DESC
+    </select>
+
+    <select id="findNoticeQuestionList" resultType="map">
+		SELECT
+			bnq.id,
+			bnq.content,
+			bu.headimg AS user_headimg,
+			bu.`name` AS user_name,
+			bnq.user_id,
+			bnq.create_time,
+			bnq.is_delete
+		FROM
+			biu_notice_question bnq
+		LEFT JOIN biu_user bu ON bnq.user_id = bu.id
+		WHERE
+			1 = 1
+		AND bnq.notice_id = #{id}
+		AND (
+			(
+				UNIX_TIMESTAMP(bnq.create_time) &lt;= UNIX_TIMESTAMP(#{time})
+				AND bnq.is_delete = 2
+			)
+			OR (
+				UNIX_TIMESTAMP(bnq.delete_time) >= UNIX_TIMESTAMP(#{time})
+				AND bnq.is_delete = 1
+			)
+		)
+		ORDER BY bnq.create_time DESC
+	</select>
+
+    <select id="findQuestionReplyList" resultType="map">
+        SELECT
+        r.user_id,
+        u.headimg,
+        u.`name` AS user_name,
+        (SELECT bu.`name` FROM biu_user bu WHERE bu.id = r.to_user_id) AS to_name,
+        r.to_user_id,
+        r.content,
+        r.id,
+        r.create_time,
+        r.to_id,
+        r.is_delete
+        FROM
+        biu_question_reply r
+        LEFT JOIN biu_user u ON r.user_id = u.id
+        WHERE
+        1 = 1
+        AND r.question_id = #{qid}
+        <if test="time != null">
+            AND (
+            (
+            UNIX_TIMESTAMP(r.create_time) &lt;= UNIX_TIMESTAMP(#{time})
+            AND r.is_delete = 2
+            )
+            OR (
+            UNIX_TIMESTAMP(r.delete_time) >= UNIX_TIMESTAMP(#{time})
+            AND r.is_delete = 1
+            )
+            )
+        </if>
+        <if test="time == null">
+            AND r.is_delete = 2
+        </if>
+        ORDER BY r.create_time ASC
+    </select>
+
+    <select id="findReceivedList" resultType="map">
+		SELECT
+			bu.id,
+			bu.headimg,
+			bu.`name`
+		FROM
+			biu_notice_receive bnr
+		LEFT JOIN biu_user bu ON bnr.user_id = bu.id
+		WHERE 1=1
+		AND bnr.is_delete = 2
+		AND bnr.notice_id = #{id}
+		AND bnr.is_received = #{type}
+		ORDER BY bnr.create_time DESC
+	</select>
+
+    <select id="findNoticeAttachList" resultType="map">
+        SELECT
+        bna.id,
+        bna.`name`,
+        bna.size,
+        bna.url,
+        bna.notice_id,
+        bna.create_time,
+        bna.md5_file,
+        ( SELECT bgn.`user` FROM biu_group_notice bgn WHERE bna.notice_id = bgn.id ) AS create_name
+        FROM
+        biu_notice_receive bnr
+        LEFT JOIN biu_notice_attachment bna ON bnr.notice_id = bna.notice_id
+        WHERE
+        1 = 1
+        AND bnr.is_delete = 2
+        AND bnr.user_id = #{user_id}
+        AND bna.group_id = #{group_id}
+        <if test="search_word != null and search_word != '' ">
+            AND bna.`name` LIKE CONCAT('%',#{search_word},'%')
+        </if>
+        AND (
+        ( UNIX_TIMESTAMP( bna.create_time) &lt;= UNIX_TIMESTAMP(#{time}) AND bna.is_delete = 2 )
+        OR ( UNIX_TIMESTAMP( bna.delete_time) >= UNIX_TIMESTAMP(#{time}) AND bna.is_delete = 1 )
+        )
+        ORDER BY
+        bna.create_time DESC
+    </select>
+
+    <select id="findCalderNoticeList" resultType="map">
+        SELECT
+        bnc.id,
+        bnc.remind_date,
+        bnc.remind_time,
+        bnc.is_open,
+        bgn.title,
+        bgn.content,
+        bgn.`user` AS user_name
+        FROM
+        biu_notice_calendar bnc
+        LEFT JOIN biu_group_notice bgn ON bnc.notice_id = bgn.id
+        WHERE 1=1
+        AND bnc.is_delete = 2
+        <if test="user_id != null">
+            AND bnc.user_id = #{user_id}
+        </if>
+        <if test="type == 1  and order_type == 1">
+            AND DATE_FORMAT(bnc.remind_date,"%Y-%m") = #{search_date}
+            ORDER BY bnc.remind_date ASC
+        </if>
+        <if test="type == 1  and order_type == 2">
+            AND DATE_FORMAT(bnc.remind_date,"%Y-%m") = #{search_date}
+            ORDER BY bnc.remind_date DESC
+        </if>
+        <if test="type == 2  and order_type == 1">
+            AND DATE_FORMAT(bnc.remind_date,"%Y-%m-%d") = #{search_date}
+            ORDER BY bnc.remind_date ASC
+        </if>
+        <if test="type == 2  and order_type == 2">
+            AND DATE_FORMAT(bnc.remind_date,"%Y-%m-%d") = #{search_date}
+            ORDER BY bnc.remind_date DESC
+        </if>
+    </select>
+
+    <select id="findIsCalderList" resultType="map">
+		SELECT
+			bnc.id,
+			bnc.remind_date
+		FROM
+			biu_notice_calendar bnc
+		WHERE
+			1 = 1
+		AND bnc.is_delete = 2
+		AND bnc.user_id = #{user_id}
+		AND month(remind_date) = #{search_date}
+	</select>
+
+    <select id="getNotReadNotice" resultType="int">
+		SELECT
+			count(b.id)
+		FROM
+			biu_notice_receive b
+		LEFT JOIN biu_group_notice c ON b.notice_id = c.id
+		WHERE
+		 	b.user_id = #{user_id}
+		AND b.is_received = 2
+		AND b.is_delete = 2
+		AND c.is_delete = 2
+	</select>
+</mapper>

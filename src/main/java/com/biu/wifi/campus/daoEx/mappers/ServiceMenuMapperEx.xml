@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.biu.wifi.campus.daoEx.ServiceMenuMapperEx">
+    <select id="findListByKeyword" resultType="com.biu.wifi.campus.dao.model.ServiceMenu">
+    select
+    a.`id`, a.`name`, a.`icon`, a.`url`, a.`category_id` categoryId
+    from `biu_service_menu` a
+    where 
+    a.`name` like concat('%',#{keyword},'%') and a.`category_id` = #{categoryId}
+  </select>
+
+    <select id="findCategoryListByKeyword" resultType="com.biu.wifi.campus.dao.model.ServiceMenuCategory">
+    select
+    a.`id`, a.`pid`, a.`name`
+    from `biu_service_menu_category` a
+    left join `biu_service_menu` b on b.`category_id` = a.`id`
+    where 
+    b.`name` like concat('%',#{keyword},'%')
+    group by a.`id`
+  </select>
+</mapper>
