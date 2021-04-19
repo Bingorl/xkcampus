@@ -2,9 +2,11 @@ package com.biu.wifi.campus.dao;
 
 import com.biu.wifi.campus.dao.model.SignIn;
 import com.biu.wifi.campus.dao.model.SignInExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -35,5 +37,11 @@ public interface SignInMapper {
 
     int updateByPrimaryKey(SignIn record);
 
-    List<SignIn> search(@Param("userId") Integer userId,@Param("type") Integer type);
+    List<SignIn> mySignInList(@Param("userId") Integer userId, @Param("type") Integer type);
+
+    List<HashMap> search(@Param("schoolId") Integer schoolId,
+                         @Param("type") Integer type,
+                         @Param("startTime") String startTime,
+                         @Param("endTime") String endTime,
+                         @Param("keyword") String keyword);
 }

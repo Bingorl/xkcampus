@@ -1,4 +1,4 @@
-package com.biu.wifi.campus.controller;
+package com.biu.wifi.campus.controller.admin;
 
 import com.biu.wifi.campus.controller.app.AppDiscussionTopicApplyController;
 import com.biu.wifi.campus.result.Result;

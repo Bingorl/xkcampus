@@ -34,7 +34,7 @@ public class SignInService {
     }
 
     public List<SignIn> mySignInList(Integer userId, Integer type) {
-        return signInMapper.search(userId, type);
+        return signInMapper.mySignInList(userId, type);
     }
 
     public List<HashMap> getSignTypeList() {
@@ -59,5 +59,9 @@ public class SignInService {
             list.add(hashMap);
         }
         return list;
+    }
+
+    public List<HashMap> search(Integer schoolId, Integer type, String startTime, String endTime, String keyword) {
+        return signInMapper.search(schoolId, type, startTime, endTime, keyword);
     }
 }
