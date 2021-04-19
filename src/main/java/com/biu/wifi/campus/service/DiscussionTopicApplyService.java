@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author 张彬.
@@ -153,7 +156,7 @@ public class DiscussionTopicApplyService extends AbstractAuditUserService {
      * @date 2021/4/4 22:05.
      */
     public List<HashMap> myAuditDiscussionTopicApplyList(Integer userId, String startDate, String endDate, Short status) {
-        return discussionTopicApplyMapper.myAuditDiscussionTopicApplyList(userId,  startDate, endDate, getStatusList(status, false));
+        return discussionTopicApplyMapper.myAuditDiscussionTopicApplyList(userId, startDate, endDate, getStatusList(status, false));
     }
 
     /**
@@ -208,7 +211,7 @@ public class DiscussionTopicApplyService extends AbstractAuditUserService {
                 .andIsDeleteEqualTo((short) 2);
         List<DiscussionTopicAuditUser> auditUsers = discussionTopicAuditUserMapper.selectByExample(example);
         Assert.notEmpty(auditUsers, "暂未设置审核人,请联系管理员");
-        List<String> auditUserIds = Arrays.asList(auditUsers.get(0).getAuditUser().split(","));
+        String[] auditUserIds = auditUsers.get(0).getAuditUser().split(",");
         List<HashMap> list = new ArrayList<>();
         for (String userId : auditUserIds) {
             list.add(userMapper.selectMap(userId));
@@ -285,7 +288,7 @@ public class DiscussionTopicApplyService extends AbstractAuditUserService {
             nextAuditUserId = apply.getCurrentAuditUserId();
         }
 
-        DiscussionTopicAudit applyAudit = discussionTopicAuditService.selectByApplyId(apply.getId(),currentAuditUserId);
+        DiscussionTopicAudit applyAudit = discussionTopicAuditService.selectByApplyId(apply.getId(), currentAuditUserId);
         Assert.notNull(applyAudit, "该会议议题申请审批记录不存在");
         applyAudit.setIsPass(status.intValue() == 2 ? (short) 1 : (short) 2);
         applyAudit.setRemark(remark);
@@ -379,6 +382,10 @@ public class DiscussionTopicApplyService extends AbstractAuditUserService {
         }
 
         addPush(apply.getId(), noticeId, needToAudit, title, receiverId, user.getDevType(), user.getDevToken());
+    }
+
+    public List<HashMap> search(Integer schoolId, Integer type, Short status, String startTime, String endTime, String keyword) {
+        return discussionTopicApplyMapper.search(schoolId, type, status, startTime, endTime, keyword);
     }
 }
 

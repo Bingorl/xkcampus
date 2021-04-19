@@ -170,8 +170,10 @@ public class AppDiscussionTopicApplyController extends AuthenticatorController {
         hashMap.put("applyDeptName", instituteService.getInstituteNamesByIds(apply.getApplyDeptId().toString()));
         hashMap.put("attendDeptName", instituteService.getInstituteNamesByIds(apply.getAttendDeptId()));
 
-        // 确认收到
-        discussionTopicNoticeService.confirmNotice(apply.getId(), userId);
+        if (userId != null) {
+            // 确认收到
+            discussionTopicNoticeService.confirmNotice(apply.getId(), userId);
+        }
         String json = JsonUtilEx.strToMoblieJson(new Result(Result.SUCCESS, "请求成功", hashMap));
         ServletUtilsEx.renderText(response, json);
     }

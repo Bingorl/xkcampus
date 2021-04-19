@@ -40,7 +40,14 @@ public interface DiscussionTopicApplyMapper {
                                              @Param("statusList") List<Short> statusList);
 
     List<HashMap> myAuditDiscussionTopicApplyList(@Param("userId") Integer userId,
-                                             @Param("startDate") String startDate,
-                                             @Param("endDate") String endDate,
-                                             @Param("statusList") List<Short> statusList);
+                                                  @Param("startDate") String startDate,
+                                                  @Param("endDate") String endDate,
+                                                  @Param("statusList") List<Short> statusList);
+
+    List<HashMap> search(@Param("schoolId") Integer schoolId,
+                         @Param("type") Integer type,
+                         @Param("status") Short status,
+                         @Param("startTime") String startTime,
+                         @Param("endTime") String endTime,
+                         @Param("keyword") String keyword);
 }

@@ -663,10 +663,11 @@
                 concat('%', #{keyword}, '%')
         </if>
         <if test="startTime != null and startTime != ''">
-            and a.create_time &gt;= #{startTime}
+            and a.start_date &gt;= #{startTime}
         </if>
         <if test="endTime != null and endTime != ''">
-            and a.create_time &lt;= #{endTime}
+            and a.end_date &lt;= #{endTime}
         </if>
+        order by a.id desc
     </select>
 </mapper>
