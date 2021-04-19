@@ -243,7 +243,10 @@ public class AppTeacherLeaveInfoController extends AuthenticatorController {
         hashMap.put("leaveTypeName", dictInfoService.selectById(teacherLeaveInfo.getLeaveType()).getName());
 
         // 确认收到
-        teacherLeaveNoticeService.confirmNotice(teacherLeaveInfo.getId(), userId);
+        if (userId != null) {
+            //后台管理接口调用时没有userId
+            teacherLeaveNoticeService.confirmNotice(teacherLeaveInfo.getId(), userId);
+        }
         String json = JsonUtilEx.strToMoblieJson(new Result(Result.SUCCESS, "请求成功", hashMap));
         ServletUtilsEx.renderText(response, json);
     }

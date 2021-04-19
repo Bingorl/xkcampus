@@ -355,4 +355,8 @@ public class TeacherLeaveInfoService extends AbstractAuditUserService {
         }
         return list;
     }
+
+    public List<HashMap> search(Integer schoolId, Integer leaveType, Short status, String keyword, String startTime, String endTime) {
+        return teacherLeaveInfoMapper.search(schoolId,leaveType, status, keyword, startTime, endTime);
+    }
 }
