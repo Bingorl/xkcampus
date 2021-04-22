@@ -1,6 +1,9 @@
-package com.biu.wifi.campus.dao.model;
+package com.biu.wifi.campus.dao;
 
 import java.util.List;
+
+import com.biu.wifi.campus.dao.model.AuditRolePermission;
+import com.biu.wifi.campus.dao.model.AuditRolePermissionCriteria;
 import org.apache.ibatis.annotations.Param;
 
 public interface AuditRolePermissionMapper {

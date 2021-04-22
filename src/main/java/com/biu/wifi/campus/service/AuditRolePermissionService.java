@@ -2,6 +2,7 @@ package com.biu.wifi.campus.service;
 
 import com.biu.wifi.campus.Tool.BeanUtil;
 import com.biu.wifi.campus.dao.AuditPermissionMapper;
+import com.biu.wifi.campus.dao.AuditRolePermissionMapper;
 import com.biu.wifi.campus.dao.AuditUserRoleMapper;
 import com.biu.wifi.campus.dao.model.*;
 import com.biu.wifi.campus.result.Result;
