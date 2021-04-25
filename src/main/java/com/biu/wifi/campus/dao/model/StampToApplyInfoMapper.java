@@ -1,15 +1,10 @@
-package com.biu.wifi.campus.dao;
+package com.biu.wifi.campus.dao.model;
 
 import com.biu.wifi.campus.dao.model.StampToApplyInfo;
 import com.biu.wifi.campus.dao.model.StampToApplyInfoExample;
-
-import java.util.HashMap;
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface StampToApplyInfoMapper {
     long countByExample(StampToApplyInfoExample example);
 
@@ -32,15 +27,4 @@ public interface StampToApplyInfoMapper {
     int updateByPrimaryKeySelective(StampToApplyInfo record);
 
     int updateByPrimaryKey(StampToApplyInfo record);
-
-    List<HashMap> myAuditStampApplyInfoList(@Param("userId") Integer userId,
-                                            @Param("startDate") String startDate,
-                                            @Param("endDate") String endDate,
-                                            @Param("statusList") List<Short> statusList);
-
-
-    List<HashMap> myStampApplyInfoList(@Param("userId") Integer userId,
-                                       @Param("startDate") String startDate,
-                                       @Param("endDate") String endDate,
-                                       @Param("statusList") List<Short> statusList);
 }

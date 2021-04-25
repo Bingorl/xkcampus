@@ -10,6 +10,8 @@ package com.biu.wifi.campus.constant;
 public enum BaseDictType {
 
     TEACHER_LEAVE_TYPE("教师请假类型"),
+    STAMP_TO_APPLY_TYPE("用章申请类型"),
+    STAMP_TYPE("印章类型"),
     ;
     private String description;
 

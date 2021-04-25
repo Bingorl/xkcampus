@@ -4,7 +4,9 @@ import com.biu.wifi.campus.dao.model.StampToApplyUser;
 import com.biu.wifi.campus.dao.model.StampToApplyUserExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface StampToApplyUserMapper {
     long countByExample(StampToApplyUserExample example);
 

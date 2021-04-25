@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="apply_type" jdbcType="INTEGER" property="applyType" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
-    <result column="organization" jdbcType="VARCHAR" property="organization" />
+    <result column="stamp_type" jdbcType="INTEGER" property="stampType" />
     <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
     <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
     <result column="back_date" jdbcType="TIMESTAMP" property="backDate" />
@@ -81,7 +81,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, apply_type, reason, organization, start_date, end_date, back_date, apply_user_id, 
+    id, apply_type, reason, stamp_type, start_date, end_date, back_date, apply_user_id, 
     apply_user_name, apply_user_no, apply_user_tel, apply_user_dept_id, status, audit_user, 
     current_audit_user_id, create_time, update_time, is_delete, delete_time
   </sql>
@@ -118,21 +118,21 @@
   </delete>
   <insert id="insert" parameterType="com.biu.wifi.campus.dao.model.StampToApplyInfo">
     insert into biu_stamp_to_apply_info (id, apply_type, reason, 
-      organization, start_date, end_date, 
+      stamp_type, start_date, end_date, 
       back_date, apply_user_id, apply_user_name, 
       apply_user_no, apply_user_tel, apply_user_dept_id, 
       status, audit_user, current_audit_user_id, 
       create_time, update_time, is_delete, 
       delete_time)
     values (#{id,jdbcType=INTEGER}, #{applyType,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR}, 
-      #{organization,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, 
+      #{stampType,jdbcType=INTEGER}, #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, 
       #{backDate,jdbcType=TIMESTAMP}, #{applyUserId,jdbcType=INTEGER}, #{applyUserName,jdbcType=VARCHAR}, 
       #{applyUserNo,jdbcType=VARCHAR}, #{applyUserTel,jdbcType=VARCHAR}, #{applyUserDeptId,jdbcType=VARCHAR}, 
       #{status,jdbcType=SMALLINT}, #{auditUser,jdbcType=VARCHAR}, #{currentAuditUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=SMALLINT}, 
       #{deleteTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.biu.wifi.campus.dao.model.StampToApplyInfo">
+  <insert id="insertSelective" parameterType="com.biu.wifi.campus.dao.model.StampToApplyInfo" useGeneratedKeys="true" keyProperty="id" >
     insert into biu_stamp_to_apply_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -144,8 +144,8 @@
       <if test="reason != null">
         reason,
       </if>
-      <if test="organization != null">
-        organization,
+      <if test="stampType != null">
+        stamp_type,
       </if>
       <if test="startDate != null">
         start_date,
@@ -203,8 +203,8 @@
       <if test="reason != null">
         #{reason,jdbcType=VARCHAR},
       </if>
-      <if test="organization != null">
-        #{organization,jdbcType=VARCHAR},
+      <if test="stampType != null">
+        #{stampType,jdbcType=INTEGER},
       </if>
       <if test="startDate != null">
         #{startDate,jdbcType=TIMESTAMP},
@@ -271,8 +271,8 @@
       <if test="record.reason != null">
         reason = #{record.reason,jdbcType=VARCHAR},
       </if>
-      <if test="record.organization != null">
-        organization = #{record.organization,jdbcType=VARCHAR},
+      <if test="record.stampType != null">
+        stamp_type = #{record.stampType,jdbcType=INTEGER},
       </if>
       <if test="record.startDate != null">
         start_date = #{record.startDate,jdbcType=TIMESTAMP},
@@ -329,7 +329,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       apply_type = #{record.applyType,jdbcType=INTEGER},
       reason = #{record.reason,jdbcType=VARCHAR},
-      organization = #{record.organization,jdbcType=VARCHAR},
+      stamp_type = #{record.stampType,jdbcType=INTEGER},
       start_date = #{record.startDate,jdbcType=TIMESTAMP},
       end_date = #{record.endDate,jdbcType=TIMESTAMP},
       back_date = #{record.backDate,jdbcType=TIMESTAMP},
@@ -358,8 +358,8 @@
       <if test="reason != null">
         reason = #{reason,jdbcType=VARCHAR},
       </if>
-      <if test="organization != null">
-        organization = #{organization,jdbcType=VARCHAR},
+      <if test="stampType != null">
+        stamp_type = #{stampType,jdbcType=INTEGER},
       </if>
       <if test="startDate != null">
         start_date = #{startDate,jdbcType=TIMESTAMP},
@@ -413,7 +413,7 @@
     update biu_stamp_to_apply_info
     set apply_type = #{applyType,jdbcType=INTEGER},
       reason = #{reason,jdbcType=VARCHAR},
-      organization = #{organization,jdbcType=VARCHAR},
+      stamp_type = #{stampType,jdbcType=INTEGER},
       start_date = #{startDate,jdbcType=TIMESTAMP},
       end_date = #{endDate,jdbcType=TIMESTAMP},
       back_date = #{backDate,jdbcType=TIMESTAMP},
@@ -431,4 +431,115 @@
       delete_time = #{deleteTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+
+  <select id="myAuditStampApplyInfoList" resultType="java.util.HashMap">
+    select a.id,
+    a.apply_type            applyType,
+    a.reason,
+    a.stamp_type             stampType,
+    a.start_date            startDate,
+    a.end_date              endDate,
+    a.back_date             backDate,
+    a.apply_user_id         applyUserId,
+    a.apply_user_name       applyUserName,
+    a.apply_user_no         applyUserNo,
+    a.apply_user_tel        applyUserTel,
+    a.apply_user_dept_id    applyUserDeptId,
+    case d.is_pass
+    when 1 then 2
+    when 2 then 3
+    else 1
+    end             status,
+    a.audit_user            auditUser,
+    a.current_audit_user_id currentAuditUserId,
+    a.create_time           createTime,
+    a.update_time           updateTime,
+    a.is_delete             isDelete,
+    a.delete_time           deleteTime,
+    b.`name`                currentAuditUserName,
+    c.`name`                instituteName,
+    e.`name`                leaveTypeName,
+    f.`name`                stampTypeName
+    from biu_stamp_to_apply_info a
+    left join biu_user b on a.current_audit_user_id = b.id
+    left join biu_institute c on b.institute_id = c.id
+    left join biu_stamp_to_apply d on a.id = d.apply_id
+    left join biu_dict_info e on a.apply_type = e.id
+    left join biu_dict_info f on a.stamp_type = f.id
+    <where>
+      a.is_delete = 2
+      <if test="userId != null">
+        and d.user_id = #{userId}
+      </if>
+      <choose>
+        <when test="statusList != null and statusList.size() != 0">
+          and d.is_pass in
+          <foreach collection="statusList" item="status" separator="," open="(" close=")">
+            #{status}
+          </foreach>
+        </when>
+        <otherwise>
+          and d.is_pass is null
+        </otherwise>
+      </choose>
+      <if test="startDate != null and startDate != ''">
+        and a.create_time &gt;= #{startDate}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        and a.create_time &lt;= #{endDate}
+      </if>
+      order by a.create_time desc
+    </where>
+  </select>
+  <select id="myStampApplyInfoList" resultType="java.util.HashMap">
+    select a.id,
+    a.apply_type            applyType,
+    a.reason,
+    a.stamp_type             stampType,
+    a.start_date            startDate,
+    a.end_date              endDate,
+    a.back_date             backDate,
+    a.apply_user_id         applyUserId,
+    a.apply_user_name       applyUserName,
+    a.apply_user_no         applyUserNo,
+    a.apply_user_tel        applyUserTel,
+    a.apply_user_dept_id    applyUserDeptId,
+    a.`status`,
+    a.audit_user            auditUser,
+    a.current_audit_user_id currentAuditUserId,
+    a.create_time           createTime,
+    a.update_time           updateTime,
+    a.is_delete             isDelete,
+    a.delete_time           deleteTime,
+    b.`name`                currentAuditUserName,
+    c.`name`                instituteName,
+    e.`name`                applyTypeName,
+    f.`name`                stampTypeName,
+    from biu_stamp_to_apply_info a
+    left join biu_user b on a.current_audit_user_id = b.id
+    left join biu_institute c on b.institute_id = c.id
+    left join biu_dict_info e on a.apply_type = e.id
+    left join biu_dict_info f on a.stamp_type = f.id
+    <where>
+      a.is_delete = 2
+      <if test="userId != null">
+        and a.apply_user_id = #{userId}
+      </if>
+      <if test="statusList != null and statusList.size() != 0">
+        and a.`status` in
+        <foreach collection="statusList" item="status" separator="," open="(" close=")">
+          #{status}
+        </foreach>
+      </if>
+      <if test="startDate != null and startDate != ''">
+        and a.create_time &gt;= #{startDate}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        and a.create_time &lt;= #{endDate}
+      </if>
+      order by a.create_time desc
+    </where>
+  </select>
 </mapper>

@@ -273,4 +273,16 @@
       is_delete = #{isDelete,jdbcType=SMALLINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="findMap" resultType="java.util.HashMap">
+    select
+      a.id,
+      a.`type`,
+      a.biz_id bizId,
+      a.user_id userId,
+      a.is_pass isPass
+    from biu_audit_info a
+    left join biu_stamp_to_apply b on a.biz_id=b.id
+    left join biu_stamp_to_apply_info c on b.apply_id=c.id
+    where c.id =#{applyId} and a.user_id=#{userId} and a.`type`=6
+    </select>
 </mapper>

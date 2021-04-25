@@ -10,6 +10,7 @@ public enum AuditBusinessType {
     EXAM_PLAN(3, "智能排考"),
     TEACHER_LEAVE(4, "教师请假"),
     DISCUSSION_TOPIC_APPLY(5, "会议议题申请"),
+    STAMP_TO_APPLY(6, "用章申请"),
     ;
 
     private Integer code;

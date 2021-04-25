@@ -4,7 +4,9 @@ import com.biu.wifi.campus.dao.model.StampToApplyNotice;
 import com.biu.wifi.campus.dao.model.StampToApplyNoticeExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface StampToApplyNoticeMapper {
     long countByExample(StampToApplyNoticeExample example);
 

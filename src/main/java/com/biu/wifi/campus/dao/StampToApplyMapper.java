@@ -2,9 +2,13 @@ package com.biu.wifi.campus.dao;
 
 import com.biu.wifi.campus.dao.model.StampToApply;
 import com.biu.wifi.campus.dao.model.StampToApplyExample;
+
+import java.util.HashMap;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface StampToApplyMapper {
     long countByExample(StampToApplyExample example);
 
@@ -27,4 +31,6 @@ public interface StampToApplyMapper {
     int updateByPrimaryKeySelective(StampToApply record);
 
     int updateByPrimaryKey(StampToApply record);
+
+    HashMap findMap(@Param("applyId") Integer id, @Param("userId") String userId);
 }

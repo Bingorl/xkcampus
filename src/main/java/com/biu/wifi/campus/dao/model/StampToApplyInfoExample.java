@@ -295,73 +295,63 @@ public class StampToApplyInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIsNull() {
-            addCriterion("organization is null");
+        public Criteria andStampTypeIsNull() {
+            addCriterion("stamp_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIsNotNull() {
-            addCriterion("organization is not null");
+        public Criteria andStampTypeIsNotNull() {
+            addCriterion("stamp_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationEqualTo(String value) {
-            addCriterion("organization =", value, "organization");
+        public Criteria andStampTypeEqualTo(Integer value) {
+            addCriterion("stamp_type =", value, "stampType");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationNotEqualTo(String value) {
-            addCriterion("organization <>", value, "organization");
+        public Criteria andStampTypeNotEqualTo(Integer value) {
+            addCriterion("stamp_type <>", value, "stampType");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationGreaterThan(String value) {
-            addCriterion("organization >", value, "organization");
+        public Criteria andStampTypeGreaterThan(Integer value) {
+            addCriterion("stamp_type >", value, "stampType");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationGreaterThanOrEqualTo(String value) {
-            addCriterion("organization >=", value, "organization");
+        public Criteria andStampTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("stamp_type >=", value, "stampType");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationLessThan(String value) {
-            addCriterion("organization <", value, "organization");
+        public Criteria andStampTypeLessThan(Integer value) {
+            addCriterion("stamp_type <", value, "stampType");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationLessThanOrEqualTo(String value) {
-            addCriterion("organization <=", value, "organization");
+        public Criteria andStampTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("stamp_type <=", value, "stampType");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationLike(String value) {
-            addCriterion("organization like", value, "organization");
+        public Criteria andStampTypeIn(List<Integer> values) {
+            addCriterion("stamp_type in", values, "stampType");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationNotLike(String value) {
-            addCriterion("organization not like", value, "organization");
+        public Criteria andStampTypeNotIn(List<Integer> values) {
+            addCriterion("stamp_type not in", values, "stampType");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIn(List<String> values) {
-            addCriterion("organization in", values, "organization");
+        public Criteria andStampTypeBetween(Integer value1, Integer value2) {
+            addCriterion("stamp_type between", value1, value2, "stampType");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationNotIn(List<String> values) {
-            addCriterion("organization not in", values, "organization");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganizationBetween(String value1, String value2) {
-            addCriterion("organization between", value1, value2, "organization");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganizationNotBetween(String value1, String value2) {
-            addCriterion("organization not between", value1, value2, "organization");
+        public Criteria andStampTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("stamp_type not between", value1, value2, "stampType");
             return (Criteria) this;
         }
 

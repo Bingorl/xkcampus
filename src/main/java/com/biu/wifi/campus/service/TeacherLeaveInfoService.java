@@ -200,7 +200,6 @@ public class TeacherLeaveInfoService extends AbstractAuditUserService {
                 leaveInfo.setCurrentAuditUserId(currentAuditUserId);
                 leaveInfo.setUpdateTime(new Date());
                 teacherLeaveInfoMapper.updateByPrimaryKeySelective(leaveInfo);
-
                 // 通知请假人请假结果
                 teacherLeaveNotice = teacherLeaveNoticeService.addLeaveNotice(leaveInfo.getId(), "您的请假申请已通过审批", leaveInfo.getReason(), remark, leaveInfo.getApplyUserId());
                 Assert.notNull(teacherLeaveNotice.getId(), "审核失败");

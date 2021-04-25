@@ -9,7 +9,7 @@ public class StampToApplyInfo {
 
     private String reason;
 
-    private String organization;
+    private Integer stampType;
 
     private Date startDate;
 
@@ -65,12 +65,12 @@ public class StampToApplyInfo {
         this.reason = reason == null ? null : reason.trim();
     }
 
-    public String getOrganization() {
-        return organization;
+    public Integer getStampType() {
+        return stampType;
     }
 
-    public void setOrganization(String organization) {
-        this.organization = organization == null ? null : organization.trim();
+    public void setStampType(Integer stampType) {
+        this.stampType = stampType;
     }
 
     public Date getStartDate() {
