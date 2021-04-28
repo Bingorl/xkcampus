@@ -2,6 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          id="WebApp_ID" version="2.5">
+    <!--将部署在分布式web上-->
     <distributable/>
     <display-name>biu Web Application</display-name>
     <context-param>
@@ -32,6 +33,7 @@
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/mobile</url-pattern>
     </filter-mapping>
+    <!--配置中央控制器dispatcherServlet-->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
