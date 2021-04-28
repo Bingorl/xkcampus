@@ -273,7 +273,7 @@ public class AppStampToApplyController extends AuthenticatorController {
      * @param remark
      * @param response
      */
-    @RequestMapping("app_auditTeacherLeaveInfo")
+    @RequestMapping("app_auditStampAuditInfo")
     public void audit(@ModelAttribute("user_id") Integer userId, Integer applyId, Short status, String remark, HttpServletResponse response) {
         Assert.notNull(applyId, "请选择要审核的用章申请");
         Assert.notNull(status, "请选择您的审核结果");

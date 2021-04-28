@@ -516,7 +516,7 @@
     b.`name`                currentAuditUserName,
     c.`name`                instituteName,
     e.`name`                applyTypeName,
-    f.`name`                stampTypeName,
+    f.`name`                stampTypeName
     from biu_stamp_to_apply_info a
     left join biu_user b on a.current_audit_user_id = b.id
     left join biu_institute c on b.institute_id = c.id

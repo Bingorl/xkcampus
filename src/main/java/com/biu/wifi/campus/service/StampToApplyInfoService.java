@@ -3,18 +3,14 @@ package com.biu.wifi.campus.service;
 import com.biu.wifi.campus.constant.AuditBusinessType;
 import com.biu.wifi.campus.dao.StampToApplyInfoMapper;
 import com.biu.wifi.campus.dao.StampToApplyMapper;
-import com.biu.wifi.campus.dao.StampToApplyNoticeMapper;
 import com.biu.wifi.campus.dao.UserMapper;
 import com.biu.wifi.campus.dao.model.*;
 import com.biu.wifi.campus.exception.BizException;
 import com.biu.wifi.campus.result.Result;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
