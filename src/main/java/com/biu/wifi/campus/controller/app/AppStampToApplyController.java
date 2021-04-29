@@ -131,7 +131,8 @@ public class AppStampToApplyController extends AuthenticatorController {
             ServletUtilsEx.renderText(response, json);
             return;
         }
-
+        StampToApplyUser stampToApplyUser=stampToApplyUserService.find(user.getSchoolId(),user.getInstituteId(),req.getApplyType());
+        req.setAuditUser(stampToApplyUser.getAuditUser());
         req.setApplyUserId(userId);
         req.setApplyUserName(user.getName());
         req.setApplyUserNo(user.getStuNumber());

@@ -49,4 +49,14 @@ public class StampToApplyUserService {
         }
         return auditUserIds;
     }
+
+    public StampToApplyUser find(Integer schoolId, Integer instituteId, Integer applyType) {
+        StampToApplyUserExample example=new StampToApplyUserExample();
+        example.createCriteria().andSchoolIdEqualTo(schoolId)
+                                .andInstituteIdEqualTo(instituteId)
+                                .andTypeEqualTo(applyType.shortValue());
+        List<StampToApplyUser> stampToApplyUsers = stampToApplyUserMapper.selectByExample(example);
+        return stampToApplyUsers.get(0);
+
+    }
 }

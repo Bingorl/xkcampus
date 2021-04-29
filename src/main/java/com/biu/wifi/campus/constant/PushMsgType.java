@@ -21,6 +21,7 @@ public enum PushMsgType {
     EXAM_PLAN_NOTICE(14,"智能排考"),
     TEACHER_LEAVE_NOTICE(15,"教师请假通知"),
     DISCUSSION_TOPIC_APPLY_NOTICE(16,"会议议题申请通知"),
+    STAMP_TO_APPLY_NOTICE(17,"用章申请通知"),
     ;
 
     private Integer code;

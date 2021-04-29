@@ -1,6 +1,9 @@
 package com.biu.wifi.campus.service;
 
+import com.biu.wifi.campus.Tool.PushTool;
 import com.biu.wifi.campus.constant.AuditBusinessType;
+import com.biu.wifi.campus.constant.PushMsgType;
+import com.biu.wifi.campus.dao.PushMapper;
 import com.biu.wifi.campus.dao.StampToApplyInfoMapper;
 import com.biu.wifi.campus.dao.StampToApplyMapper;
 import com.biu.wifi.campus.dao.UserMapper;
@@ -30,6 +33,8 @@ public class StampToApplyInfoService extends AbstractAuditUserService {
     @Autowired
     private StampToApplyUserService stampToApplyUserService;
     @Autowired
+    private PushMapper pushMapper;
+    @Autowired
     private StampToApplyInfoMapper stampToApplyInfoMapper;
     @Autowired
     private StampToApplyService stampToApplyService;
@@ -39,7 +44,31 @@ public class StampToApplyInfoService extends AbstractAuditUserService {
     private UserMapper userMapper;
 
     public void add(StampToApplyInfo stampToApplyInfo){
-        stampToApplyInfoMapper.insertSelective(stampToApplyInfo);
+        setCurrentAuditUserId(stampToApplyInfo);
+        stampToApplyInfo.setCreateTime(new Date());
+        boolean result = stampToApplyInfoMapper.insertSelective(stampToApplyInfo) > 0;
+
+        StampToApply teacherLeaveAudit = new StampToApply();
+        teacherLeaveAudit.setApplyId(stampToApplyInfo.getId());
+        teacherLeaveAudit.setUserId(stampToApplyInfo.getCurrentAuditUserId());
+        boolean addLeaveAudit = stampToApplyService.add(teacherLeaveAudit) > 0;
+
+        //插入汇总记录
+        AuditInfo auditInfo = new AuditInfo();
+        auditInfo.setType(AuditBusinessType.TEACHER_LEAVE.getCode().shortValue());
+        auditInfo.setBizId(teacherLeaveAudit.getId());
+        auditInfo.setUserId(stampToApplyInfo.getCurrentAuditUserId());
+        boolean addAuditInfo = auditInfoService.add(auditInfo) > 0;
+
+        // 推送请假审批通知给第一个审批人
+        User user = userMapper.selectByPrimaryKey(stampToApplyInfo.getCurrentAuditUserId());
+        String deviceToken = user.getDevToken();
+        Short deviceType = user.getDevType();
+        addPush(stampToApplyInfo.getId(), teacherLeaveAudit.getId(), 1, "您有新的用章申请审批待处理", stampToApplyInfo.getCurrentAuditUserId(), deviceType, deviceToken);
+
+        if (!(result && addLeaveAudit && addAuditInfo)) {
+            throw new BizException(Result.CUSTOM_MESSAGE, "申请失败");
+        }
     }
     public StampToApplyInfo selectByPrimaryKey(Integer applyId){
         StampToApplyInfo stampToApplyInfo = stampToApplyInfoMapper.selectByPrimaryKey(applyId);
@@ -168,5 +197,37 @@ public class StampToApplyInfoService extends AbstractAuditUserService {
         req.setAuditUser(MapUtils.getString(hashMap, "auditUser"));
         req.setCurrentAuditUserId(MapUtils.getInteger(hashMap, "currentAuditUserId"));
     }
+    public void addPush(Integer applyId, Integer stampNoticeId, Integer needToAudit,
+                        String title, Integer receiverId, Short deviceType, String deviceToken) {
+        // 推送
+        Boolean flag = false;
+        HashMap<String, Object> hm = new HashMap<>();
+        hm.put("id", "");
+        hm.put("title", title);
+        hm.put("type", PushMsgType.STAMP_TO_APPLY_NOTICE.getCode());//请假审批类型
+        hm.put("applyId", applyId == null ? "" : applyId);
+        hm.put("stampNoticeId", stampNoticeId == null ? "" : stampNoticeId);
+        hm.put("needToAudit", needToAudit);
 
+        try {
+            flag = PushTool.pushToUser(receiverId, "", title, hm);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // 入推送表
+        Push puEntity = new Push();
+        puEntity.setToken(deviceToken);
+        puEntity.setContent("");
+        puEntity.setUserId(receiverId);
+        puEntity.setMessageType(PushMsgType.STAMP_TO_APPLY_NOTICE.getCode().shortValue());
+        puEntity.setDeviceType(deviceType);
+        puEntity.setTitle(title);
+        if (flag) {
+            puEntity.setType((short) 10);
+        } else {
+            puEntity.setType((short) 50);
+        }
+
+        pushMapper.insertSelective(puEntity);
+    }
 }
