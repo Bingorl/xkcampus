@@ -11,6 +11,7 @@ public enum AuditBusinessType {
     TEACHER_LEAVE(4, "教师请假"),
     DISCUSSION_TOPIC_APPLY(5, "会议议题申请"),
     STAMP_TO_APPLY(6, "用章申请"),
+    FILE_RECEIVE(7, "文件签收"),
     ;
 
     private Integer code;
