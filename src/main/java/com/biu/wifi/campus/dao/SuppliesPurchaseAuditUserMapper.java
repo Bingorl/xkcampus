@@ -2,9 +2,13 @@ package com.biu.wifi.campus.dao;
 
 import com.biu.wifi.campus.dao.model.SuppliesPurchaseAuditUser;
 import com.biu.wifi.campus.dao.model.SuppliesPurchaseAuditUserExample;
+
+import java.util.HashMap;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface SuppliesPurchaseAuditUserMapper {
     long countByExample(SuppliesPurchaseAuditUserExample example);
 
@@ -27,4 +31,8 @@ public interface SuppliesPurchaseAuditUserMapper {
     int updateByPrimaryKeySelective(SuppliesPurchaseAuditUser record);
 
     int updateByPrimaryKey(SuppliesPurchaseAuditUser record);
+
+    List<SuppliesPurchaseAuditUser> selectOneByTypeAndInstituteId(@Param("type") Integer type,@Param("instituteId")Integer instituteId);
+
+    HashMap selectMap(@Param("purchaseId") Integer id,@Param("userId") String userId);
 }

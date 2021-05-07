@@ -1,5 +1,6 @@
 package com.biu.wifi.campus.dao.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -445,62 +446,52 @@ public class SuppliesPurchaseInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andMoneyEqualTo(String value) {
+        public Criteria andMoneyEqualTo(BigDecimal value) {
             addCriterion("money =", value, "money");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyNotEqualTo(String value) {
+        public Criteria andMoneyNotEqualTo(BigDecimal value) {
             addCriterion("money <>", value, "money");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyGreaterThan(String value) {
+        public Criteria andMoneyGreaterThan(BigDecimal value) {
             addCriterion("money >", value, "money");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyGreaterThanOrEqualTo(String value) {
+        public Criteria andMoneyGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("money >=", value, "money");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyLessThan(String value) {
+        public Criteria andMoneyLessThan(BigDecimal value) {
             addCriterion("money <", value, "money");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyLessThanOrEqualTo(String value) {
+        public Criteria andMoneyLessThanOrEqualTo(BigDecimal value) {
             addCriterion("money <=", value, "money");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyLike(String value) {
-            addCriterion("money like", value, "money");
-            return (Criteria) this;
-        }
-
-        public Criteria andMoneyNotLike(String value) {
-            addCriterion("money not like", value, "money");
-            return (Criteria) this;
-        }
-
-        public Criteria andMoneyIn(List<String> values) {
+        public Criteria andMoneyIn(List<BigDecimal> values) {
             addCriterion("money in", values, "money");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyNotIn(List<String> values) {
+        public Criteria andMoneyNotIn(List<BigDecimal> values) {
             addCriterion("money not in", values, "money");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyBetween(String value1, String value2) {
+        public Criteria andMoneyBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("money between", value1, value2, "money");
             return (Criteria) this;
         }
 
-        public Criteria andMoneyNotBetween(String value1, String value2) {
+        public Criteria andMoneyNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("money not between", value1, value2, "money");
             return (Criteria) this;
         }

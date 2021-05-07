@@ -111,7 +111,8 @@ public class FileReceiveAuditInfoService extends AbstractAuditUserService{
     }
 
     public void cancel(FileReceiveAuditInfo fileReceiveAuditInfo) {
-        fileReceiveAuditInfo.setIsDelete((short) 1);
+        fileReceiveAuditInfo.setStatus((short) 4);
+        fileReceiveAuditInfo.setUpdateTime(new Date());
         int i = fileReceiveAuditInfoMapper.updateByPrimaryKeySelective(fileReceiveAuditInfo);
         if (i!=1) {
             throw new BizException(Result.CUSTOM_MESSAGE, "取消失败");

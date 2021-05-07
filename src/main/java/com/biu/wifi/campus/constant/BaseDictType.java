@@ -13,6 +13,7 @@ public enum BaseDictType {
     STAMP_TO_APPLY_TYPE("用章申请类型"),
     STAMP_TYPE("印章类型"),
     FILE_TYPE("文件类型"),
+    PURCHASE_TYPE("采购类型"),
     ;
     private String description;
 

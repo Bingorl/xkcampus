@@ -34,4 +34,9 @@ public class InstituteService {
         }
         return CollectionUtil.join(list, ",");
     }
+
+    public List<Institute> findAll() {
+
+        return instituteMapper.selectByExample(null);
+    }
 }
