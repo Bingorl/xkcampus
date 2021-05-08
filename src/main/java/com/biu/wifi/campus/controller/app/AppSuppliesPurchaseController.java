@@ -98,7 +98,7 @@ public class AppSuppliesPurchaseController extends AuthenticatorController{
         appTeacherLeaveInfoController.teacherPersonalInfo(userId, response);
     }
     /**
-     * 新增请假申请
+     * 新增采购申请
      *
      * @param userId
      * @param req
@@ -256,7 +256,7 @@ public class AppSuppliesPurchaseController extends AuthenticatorController{
     }
 
     /**
-     * 请假审批
+     * 采购审批
      *
      * @param userId
      * @param purchaseId
