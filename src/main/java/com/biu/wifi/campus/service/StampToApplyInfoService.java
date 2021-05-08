@@ -77,10 +77,14 @@ public class StampToApplyInfoService extends AbstractAuditUserService {
     }
 
     public void cancel(StampToApplyInfo applyInfo) {
-        applyInfo.setStatus((short) 4);
-        applyInfo.setUpdateTime(new Date());
-        int i = stampToApplyInfoMapper.updateByPrimaryKeySelective(applyInfo);
-        if (i!=1) {
+        StampToApplyInfo update=new StampToApplyInfo();
+        update.setStatus((short) 4);
+        update.setUpdateTime(new Date());
+        StampToApplyInfoExample example = new StampToApplyInfoExample();
+        example.createCriteria()
+                .andIdEqualTo(applyInfo.getId());
+        boolean result = stampToApplyInfoMapper.updateByExampleSelective(update, example) > 0;
+        if (!result) {
             throw new BizException(Result.CUSTOM_MESSAGE, "取消失败");
         }
     }

@@ -24,6 +24,7 @@ public enum PushMsgType {
     STAMP_TO_APPLY_NOTICE(17,"用章申请通知"),
     FILE_RECEIVE_NOTICE(18,"文件签发通知"),
     SUPPLIES_PURCHASE_NOTICE(19,"采购申请通知"),
+    CONTRACT_APPROVE_NOTICE(20,"合同申请通知"),
     ;
 
     private Integer code;

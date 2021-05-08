@@ -73,7 +73,7 @@ public class FileReceiveAuditUserSerive {
             if (hashMap == null) {
                 hashMap = new HashMap<>();
                 hashMap.put("id", null);
-                hashMap.put("type", AuditBusinessType.TEACHER_LEAVE.getCode());
+                hashMap.put("type", AuditBusinessType.FILE_RECEIVE.getCode());
                 hashMap.put("bizId", fileReceiveAuditInfo.getId());
                 hashMap.put("userId", Integer.valueOf(userId));
                 hashMap.put("isPass", null);

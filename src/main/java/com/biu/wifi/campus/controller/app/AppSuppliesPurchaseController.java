@@ -28,7 +28,7 @@ import java.util.Map;
  **/
 @Controller
 @RequestMapping
-public class AppSuppliesPurchaseController {
+public class AppSuppliesPurchaseController extends AuthenticatorController{
     @Autowired
     private SuppliesPurchaseInfoService suppliesPurchaseInfoService;
     @Autowired
@@ -138,7 +138,7 @@ public class AppSuppliesPurchaseController {
         ServletUtilsEx.renderText(response, json);
     }
     /**
-     * 取消请假申请
+     * 取消采购申请
      *
      * @param userId
      * @param purchaseId

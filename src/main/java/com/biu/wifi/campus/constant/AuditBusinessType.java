@@ -13,6 +13,7 @@ public enum AuditBusinessType {
     STAMP_TO_APPLY(6, "用章申请"),
     FILE_RECEIVE(7, "文件签收"),
     SUPPLIES_PURCHASE(8, "采购申请"),
+    CONTRACT_APPROVE(9, "合同申请"),
     ;
 
     private Integer code;

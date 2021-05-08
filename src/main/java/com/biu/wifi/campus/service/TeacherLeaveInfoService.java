@@ -95,6 +95,7 @@ public class TeacherLeaveInfoService extends AbstractAuditUserService {
      *
      * @param leaveInfo
      */
+    @Transactional(rollbackFor = {BizException.class, IllegalArgumentException.class})
     public void cancel(TeacherLeaveInfo leaveInfo) {
         TeacherLeaveInfo update = new TeacherLeaveInfo();
         update.setStatus((short) 4);

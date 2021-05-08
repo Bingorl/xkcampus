@@ -1,10 +1,9 @@
 package com.biu.wifi.campus.service;
 
+import com.biu.wifi.campus.constant.NoticeType;
+import com.biu.wifi.campus.dao.NoticeInfoMapper;
 import com.biu.wifi.campus.dao.SuppliesPurchaseNoticeMapper;
-import com.biu.wifi.campus.dao.model.SuppliesPurchaseNotice;
-import com.biu.wifi.campus.dao.model.SuppliesPurchaseNoticeExample;
-import com.biu.wifi.campus.dao.model.TeacherLeaveNotice;
-import com.biu.wifi.campus.dao.model.TeacherLeaveNoticeExample;
+import com.biu.wifi.campus.dao.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +18,8 @@ import java.util.List;
 public class SuppliesPurchaseNoticeService {
     @Autowired
     private SuppliesPurchaseNoticeMapper suppliesPurchaseNoticeMapper;
+    @Autowired
+    private NoticeInfoMapper noticeInfoMapper;
 
 
     public void confirmNotice(Integer id, Integer userId) {
@@ -34,6 +35,25 @@ public class SuppliesPurchaseNoticeService {
             notice.setConfirmTime(new Date());
             suppliesPurchaseNoticeMapper.updateByPrimaryKeySelective(notice);
         }
+    }
+
+    public SuppliesPurchaseNotice addfileNotice(Integer receiveId, String title, String content, String remark, Integer toUserId) {
+        SuppliesPurchaseNotice leaveNotice = new SuppliesPurchaseNotice();
+        leaveNotice.setPurchaseId(receiveId);
+        leaveNotice.setTitle(title);
+        leaveNotice.setContent(content);
+        leaveNotice.setRemark(remark);
+        leaveNotice.setToUserId(toUserId);
+        leaveNotice.setCreateTime(new Date());
+        suppliesPurchaseNoticeMapper.insertSelective(leaveNotice);
+        //插入通知汇总表
+        NoticeInfo noticeInfo = new NoticeInfo();
+        noticeInfo.setBizId(leaveNotice.getId());
+        noticeInfo.setUserId(toUserId);
+        noticeInfo.setType(NoticeType.SUPPLIES_PURCHASE_NOTICE.getCode().shortValue());
+        noticeInfo.setIsDelete((short) 2);
+        noticeInfoMapper.insertSelective(noticeInfo);
+        return leaveNotice;
     }
 }
 

@@ -2,11 +2,10 @@ package com.biu.wifi.campus.service;
 
 import com.biu.wifi.campus.constant.AuditBusinessType;
 import com.biu.wifi.campus.dao.InstituteMapper;
+import com.biu.wifi.campus.dao.SuppliesPurchaseAuditMapper;
 import com.biu.wifi.campus.dao.SuppliesPurchaseAuditUserMapper;
 import com.biu.wifi.campus.dao.UserMapper;
-import com.biu.wifi.campus.dao.model.Institute;
-import com.biu.wifi.campus.dao.model.SuppliesPurchaseInfo;
-import com.biu.wifi.campus.dao.model.User;
+import com.biu.wifi.campus.dao.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +26,8 @@ public class SuppliesPurchaseAuditUserService  {
     private UserMapper userMapper;
     @Autowired
     private InstituteMapper instituteMapper;
+    @Autowired
+    private SuppliesPurchaseAuditMapper suppliesPurchaseAuditMapper;
 
     public List<HashMap> findMapList(SuppliesPurchaseInfo purchaseInfo) {
         List<String> auditUserIds = Arrays.asList(purchaseInfo.getAuditUser().split(","));
@@ -51,4 +52,6 @@ public class SuppliesPurchaseAuditUserService  {
 
         return list;
     }
+
+
 }
