@@ -176,12 +176,14 @@ public class StampToApplyInfoService extends AbstractAuditUserService {
 
                 // 推送请假审批通知给下一个审批人
                 receiverId = nextAuditUserId;
-                title = "您有新的请假审批待处理";
+                title = "您有新的用章审批待处理";
                 user = userMapper.selectByPrimaryKey(receiverId);
                 leaveNoticeId = null;
                 needToAudit = 1;
             }
+
         }
+        addPush(stampToApplyInfo.getId(), leaveNoticeId, needToAudit, title, receiverId, user.getDevType(), user.getDevToken());
 
 
     }

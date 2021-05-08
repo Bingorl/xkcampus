@@ -14,6 +14,7 @@ public enum NoticeType {
     TEACHER_LEAVE_NOTICE(6, "教师请假通知"),
     DISCUSSION_TOPIC_APPLY_NOTICE(7, "会议议题申请通知"),
     STAMP_TO_APPLY_NOTICE(8, "用章申请通知"),
+    FILE_RECEIVE_NOTICE(9, "用章申请通知"),
     ;
 
     private Integer code;

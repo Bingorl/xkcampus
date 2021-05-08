@@ -254,7 +254,8 @@ public class RedisUtils {
 
     public static void main(String[] args) {
         //delKey("post_1");
-        //System.out.println(addNumIncrement("post_1"));
-        System.out.println(addNumIncrement("post_2"));
+        addValue("js","mcx",null);
+//        System.out.println(addNumIncrement("post_1"));
+//        System.out.println(addNumIncrement("post_7"));
     }
 }
