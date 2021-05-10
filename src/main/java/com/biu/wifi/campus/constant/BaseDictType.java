@@ -14,6 +14,7 @@ public enum BaseDictType {
     STAMP_TYPE("印章类型"),
     FILE_TYPE("文件类型"),
     PURCHASE_TYPE("采购类型"),
+    SCAN_TYPE("资产使用规模"),
     ;
     private String description;
 

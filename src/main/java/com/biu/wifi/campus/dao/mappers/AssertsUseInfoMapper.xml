@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.biu.wifi.campus.dao.ContractApproveInfoMapper">
-  <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.ContractApproveInfo">
+<mapper namespace="com.biu.wifi.campus.dao.AssertsUseInfoMapper">
+  <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.AssertsUseInfo">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="contract_type" jdbcType="INTEGER" property="contractType" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="project" jdbcType="VARCHAR" property="project" />
-    <result column="contract_number" jdbcType="VARCHAR" property="contractNumber" />
-    <result column="principal" jdbcType="VARCHAR" property="principal" />
+    <result column="use_type" jdbcType="INTEGER" property="useType" />
+    <result column="scan_id" jdbcType="INTEGER" property="scanId" />
+    <result column="leader" jdbcType="VARCHAR" property="leader" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="ast" jdbcType="VARCHAR" property="ast" />
     <result column="attachment" jdbcType="VARCHAR" property="attachment" />
     <result column="organization" jdbcType="VARCHAR" property="organization" />
     <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
@@ -84,19 +86,19 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, contract_type, title, project, contract_number, principal, attachment, organization, 
+    id, use_type, scan_id, leader, unit, reason, phone, ast, attachment, organization, 
     start_date, end_date, apply_user_id, apply_user_name, apply_user_no, apply_user_tel, 
     apply_user_dept_id, status, audit_user, current_audit_user_id, create_time, update_time, 
     is_delete, delete_time
   </sql>
-  <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.ContractApproveInfoExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.AssertsUseInfoExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from biu_contract_approve_info
+    from biu_asserts_use_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -107,57 +109,65 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from biu_contract_approve_info
+    from biu_asserts_use_info
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from biu_contract_approve_info
+    delete from biu_asserts_use_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.ContractApproveInfoExample">
-    delete from biu_contract_approve_info
+  <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.AssertsUseInfoExample">
+    delete from biu_asserts_use_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.biu.wifi.campus.dao.model.ContractApproveInfo">
-    insert into biu_contract_approve_info (id, contract_type, title, 
-      project, contract_number, principal, 
-      attachment, organization, start_date, 
-      end_date, apply_user_id, apply_user_name, 
-      apply_user_no, apply_user_tel, apply_user_dept_id, 
-      status, audit_user, current_audit_user_id, 
-      create_time, update_time, is_delete, 
-      delete_time)
-    values (#{id,jdbcType=INTEGER}, #{contractType,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{project,jdbcType=VARCHAR}, #{contractNumber,jdbcType=VARCHAR}, #{principal,jdbcType=VARCHAR}, 
-      #{attachment,jdbcType=VARCHAR}, #{organization,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, 
-      #{endDate,jdbcType=TIMESTAMP}, #{applyUserId,jdbcType=INTEGER}, #{applyUserName,jdbcType=VARCHAR}, 
-      #{applyUserNo,jdbcType=VARCHAR}, #{applyUserTel,jdbcType=VARCHAR}, #{applyUserDeptId,jdbcType=VARCHAR}, 
-      #{status,jdbcType=SMALLINT}, #{auditUser,jdbcType=VARCHAR}, #{currentAuditUserId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=SMALLINT}, 
-      #{deleteTime,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.biu.wifi.campus.dao.model.AssertsUseInfo">
+    insert into biu_asserts_use_info (id, use_type, scan_id, 
+      leader, unit, reason, 
+      phone, ast, attachment, 
+      organization, start_date, end_date, 
+      apply_user_id, apply_user_name, apply_user_no, 
+      apply_user_tel, apply_user_dept_id, status, 
+      audit_user, current_audit_user_id, create_time, 
+      update_time, is_delete, delete_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{useType,jdbcType=INTEGER}, #{scanId,jdbcType=INTEGER}, 
+      #{leader,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{ast,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, 
+      #{organization,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, 
+      #{applyUserId,jdbcType=INTEGER}, #{applyUserName,jdbcType=VARCHAR}, #{applyUserNo,jdbcType=VARCHAR}, 
+      #{applyUserTel,jdbcType=VARCHAR}, #{applyUserDeptId,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, 
+      #{auditUser,jdbcType=VARCHAR}, #{currentAuditUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=SMALLINT}, #{deleteTime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.biu.wifi.campus.dao.model.ContractApproveInfo">
-    insert into biu_contract_approve_info
+  <insert id="insertSelective" parameterType="com.biu.wifi.campus.dao.model.AssertsUseInfo">
+    insert into biu_asserts_use_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="contractType != null">
-        contract_type,
+      <if test="useType != null">
+        use_type,
       </if>
-      <if test="title != null">
-        title,
+      <if test="scanId != null">
+        scan_id,
       </if>
-      <if test="project != null">
-        project,
+      <if test="leader != null">
+        leader,
       </if>
-      <if test="contractNumber != null">
-        contract_number,
+      <if test="unit != null">
+        unit,
       </if>
-      <if test="principal != null">
-        principal,
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="ast != null">
+        ast,
       </if>
       <if test="attachment != null">
         attachment,
@@ -212,20 +222,26 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="contractType != null">
-        #{contractType,jdbcType=INTEGER},
+      <if test="useType != null">
+        #{useType,jdbcType=INTEGER},
       </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
+      <if test="scanId != null">
+        #{scanId,jdbcType=INTEGER},
       </if>
-      <if test="project != null">
-        #{project,jdbcType=VARCHAR},
+      <if test="leader != null">
+        #{leader,jdbcType=VARCHAR},
       </if>
-      <if test="contractNumber != null">
-        #{contractNumber,jdbcType=VARCHAR},
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
       </if>
-      <if test="principal != null">
-        #{principal,jdbcType=VARCHAR},
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="ast != null">
+        #{ast,jdbcType=VARCHAR},
       </if>
       <if test="attachment != null">
         #{attachment,jdbcType=VARCHAR},
@@ -277,33 +293,39 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.ContractApproveInfoExample" resultType="java.lang.Long">
-    select count(*) from biu_contract_approve_info
+  <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.AssertsUseInfoExample" resultType="java.lang.Long">
+    select count(*) from biu_asserts_use_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
 
     <update id="updateByExampleSelective" parameterType="map">
-    update biu_contract_approve_info
+    update biu_asserts_use_info
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.contractType != null">
-        contract_type = #{record.contractType,jdbcType=INTEGER},
+      <if test="record.useType != null">
+        use_type = #{record.useType,jdbcType=INTEGER},
       </if>
-      <if test="record.title != null">
-        title = #{record.title,jdbcType=VARCHAR},
+      <if test="record.scanId != null">
+        scan_id = #{record.scanId,jdbcType=INTEGER},
       </if>
-      <if test="record.project != null">
-        project = #{record.project,jdbcType=VARCHAR},
+      <if test="record.leader != null">
+        leader = #{record.leader,jdbcType=VARCHAR},
       </if>
-      <if test="record.contractNumber != null">
-        contract_number = #{record.contractNumber,jdbcType=VARCHAR},
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
       </if>
-      <if test="record.principal != null">
-        principal = #{record.principal,jdbcType=VARCHAR},
+      <if test="record.reason != null">
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ast != null">
+        ast = #{record.ast,jdbcType=VARCHAR},
       </if>
       <if test="record.attachment != null">
         attachment = #{record.attachment,jdbcType=VARCHAR},
@@ -359,13 +381,15 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update biu_contract_approve_info
+    update biu_asserts_use_info
     set id = #{record.id,jdbcType=INTEGER},
-      contract_type = #{record.contractType,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=VARCHAR},
-      project = #{record.project,jdbcType=VARCHAR},
-      contract_number = #{record.contractNumber,jdbcType=VARCHAR},
-      principal = #{record.principal,jdbcType=VARCHAR},
+      use_type = #{record.useType,jdbcType=INTEGER},
+      scan_id = #{record.scanId,jdbcType=INTEGER},
+      leader = #{record.leader,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      ast = #{record.ast,jdbcType=VARCHAR},
       attachment = #{record.attachment,jdbcType=VARCHAR},
       organization = #{record.organization,jdbcType=VARCHAR},
       start_date = #{record.startDate,jdbcType=TIMESTAMP},
@@ -386,23 +410,29 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.ContractApproveInfo">
-    update biu_contract_approve_info
+  <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.AssertsUseInfo">
+    update biu_asserts_use_info
     <set>
-      <if test="contractType != null">
-        contract_type = #{contractType,jdbcType=INTEGER},
+      <if test="useType != null">
+        use_type = #{useType,jdbcType=INTEGER},
       </if>
-      <if test="title != null">
-        title = #{title,jdbcType=VARCHAR},
+      <if test="scanId != null">
+        scan_id = #{scanId,jdbcType=INTEGER},
       </if>
-      <if test="project != null">
-        project = #{project,jdbcType=VARCHAR},
+      <if test="leader != null">
+        leader = #{leader,jdbcType=VARCHAR},
       </if>
-      <if test="contractNumber != null">
-        contract_number = #{contractNumber,jdbcType=VARCHAR},
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
       </if>
-      <if test="principal != null">
-        principal = #{principal,jdbcType=VARCHAR},
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="ast != null">
+        ast = #{ast,jdbcType=VARCHAR},
       </if>
       <if test="attachment != null">
         attachment = #{attachment,jdbcType=VARCHAR},
@@ -455,13 +485,15 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.ContractApproveInfo">
-    update biu_contract_approve_info
-    set contract_type = #{contractType,jdbcType=INTEGER},
-      title = #{title,jdbcType=VARCHAR},
-      project = #{project,jdbcType=VARCHAR},
-      contract_number = #{contractNumber,jdbcType=VARCHAR},
-      principal = #{principal,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.AssertsUseInfo">
+    update biu_asserts_use_info
+    set use_type = #{useType,jdbcType=INTEGER},
+      scan_id = #{scanId,jdbcType=INTEGER},
+      leader = #{leader,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      ast = #{ast,jdbcType=VARCHAR},
       attachment = #{attachment,jdbcType=VARCHAR},
       organization = #{organization,jdbcType=VARCHAR},
       start_date = #{startDate,jdbcType=TIMESTAMP},
@@ -481,14 +513,14 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-
-  <select id="myApproveInfoList" resultType="java.util.HashMap">
+  <select id="myUseInfoList" resultType="java.util.HashMap">
     select a.id,
-    a.contract_type            contractType,
-    a.title,
-    a.contract_number        contractNumber,
-    a.project,
-    a.principal,
+    a.scan_id            scanId,
+    a.leader,
+    a.unit,
+    a.reason,
+    a.phone,
+    a.ast,
     a.attachment,
     a.organization,
     a.start_date            startDate,
@@ -506,10 +538,12 @@
     a.is_delete             isDelete,
     a.delete_time           deleteTime,
     b.`name`                currentAuditUserName,
-    c.`name`                instituteName
-    from biu_contract_approve_info a
+    c.`name`                instituteName,
+    e.`name`                ScanIdName
+    from biu_asserts_use_info a
     left join biu_user b on a.current_audit_user_id = b.id
     left join biu_institute c on b.institute_id = c.id
+    left join biu_dict_info e on a.scan_id = e.id
     <where>
       a.is_delete = 2
       <if test="userId != null">
@@ -521,19 +555,24 @@
           #{status}
         </foreach>
       </if>
-      <if test="title != null and title != ''">
-        and a.title like CONCAT('%',#{title},'%')
+      <if test="startDate != null and startDate != ''">
+        and a.create_time &gt;= #{startDate}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        and a.create_time &lt;= #{endDate}
       </if>
       order by a.create_time desc
     </where>
   </select>
-  <select id="myAuditapproveInfoList" resultType="java.util.HashMap">
-    select  a.id,
-    a.contract_type            contractType,
-    a.title,
-    a.contract_number        contractNumber,
-    a.project,
-    a.principal,
+  <select id="myAuditUseInfoList" resultType="java.util.HashMap">
+    select
+    a.id,
+    a.scan_id            scanId,
+    a.leader,
+    a.unit,
+    a.reason,
+    a.phone,
+    a.ast,
     a.attachment,
     a.organization,
     a.start_date            startDate,
@@ -556,11 +595,12 @@
     a.delete_time           deleteTime,
     b.`name`                currentAuditUserName,
     c.`name`                instituteName,
-    e.`name`                leaveTypeName
-    from biu_contract_approve_info a
+    e.`name`                ScanIdName
+    from biu_asserts_use_info a
     left join biu_user b on a.current_audit_user_id = b.id
     left join biu_institute c on b.institute_id = c.id
-    left join biu_contract_approve_audit d on a.id = d.leave_id
+    left join biu_asserts_use_audit d on a.id = d.use_id
+    left join biu_dict_info e on a.scan_id = e.id
     <where>
       a.is_delete = 2
       <if test="userId != null">
@@ -577,8 +617,11 @@
           and d.is_pass is null
         </otherwise>
       </choose>
-      <if test="title != null and title != ''">
-        and a.title like CONCAT('%',#{title},'%')
+      <if test="startDate != null and startDate != ''">
+        and a.create_time &gt;= #{startDate}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        and a.create_time &lt;= #{endDate}
       </if>
       order by a.create_time desc
     </where>
