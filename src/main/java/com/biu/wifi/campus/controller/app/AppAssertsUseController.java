@@ -28,7 +28,6 @@ import java.util.Map;
  **/
 
 @Controller
-@RequestMapping
 public class AppAssertsUseController extends AuthenticatorController {
     @Autowired
     private AssertsUseAuditUserService assertsUseAuditUserService;

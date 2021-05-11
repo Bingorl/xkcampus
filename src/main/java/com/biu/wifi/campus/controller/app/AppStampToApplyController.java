@@ -98,7 +98,7 @@ public class AppStampToApplyController extends AuthenticatorController {
      * @param userId
      * @param response
      */
-    @RequestMapping("app_applyUserPersonalInfo")
+    @RequestMapping("app_applyUserPersonInfo")
     public void applyUserPersonalInfo(@ModelAttribute("user_id") Integer userId, HttpServletResponse response) {
         appTeacherLeaveInfoController.teacherPersonalInfo(userId,response);
     }

@@ -28,7 +28,6 @@ import java.util.Map;
  * @Version 1.0
  **/
 @Controller
-@RequestMapping
 public class AppFileReceiveController extends  AuthenticatorController {
     @Autowired
     private FileReceiveAuditUserSerive fileReceiveAuditUserSerive;

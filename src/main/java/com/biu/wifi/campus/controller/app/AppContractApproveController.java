@@ -26,7 +26,6 @@ import java.util.Map;
  * @Version 1.0
  **/
 @Controller
-@RequestMapping
 public class AppContractApproveController extends AuthenticatorController {
 
     @Autowired
