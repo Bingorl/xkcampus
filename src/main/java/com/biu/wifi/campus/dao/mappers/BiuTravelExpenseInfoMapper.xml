@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biu.wifi.campus.dao.BiuTravelExpenseInfoMapper">
+  <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.BiuTravelExpenseInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="payment_type" jdbcType="INTEGER" property="paymentType" />
+    <result column="persons" jdbcType="INTEGER" property="persons" />
+    <result column="vehicle" jdbcType="INTEGER" property="vehicle" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="cost_money" jdbcType="DECIMAL" property="costMoney" />
+    <result column="amount_in_words" jdbcType="VARCHAR" property="amountInWords" />
+    <result column="attachment" jdbcType="VARCHAR" property="attachment" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="plan_days" jdbcType="INTEGER" property="planDays" />
+    <result column="apply_user_id" jdbcType="INTEGER" property="applyUserId" />
+    <result column="apply_user_name" jdbcType="VARCHAR" property="applyUserName" />
+    <result column="apply_user_no" jdbcType="VARCHAR" property="applyUserNo" />
+    <result column="apply_user_tel" jdbcType="VARCHAR" property="applyUserTel" />
+    <result column="apply_user_dept_id" jdbcType="VARCHAR" property="applyUserDeptId" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="audit_user" jdbcType="VARCHAR" property="auditUser" />
+    <result column="current_audit_user_id" jdbcType="INTEGER" property="currentAuditUserId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_delete" jdbcType="SMALLINT" property="isDelete" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, payment_type, persons, vehicle, address, cost_money, amount_in_words, attachment, 
+    start_date, end_date, plan_days, apply_user_id, apply_user_name, apply_user_no, apply_user_tel, 
+    apply_user_dept_id, `status`, audit_user, current_audit_user_id, create_time, update_time, 
+    is_delete, delete_time
+  </sql>
+  <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.BiuTravelExpenseInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biu_travel_expense_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from biu_travel_expense_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from biu_travel_expense_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.BiuTravelExpenseInfoExample">
+    delete from biu_travel_expense_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.BiuTravelExpenseInfo" useGeneratedKeys="true">
+    insert into biu_travel_expense_info (payment_type, persons, vehicle, 
+      address, cost_money, amount_in_words, 
+      attachment, start_date, end_date, 
+      plan_days, apply_user_id, apply_user_name, 
+      apply_user_no, apply_user_tel, apply_user_dept_id, 
+      `status`, audit_user, current_audit_user_id, 
+      create_time, update_time, is_delete, 
+      delete_time)
+    values (#{paymentType,jdbcType=INTEGER}, #{persons,jdbcType=INTEGER}, #{vehicle,jdbcType=INTEGER}, 
+      #{address,jdbcType=VARCHAR}, #{costMoney,jdbcType=DECIMAL}, #{amountInWords,jdbcType=VARCHAR}, 
+      #{attachment,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, 
+      #{planDays,jdbcType=INTEGER}, #{applyUserId,jdbcType=INTEGER}, #{applyUserName,jdbcType=VARCHAR}, 
+      #{applyUserNo,jdbcType=VARCHAR}, #{applyUserTel,jdbcType=VARCHAR}, #{applyUserDeptId,jdbcType=VARCHAR}, 
+      #{status,jdbcType=SMALLINT}, #{auditUser,jdbcType=VARCHAR}, #{currentAuditUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=SMALLINT}, 
+      #{deleteTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.BiuTravelExpenseInfo" useGeneratedKeys="true">
+    insert into biu_travel_expense_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="paymentType != null">
+        payment_type,
+      </if>
+      <if test="persons != null">
+        persons,
+      </if>
+      <if test="vehicle != null">
+        vehicle,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="costMoney != null">
+        cost_money,
+      </if>
+      <if test="amountInWords != null">
+        amount_in_words,
+      </if>
+      <if test="attachment != null">
+        attachment,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="planDays != null">
+        plan_days,
+      </if>
+      <if test="applyUserId != null">
+        apply_user_id,
+      </if>
+      <if test="applyUserName != null">
+        apply_user_name,
+      </if>
+      <if test="applyUserNo != null">
+        apply_user_no,
+      </if>
+      <if test="applyUserTel != null">
+        apply_user_tel,
+      </if>
+      <if test="applyUserDeptId != null">
+        apply_user_dept_id,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="auditUser != null">
+        audit_user,
+      </if>
+      <if test="currentAuditUserId != null">
+        current_audit_user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="paymentType != null">
+        #{paymentType,jdbcType=INTEGER},
+      </if>
+      <if test="persons != null">
+        #{persons,jdbcType=INTEGER},
+      </if>
+      <if test="vehicle != null">
+        #{vehicle,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="costMoney != null">
+        #{costMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="amountInWords != null">
+        #{amountInWords,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null">
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planDays != null">
+        #{planDays,jdbcType=INTEGER},
+      </if>
+      <if test="applyUserId != null">
+        #{applyUserId,jdbcType=INTEGER},
+      </if>
+      <if test="applyUserName != null">
+        #{applyUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUserNo != null">
+        #{applyUserNo,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUserTel != null">
+        #{applyUserTel,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUserDeptId != null">
+        #{applyUserDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="auditUser != null">
+        #{auditUser,jdbcType=VARCHAR},
+      </if>
+      <if test="currentAuditUserId != null">
+        #{currentAuditUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.BiuTravelExpenseInfoExample" resultType="java.lang.Long">
+    select count(*) from biu_travel_expense_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update biu_travel_expense_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.paymentType != null">
+        payment_type = #{record.paymentType,jdbcType=INTEGER},
+      </if>
+      <if test="record.persons != null">
+        persons = #{record.persons,jdbcType=INTEGER},
+      </if>
+      <if test="record.vehicle != null">
+        vehicle = #{record.vehicle,jdbcType=INTEGER},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.costMoney != null">
+        cost_money = #{record.costMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.amountInWords != null">
+        amount_in_words = #{record.amountInWords,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attachment != null">
+        attachment = #{record.attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.planDays != null">
+        plan_days = #{record.planDays,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyUserId != null">
+        apply_user_id = #{record.applyUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyUserName != null">
+        apply_user_name = #{record.applyUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyUserNo != null">
+        apply_user_no = #{record.applyUserNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyUserTel != null">
+        apply_user_tel = #{record.applyUserTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyUserDeptId != null">
+        apply_user_dept_id = #{record.applyUserDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=SMALLINT},
+      </if>
+      <if test="record.auditUser != null">
+        audit_user = #{record.auditUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.currentAuditUserId != null">
+        current_audit_user_id = #{record.currentAuditUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=SMALLINT},
+      </if>
+      <if test="record.deleteTime != null">
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update biu_travel_expense_info
+    set id = #{record.id,jdbcType=INTEGER},
+      payment_type = #{record.paymentType,jdbcType=INTEGER},
+      persons = #{record.persons,jdbcType=INTEGER},
+      vehicle = #{record.vehicle,jdbcType=INTEGER},
+      address = #{record.address,jdbcType=VARCHAR},
+      cost_money = #{record.costMoney,jdbcType=DECIMAL},
+      amount_in_words = #{record.amountInWords,jdbcType=VARCHAR},
+      attachment = #{record.attachment,jdbcType=VARCHAR},
+      start_date = #{record.startDate,jdbcType=TIMESTAMP},
+      end_date = #{record.endDate,jdbcType=TIMESTAMP},
+      plan_days = #{record.planDays,jdbcType=INTEGER},
+      apply_user_id = #{record.applyUserId,jdbcType=INTEGER},
+      apply_user_name = #{record.applyUserName,jdbcType=VARCHAR},
+      apply_user_no = #{record.applyUserNo,jdbcType=VARCHAR},
+      apply_user_tel = #{record.applyUserTel,jdbcType=VARCHAR},
+      apply_user_dept_id = #{record.applyUserDeptId,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=SMALLINT},
+      audit_user = #{record.auditUser,jdbcType=VARCHAR},
+      current_audit_user_id = #{record.currentAuditUserId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{record.isDelete,jdbcType=SMALLINT},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.BiuTravelExpenseInfo">
+    update biu_travel_expense_info
+    <set>
+      <if test="paymentType != null">
+        payment_type = #{paymentType,jdbcType=INTEGER},
+      </if>
+      <if test="persons != null">
+        persons = #{persons,jdbcType=INTEGER},
+      </if>
+      <if test="vehicle != null">
+        vehicle = #{vehicle,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="costMoney != null">
+        cost_money = #{costMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="amountInWords != null">
+        amount_in_words = #{amountInWords,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null">
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planDays != null">
+        plan_days = #{planDays,jdbcType=INTEGER},
+      </if>
+      <if test="applyUserId != null">
+        apply_user_id = #{applyUserId,jdbcType=INTEGER},
+      </if>
+      <if test="applyUserName != null">
+        apply_user_name = #{applyUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUserNo != null">
+        apply_user_no = #{applyUserNo,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUserTel != null">
+        apply_user_tel = #{applyUserTel,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUserDeptId != null">
+        apply_user_dept_id = #{applyUserDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="auditUser != null">
+        audit_user = #{auditUser,jdbcType=VARCHAR},
+      </if>
+      <if test="currentAuditUserId != null">
+        current_audit_user_id = #{currentAuditUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.BiuTravelExpenseInfo">
+    update biu_travel_expense_info
+    set payment_type = #{paymentType,jdbcType=INTEGER},
+      persons = #{persons,jdbcType=INTEGER},
+      vehicle = #{vehicle,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      cost_money = #{costMoney,jdbcType=DECIMAL},
+      amount_in_words = #{amountInWords,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      plan_days = #{planDays,jdbcType=INTEGER},
+      apply_user_id = #{applyUserId,jdbcType=INTEGER},
+      apply_user_name = #{applyUserName,jdbcType=VARCHAR},
+      apply_user_no = #{applyUserNo,jdbcType=VARCHAR},
+      apply_user_tel = #{applyUserTel,jdbcType=VARCHAR},
+      apply_user_dept_id = #{applyUserDeptId,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=SMALLINT},
+      audit_user = #{auditUser,jdbcType=VARCHAR},
+      current_audit_user_id = #{currentAuditUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=SMALLINT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
