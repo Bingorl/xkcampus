@@ -58,6 +58,11 @@ public class BiuTravelExpenseAuditUser implements Serializable {
      */
     private Date deleteTime;
 
+    /**
+     * 类型（0无院长审批1有院长审批）
+     */
+    private Short type;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -138,5 +143,13 @@ public class BiuTravelExpenseAuditUser implements Serializable {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public Short getType() {
+        return type;
+    }
+
+    public void setType(Short type) {
+        this.type = type;
     }
 }

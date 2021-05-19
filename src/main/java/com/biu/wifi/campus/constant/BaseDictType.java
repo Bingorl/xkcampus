@@ -15,6 +15,8 @@ public enum BaseDictType {
     FILE_TYPE("文件类型"),
     PURCHASE_TYPE("采购类型"),
     SCAN_TYPE("资产使用规模"),
+    PAYMENT_TYPE("付款方式"),
+    VEHICLE_TYPE("出差方式"),
     ;
     private String description;
 

@@ -26,6 +26,7 @@ public enum PushMsgType {
     SUPPLIES_PURCHASE_NOTICE(19,"采购申请通知"),
     CONTRACT_APPROVE_NOTICE(20,"合同申请通知"),
     ASSERTS_USE_NOTICE(21,"资产使用申请通知"),
+    TRAVEL_EXPENSE_NOTICE(22,"差旅费用申请通知"),
     ;
 
     private Integer code;

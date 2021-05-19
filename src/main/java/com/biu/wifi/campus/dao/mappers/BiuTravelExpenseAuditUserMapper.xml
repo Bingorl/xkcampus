@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.biu.wifi.campus.dao.BiuTravelExpenseAuditUserMapper">
+<mapper namespace="com.biu.wifi.campus.dao.TravelExpenseAuditUserMapper">
   <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.BiuTravelExpenseAuditUser">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="school_id" jdbcType="INTEGER" property="schoolId" />
@@ -12,6 +12,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="is_delete" jdbcType="SMALLINT" property="isDelete" />
     <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="type" jdbcType="SMALLINT" property="type" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,9 +74,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, school_id, institute_id, audit_user, expense_type, day_type, create_time, update_time, 
-    is_delete, delete_time
+    is_delete, delete_time, `type`
   </sql>
-  <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.BiuTravelExpenseAuditUserExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.TravelExpenseAuditUserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -99,23 +100,23 @@
     delete from biu_travel_expense_audit_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.BiuTravelExpenseAuditUserExample">
+  <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.TravelExpenseAuditUserExample">
     delete from biu_travel_expense_audit_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.BiuTravelExpenseAuditUser" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.TravelExpenseAuditUser" useGeneratedKeys="true">
     insert into biu_travel_expense_audit_user (school_id, institute_id, audit_user, 
       expense_type, day_type, create_time, 
-      update_time, is_delete, delete_time
-      )
+      update_time, is_delete, delete_time, 
+      `type`)
     values (#{schoolId,jdbcType=INTEGER}, #{instituteId,jdbcType=INTEGER}, #{auditUser,jdbcType=VARCHAR}, 
       #{expenseType,jdbcType=SMALLINT}, #{dayType,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=SMALLINT}, #{deleteTime,jdbcType=TIMESTAMP}
-      )
+      #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=SMALLINT}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{type,jdbcType=SMALLINT})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.BiuTravelExpenseAuditUser" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.TravelExpenseAuditUser" useGeneratedKeys="true">
     insert into biu_travel_expense_audit_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="schoolId != null">
@@ -144,6 +145,9 @@
       </if>
       <if test="deleteTime != null">
         delete_time,
+      </if>
+      <if test="type != null">
+        `type`,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -174,9 +178,12 @@
       <if test="deleteTime != null">
         #{deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="type != null">
+        #{type,jdbcType=SMALLINT},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.BiuTravelExpenseAuditUserExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.TravelExpenseAuditUserExample" resultType="java.lang.Long">
     select count(*) from biu_travel_expense_audit_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -215,6 +222,9 @@
       <if test="record.deleteTime != null">
         delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.type != null">
+        `type` = #{record.type,jdbcType=SMALLINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -231,12 +241,13 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       is_delete = #{record.isDelete,jdbcType=SMALLINT},
-      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      `type` = #{record.type,jdbcType=SMALLINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.BiuTravelExpenseAuditUser">
+  <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.TravelExpenseAuditUser">
     update biu_travel_expense_audit_user
     <set>
       <if test="schoolId != null">
@@ -266,10 +277,13 @@
       <if test="deleteTime != null">
         delete_time = #{deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=SMALLINT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.BiuTravelExpenseAuditUser">
+  <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.TravelExpenseAuditUser">
     update biu_travel_expense_audit_user
     set school_id = #{schoolId,jdbcType=INTEGER},
       institute_id = #{instituteId,jdbcType=INTEGER},
@@ -279,7 +293,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       is_delete = #{isDelete,jdbcType=SMALLINT},
-      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      `type` = #{type,jdbcType=SMALLINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

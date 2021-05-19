@@ -4,24 +4,19 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * biu_travel_expense_notice
+ * biu_asset
  * @author 
  */
-public class BiuTravelExpenseNotice implements Serializable {
+public class Asset implements Serializable {
     /**
      * 主键
      */
     private Integer id;
 
     /**
-     * 申请ID
+     * 名称
      */
-    private Integer expenseId;
-
-    /**
-     * 标题
-     */
-    private String title;
+    private String name;
 
     /**
      * 内容
@@ -32,16 +27,6 @@ public class BiuTravelExpenseNotice implements Serializable {
      * 备注
      */
     private String remark;
-
-    /**
-     * 通知接收人ID
-     */
-    private Integer toUserId;
-
-    /**
-     * 是否已读(1是，2否)
-     */
-    private Short isRead;
 
     /**
      * 创建时间
@@ -63,15 +48,7 @@ public class BiuTravelExpenseNotice implements Serializable {
      */
     private Date deleteTime;
 
-    /**
-     * 是否收到(1是，2否)
-     */
-    private Short isConfirm;
-
-    /**
-     * 收到确认时间
-     */
-    private Date confirmTime;
+    private static final long serialVersionUID = 1L;
 
     public Integer getId() {
         return id;
@@ -81,20 +58,12 @@ public class BiuTravelExpenseNotice implements Serializable {
         this.id = id;
     }
 
-    public Integer getExpenseId() {
-        return expenseId;
+    public String getName() {
+        return name;
     }
 
-    public void setExpenseId(Integer expenseId) {
-        this.expenseId = expenseId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getContent() {
@@ -111,22 +80,6 @@ public class BiuTravelExpenseNotice implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public Integer getToUserId() {
-        return toUserId;
-    }
-
-    public void setToUserId(Integer toUserId) {
-        this.toUserId = toUserId;
-    }
-
-    public Short getIsRead() {
-        return isRead;
-    }
-
-    public void setIsRead(Short isRead) {
-        this.isRead = isRead;
     }
 
     public Date getCreateTime() {
@@ -159,21 +112,5 @@ public class BiuTravelExpenseNotice implements Serializable {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
-    }
-
-    public Short getIsConfirm() {
-        return isConfirm;
-    }
-
-    public void setIsConfirm(Short isConfirm) {
-        this.isConfirm = isConfirm;
-    }
-
-    public Date getConfirmTime() {
-        return confirmTime;
-    }
-
-    public void setConfirmTime(Date confirmTime) {
-        this.confirmTime = confirmTime;
     }
 }

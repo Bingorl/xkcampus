@@ -2,6 +2,8 @@ package com.biu.wifi.campus.dao;
 
 import com.biu.wifi.campus.dao.model.BiuTravelExpenseInfo;
 import com.biu.wifi.campus.dao.model.BiuTravelExpenseInfoExample;
+
+import java.util.HashMap;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -29,4 +31,14 @@ public interface BiuTravelExpenseInfoMapper {
     int updateByPrimaryKeySelective(BiuTravelExpenseInfo record);
 
     int updateByPrimaryKey(BiuTravelExpenseInfo record);
+
+    List<HashMap> myExpenseInfoList(@Param("userId") Integer userId,
+                                    @Param("startDate") String startDate,
+                                    @Param("endDate") String endDate,
+                                    @Param("statusList") List<Short> statusList);
+
+    List<HashMap> myAuditLeaveInfoList(@Param("userId") Integer userId,
+                                       @Param("startDate") String startDate,
+                                       @Param("endDate") String endDate,
+                                       @Param("statusList") List<Short> statusList);
 }

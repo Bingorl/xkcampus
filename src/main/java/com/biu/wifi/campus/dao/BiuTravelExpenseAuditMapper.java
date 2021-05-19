@@ -2,6 +2,8 @@ package com.biu.wifi.campus.dao;
 
 import com.biu.wifi.campus.dao.model.BiuTravelExpenseAudit;
 import com.biu.wifi.campus.dao.model.BiuTravelExpenseAuditExample;
+
+import java.util.HashMap;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -29,4 +31,6 @@ public interface BiuTravelExpenseAuditMapper {
     int updateByPrimaryKeySelective(BiuTravelExpenseAudit record);
 
     int updateByPrimaryKey(BiuTravelExpenseAudit record);
+
+    HashMap selectMap(@Param("expenseId") Integer id,@Param("userId") String userId);
 }

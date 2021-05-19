@@ -29,4 +29,6 @@ public interface BiuTravelExpenseAuditUserMapper {
     int updateByPrimaryKeySelective(BiuTravelExpenseAuditUser record);
 
     int updateByPrimaryKey(BiuTravelExpenseAuditUser record);
+
+    BiuTravelExpenseAuditUser findOne(@Param("type") Integer type,@Param("instituteId") Integer instituteId);
 }

@@ -283,6 +283,123 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="myExpenseInfoList" resultType="java.util.HashMap">
+    select a.id,
+    a.payment_type            paymentType,
+    a.persons,
+    a.vehicle,
+    a.address,
+    a.cost_money            costMoney,
+    a.amount_in_words       amountInWords,
+    a.attachment,
+    a.start_date            startDate,
+    a.plan_days             planDays,
+    a.apply_user_id         applyUserId,
+    a.apply_user_name       applyUserName,
+    a.apply_user_no         applyUserNo,
+    a.apply_user_tel        applyUserTel,
+    a.apply_user_dept_id    applyUserDeptId,
+    a.`status`,
+    a.audit_user            auditUser,
+    a.current_audit_user_id currentAuditUserId,
+    a.create_time           createTime,
+    a.update_time           updateTime,
+    a.is_delete             isDelete,
+    a.delete_time           deleteTime,
+    b.`name`                currentAuditUserName,
+    c.`name`                instituteName,
+    e.`name`                paymentTypeName,
+    f.`name`                vehicleName
+
+    from biu_travel_expense_info a
+    left join biu_user b on a.current_audit_user_id = b.id
+    left join biu_institute c on b.institute_id = c.id
+    left join biu_dict_info e on a.payment_type = e.id
+    left join biu_dict_info f on a.vehicle = f.id
+    <where>
+      a.is_delete = 2
+      <if test="userId != null">
+        and a.apply_user_id = #{userId}
+      </if>
+      <if test="statusList != null and statusList.size() != 0">
+        and a.`status` in
+        <foreach collection="statusList" item="status" separator="," open="(" close=")">
+          #{status}
+        </foreach>
+      </if>
+      <if test="startDate != null and startDate != ''">
+        and a.create_time &gt;= #{startDate}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        and a.create_time &lt;= #{endDate}
+      </if>
+      order by a.create_time desc
+    </where>
+  </select>
+  <select id="myAuditLeaveInfoList" resultType="java.util.HashMap">
+    select a.id,
+    a.payment_type            paymentType,
+    a.persons,
+    a.vehicle,
+    a.address,
+    a.cost_money            costMoney,
+    a.amount_in_words       amountInWords,
+    a.attachment,
+    a.start_date            startDate,
+    a.plan_days             planDays,
+    a.apply_user_id         applyUserId,
+    a.apply_user_name       applyUserName,
+    a.apply_user_no         applyUserNo,
+    a.apply_user_tel        applyUserTel,
+    a.apply_user_dept_id    applyUserDeptId,
+    case d.is_pass
+    when 1 then 2
+    when 2 then 3
+    else 1
+    end             status,
+    a.audit_user            auditUser,
+    a.current_audit_user_id currentAuditUserId,
+    a.create_time           createTime,
+    a.update_time           updateTime,
+    a.is_delete             isDelete,
+    a.delete_time           deleteTime,
+    b.`name`                currentAuditUserName,
+    c.`name`                instituteName,
+    e.`name`                paymentTypeName,
+    f.`name`                vehicleName
+    from biu_travel_expense_info a
+    left join biu_user b on a.current_audit_user_id = b.id
+    left join biu_institute c on b.institute_id = c.id
+    left join biu_travel_expense_audit d on a.id = d.expense_id
+    left join biu_dict_info e on a.payment_type = e.id
+    left join biu_dict_info f on a.vehicle = f.id
+    <where>
+      a.is_delete = 2
+      <if test="userId != null">
+        and d.user_id = #{userId}
+      </if>
+      <choose>
+        <when test="statusList != null and statusList.size() != 0">
+          and d.is_pass in
+          <foreach collection="statusList" item="status" separator="," open="(" close=")">
+            #{status}
+          </foreach>
+        </when>
+        <otherwise>
+          and d.is_pass is null
+        </otherwise>
+      </choose>
+      <if test="startDate != null and startDate != ''">
+        and a.create_time &gt;= #{startDate}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        and a.create_time &lt;= #{endDate}
+      </if>
+      order by a.create_time desc
+    </where>
+
+
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update biu_travel_expense_info
     <set>

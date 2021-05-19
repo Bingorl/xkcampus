@@ -3,12 +3,18 @@ package com.biu.wifi.campus.dao.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * biu_travel_expense_info
  * @author 
  */
 public class BiuTravelExpenseInfo implements Serializable {
+
+    /**
+     * 费用详情
+     */
+    private List<BiuTravelExpenseDetail> detailList;
     /**
      * 主键
      */
@@ -122,7 +128,16 @@ public class BiuTravelExpenseInfo implements Serializable {
     /**
      * 删除时间
      */
+
     private Date deleteTime;
+
+    public List<BiuTravelExpenseDetail> getDetailList() {
+        return detailList;
+    }
+
+    public void setDetailList(List<BiuTravelExpenseDetail> detailList) {
+        this.detailList = detailList;
+    }
 
     private static final long serialVersionUID = 1L;
 

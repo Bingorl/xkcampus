@@ -40,6 +40,8 @@ public class AppAssertsUseController extends AuthenticatorController {
     @Autowired
     private UserService userService;
     @Autowired
+    private AssetService assetService;
+    @Autowired
     private AuditInfoService auditInfoService;
     @Autowired
     private InstituteService instituteService;
@@ -57,6 +59,30 @@ public class AppAssertsUseController extends AuthenticatorController {
         String json = JsonUtilEx.strToMoblieJson(new Result(Result.SUCCESS, "请求成功", auditUserList));
         ServletUtilsEx.renderText(response, json);
     }
+
+    /**
+     * 申请单位
+     * @param response
+     */
+    @RequestMapping("app_applyList")
+    public void applyList(HttpServletResponse response) {
+        List<Institute> institute= instituteService.findAll();
+        Assert.notNull(institute, "部门未设置");
+        String json = JsonUtilEx.strToMoblieJson(new Result(Result.SUCCESS, "请求成功", institute));
+        ServletUtilsEx.renderText(response, json);
+    }
+    /**
+     * 资产列表
+     * @param response
+     */
+    @RequestMapping("app_assetsList")
+    public void assetsList(HttpServletResponse response) {
+        List<Asset> assets = assetService.selectAll();
+        Assert.notNull(assets, "无资产");
+        String json = JsonUtilEx.strToMoblieJson(new Result(Result.SUCCESS, "请求成功", assets));
+        ServletUtilsEx.renderText(response, json);
+    }
+
 
     /**
      * 获取申请人信息
