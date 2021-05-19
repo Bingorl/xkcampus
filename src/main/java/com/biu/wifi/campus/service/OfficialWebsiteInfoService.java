@@ -3,8 +3,7 @@ package com.biu.wifi.campus.service;
 import com.biu.wifi.campus.Tool.PushTool;
 import com.biu.wifi.campus.constant.AuditBusinessType;
 import com.biu.wifi.campus.constant.PushMsgType;
-import com.biu.wifi.campus.dao.AssertsUseAuditMapper;
-import com.biu.wifi.campus.dao.AssertsUseInfoMapper;
+import com.biu.wifi.campus.dao.OfficialWebsiteInfoMapper;
 import com.biu.wifi.campus.dao.PushMapper;
 import com.biu.wifi.campus.dao.UserMapper;
 import com.biu.wifi.campus.dao.model.*;
@@ -25,51 +24,51 @@ import java.util.List;
  * @Version 1.0
  **/
 @Service
-public class AssertsUseInfoService extends AbstractAuditUserService {
+public class OfficialWebsiteInfoService extends AbstractAuditUserService {
     @Autowired
-    private AssertsUseInfoMapper assertsUseInfoMapper;
+    private OfficialWebsiteInfoMapper officialWebsiteInfoMapper;
     @Autowired
-    private AssertsUseAuditService assertsUseAuditService;
+    private OfficialWebsiteAuditService officialWebsiteAuditService;
     @Autowired
-    private UserMapper userMapper;
+    private OfficialWebsiteNoticeService officialWebsiteNoticeService;
     @Autowired
     private AuditInfoService auditInfoService;
     @Autowired
-    private PushMapper pushMapper;
+    private UserMapper userMapper;
     @Autowired
-    private AssertsUseNoticeService assertsUseNoticeService;
+    private PushMapper pushMapper;
 
-
-    public void addAssertsUseInfo(AssertsUseInfo req) {
+    public void addOfficialWebsiteInfo(OfficialWebsiteInfo req) {
         req.setCreateTime(new Date());
         req.setIsDelete((short)2);
         req.setStatus((short) 1);
         setCurrentAuditUserId(req);
-        boolean result = assertsUseInfoMapper.insertSelective(req) > 0;
+        boolean result = officialWebsiteInfoMapper.insertSelective(req) > 0;
 
-        AssertsUseAudit assertsUseAudit = new AssertsUseAudit();
-        assertsUseAudit.setUseId(req.getId());
-        assertsUseAudit.setUserId(req.getCurrentAuditUserId());
-        boolean addLeaveAudit = assertsUseAuditService.add(assertsUseAudit) > 0;
+        OfficialWebsiteAudit audit = new OfficialWebsiteAudit();
+        audit.setWebsiteId(req.getId());
+        audit.setUserId(req.getCurrentAuditUserId());
+        boolean addLeaveAudit = officialWebsiteAuditService.add(audit) > 0;
 
         //插入汇总记录
         AuditInfo auditInfo = new AuditInfo();
-        auditInfo.setType(AuditBusinessType.CONTRACT_APPROVE.getCode().shortValue());
-        auditInfo.setBizId(assertsUseAudit.getId());
+        auditInfo.setType(AuditBusinessType.OFFICIAL_WEBSITE.getCode().shortValue());
+        auditInfo.setBizId(audit.getId());
         auditInfo.setUserId(req.getCurrentAuditUserId());
         boolean addAuditInfo = auditInfoService.add(auditInfo) > 0;
         // 推送请假审批通知给第一个审批人
         User user = userMapper.selectByPrimaryKey(req.getCurrentAuditUserId());
         String deviceToken = user.getDevToken();
         Short deviceType = user.getDevType();
-        addPush(req.getId(), assertsUseAudit.getId(), 1, "您有新的资产使用审批待处理", req.getCurrentAuditUserId(), deviceType, deviceToken);
+        addPush(req.getId(), audit.getId(), 1, "您有新的资产使用审批待处理", req.getCurrentAuditUserId(), deviceType, deviceToken);
 
         if (!(result && addLeaveAudit && addAuditInfo)) {
             throw new BizException(Result.CUSTOM_MESSAGE, "申请失败");
         }
     }
 
-    private void setCurrentAuditUserId(AssertsUseInfo req) {
+
+    private void setCurrentAuditUserId(OfficialWebsiteInfo req) {
         List<Integer> auditUserIds =new ArrayList<>();
         for (String s : req.getAuditUser().split(",")) {
             auditUserIds.add(Integer.valueOf(s));
@@ -79,6 +78,9 @@ public class AssertsUseInfoService extends AbstractAuditUserService {
         req.setCurrentAuditUserId(MapUtils.getInteger(hashMap, "currentAuditUserId"));
     }
 
+
+
+
     public void addPush(Integer useId, Integer useNoticeId, Integer needToAudit,
                         String title, Integer receiverId, Short deviceType, String deviceToken) {
         // 推送
@@ -86,7 +88,7 @@ public class AssertsUseInfoService extends AbstractAuditUserService {
         HashMap<String, Object> hm = new HashMap<>();
         hm.put("id", "");
         hm.put("title", title);
-        hm.put("type", PushMsgType.ASSERTS_USE_NOTICE.getCode());//请假审批类型
+        hm.put("type", PushMsgType.OFFICIAL_WEBSITE_NOTICE.getCode());//请假审批类型
         hm.put("useId", useId == null ? "" : useId);
         hm.put("useNoticeId", useNoticeId == null ? "" : useNoticeId);
         hm.put("needToAudit", needToAudit);
@@ -101,7 +103,7 @@ public class AssertsUseInfoService extends AbstractAuditUserService {
         puEntity.setToken(deviceToken);
         puEntity.setContent("");
         puEntity.setUserId(receiverId);
-        puEntity.setMessageType(PushMsgType.ASSERTS_USE_NOTICE.getCode().shortValue());
+        puEntity.setMessageType(PushMsgType.OFFICIAL_WEBSITE_NOTICE.getCode().shortValue());
         puEntity.setDeviceType(deviceType);
         puEntity.setTitle(title);
         if (flag) {
@@ -113,34 +115,33 @@ public class AssertsUseInfoService extends AbstractAuditUserService {
         pushMapper.insertSelective(puEntity);
     }
 
-    public AssertsUseInfo selectByPrimaryKey(Integer useId) {
-        AssertsUseInfo assertsUseInfo = assertsUseInfoMapper.selectByPrimaryKey(useId);
-        return assertsUseInfo;
+    public OfficialWebsiteInfo selectByPrimaryKey(Integer websiteId) {
+
+        return officialWebsiteInfoMapper.selectByPrimaryKey(websiteId);
     }
 
-    public void cancel(AssertsUseInfo info) {
-        AssertsUseInfo update=new AssertsUseInfo();
+    public void cancel(OfficialWebsiteInfo info) {
+        OfficialWebsiteInfo update=new OfficialWebsiteInfo();
         update.setStatus((short) 4);
         update.setUpdateTime(new Date());
-        AssertsUseInfoExample example = new AssertsUseInfoExample();
+        OfficialWebsiteInfoExample example = new OfficialWebsiteInfoExample();
         example.createCriteria()
                 .andIdEqualTo(info.getId());
-        boolean result = assertsUseInfoMapper.updateByExampleSelective(update, example) > 0;
+        boolean result = officialWebsiteInfoMapper.updateByExampleSelective(update, example) > 0;
         if (!result) {
             throw new BizException(Result.CUSTOM_MESSAGE, "取消失败");
         }
     }
 
-    public List<HashMap> myUseInfoList(Integer userId, String startDate, String endDate, Short status) {
-        return assertsUseInfoMapper.myUseInfoList( userId,  startDate,  endDate,  getStatusList(status,true));
+    public List<HashMap> myOfficialWebsiteInfoList(Integer userId, String startDate,String endDate, Short status) {
+        return officialWebsiteInfoMapper.myOfficialWebsiteInfoList( userId,startDate, endDate,  getStatusList(status,true));
     }
 
-    public List<HashMap> myAuditUseInfoList(Integer userId, String startDate, String endDate, Short status) {
-        return assertsUseInfoMapper.myAuditUseInfoList( userId,  startDate,  endDate,  getStatusList(status,false));
-
+    public List<HashMap> myAuditWebsiteInfoList(Integer userId, String startDate, String endDate, Short status) {
+        return officialWebsiteInfoMapper.myAuditWebsiteInfoList( userId,startDate, endDate,  getStatusList(status,false));
     }
 
-    public void audit(AssertsUseInfo info, Short status, String remark) {
+    public void audit(OfficialWebsiteInfo info, Short status, String remark) {
         // 当前审批人id
         int currentAuditUserId = info.getCurrentAuditUserId();
         boolean currentAuditUserIsTheLast = false;
@@ -154,22 +155,22 @@ public class AssertsUseInfoService extends AbstractAuditUserService {
             nextAuditUserId = info.getCurrentAuditUserId();
         }
 
-        AssertsUseAudit assertsUseAudit = assertsUseAuditService.selectByUseId(info.getId(), currentAuditUserId);
-        Assert.notNull(assertsUseAudit, "该资产审批记录不存在");
-        assertsUseAudit.setIsPass(status.intValue() == 2 ? (short) 1 : (short) 2);
-        assertsUseAudit.setRemark(remark);
-        assertsUseAudit.setAuditTime(new Date());
-        boolean updateLeaveAudit = assertsUseAuditService.update(assertsUseAudit) > 0;
-        boolean updateAuditInfo = auditInfoService.update(assertsUseAudit.getId(), currentAuditUserId,
-                AuditBusinessType.ASSERTS_USE.getCode().shortValue(), assertsUseAudit.getIsPass()) > 0;
+        OfficialWebsiteAudit audit = officialWebsiteAuditService.selectByUseId(info.getId(), currentAuditUserId);
+        Assert.notNull(audit, "该官网专栏审批记录不存在");
+        audit.setIsPass(status.intValue() == 2 ? (short) 1 : (short) 2);
+        audit.setRemark(remark);
+        audit.setAuditTime(new Date());
+        boolean updateLeaveAudit = officialWebsiteAuditService.update(audit) > 0;
+        boolean updateAuditInfo = auditInfoService.update(audit.getId(), currentAuditUserId,
+                AuditBusinessType.OFFICIAL_WEBSITE.getCode().shortValue(), audit.getIsPass()) > 0;
 
         if (!(updateLeaveAudit && updateAuditInfo)) {
             throw new BizException(Result.CUSTOM_MESSAGE, "审核失败");
         }
 
         // 推送通知
-        AssertsUseNotice assertsUseNotice;
-        Integer receiverId, useNoticeId, needToAudit = 0;
+        OfficialWebsiteNotice notice;
+        Integer receiverId, websiteNoticeId, needToAudit = 0;
         String title;
         User user;
         if (status.intValue() == 3) {
@@ -177,47 +178,47 @@ public class AssertsUseInfoService extends AbstractAuditUserService {
             info.setStatus(status);
             info.setCurrentAuditUserId(currentAuditUserId);
             info.setUpdateTime(new Date());
-            assertsUseInfoMapper.updateByPrimaryKeySelective(info);
+            officialWebsiteInfoMapper.updateByPrimaryKeySelective(info);
 
             // 审核驳回,通知请假人请假结果
-            assertsUseNotice =  assertsUseNoticeService.addUseNotice(info.getId(), "您的资产申请未通过审批", info.getReason(), remark, info.getApplyUserId());
-            Assert.notNull(assertsUseNotice.getId(), "审核失败");
+            notice =  officialWebsiteNoticeService.addNotice(info.getId(), "您的官网专栏申请未通过审批", info.getReason(), remark, info.getApplyUserId());
+            Assert.notNull(notice.getId(), "审核失败");
             // 推送请假审批结果通知给请假人
             receiverId = info.getApplyUserId();
             title = "您提交的申请未通过审批";
             user = userMapper.selectByPrimaryKey(receiverId);
-            useNoticeId = assertsUseNotice.getId();
+            websiteNoticeId = notice.getId();
         } else {
             if (currentAuditUserIsTheLast) {
                 // 修改审核状态
                 info.setStatus(status);
                 info.setCurrentAuditUserId(currentAuditUserId);
                 info.setUpdateTime(new Date());
-                assertsUseInfoMapper.updateByPrimaryKeySelective(info);
+                officialWebsiteInfoMapper.updateByPrimaryKeySelective(info);
                 // 通知请假人请假结果
-                assertsUseNotice = assertsUseNoticeService.addUseNotice(info.getId(), "您的资产申请已通过审批", info.getReason(), remark, info.getApplyUserId());
-                Assert.notNull(assertsUseNotice.getId(), "审核失败");
+                notice = officialWebsiteNoticeService.addNotice(info.getId(), "您的官网专栏申请已通过审批", info.getReason(), remark, info.getApplyUserId());
+                Assert.notNull(notice.getId(), "审核失败");
                 // 推送请假审批结果通知给请假人
                 receiverId = info.getApplyUserId();
                 title = "您提交的申请已通过审批";
                 user = userMapper.selectByPrimaryKey(receiverId);
-                useNoticeId = assertsUseNotice.getId();
+                websiteNoticeId = notice.getId();
             } else {
                 // 修改当前审核人
                 info.setCurrentAuditUserId(nextAuditUserId);
                 info.setUpdateTime(new Date());
-                assertsUseInfoMapper.updateByPrimaryKeySelective(info);
+                officialWebsiteInfoMapper.updateByPrimaryKeySelective(info);
 
                 // 新增下一个审批人审批记录，状态为空
-                AssertsUseAudit nextLeaveAudit = new AssertsUseAudit();
-                nextLeaveAudit.setUseId(info.getId());
-                nextLeaveAudit.setUserId(nextAuditUserId);
-                nextLeaveAudit.setCreateTime(new Date());
-                boolean addLeaveAudit = assertsUseAuditService.add(nextLeaveAudit) > 0;
+                OfficialWebsiteAudit nextAudit = new OfficialWebsiteAudit();
+                nextAudit.setWebsiteId(info.getId());
+                nextAudit.setUserId(nextAuditUserId);
+                nextAudit.setCreateTime(new Date());
+                boolean addLeaveAudit = officialWebsiteAuditService.add(nextAudit) > 0;
                 // 新增审核操作记录
                 AuditInfo auditInfo = new AuditInfo();
-                auditInfo.setType(AuditBusinessType.ASSERTS_USE.getCode().shortValue());
-                auditInfo.setBizId(nextLeaveAudit.getId());
+                auditInfo.setType(AuditBusinessType.OFFICIAL_WEBSITE.getCode().shortValue());
+                auditInfo.setBizId(nextAudit.getId());
                 auditInfo.setUserId(nextAuditUserId);
                 boolean addAuditInfo = auditInfoService.add(auditInfo) > 0;
                 if (!(addLeaveAudit && addAuditInfo)) {
@@ -226,13 +227,13 @@ public class AssertsUseInfoService extends AbstractAuditUserService {
 
                 // 推送请假审批通知给下一个审批人
                 receiverId = nextAuditUserId;
-                title = "您有新的资产审批待处理";
+                title = "您有新的申请审批待处理";
                 user = userMapper.selectByPrimaryKey(receiverId);
-                useNoticeId = null;
+                websiteNoticeId = null;
                 needToAudit = 1;
             }
         }
 
-        addPush(info.getId(), useNoticeId, needToAudit, title, receiverId, user.getDevType(), user.getDevToken());
+        addPush(info.getId(), websiteNoticeId, needToAudit, title, receiverId, user.getDevType(), user.getDevToken());
     }
 }

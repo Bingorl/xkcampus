@@ -16,6 +16,7 @@ public enum AuditBusinessType {
     CONTRACT_APPROVE(9, "合同申请"),
     ASSERTS_USE(10, "资产申请"),
     TRAVEL_EXPENSE(11, "差旅申请"),
+    OFFICIAL_WEBSITE(12, "官网专栏申请"),
     ;
 
     private Integer code;
