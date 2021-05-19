@@ -19,6 +19,7 @@ public enum NoticeType {
     CONTRACT_APPROVE_NOTICE(11, "合同申请通知"),
     ASSERTS_USE_NOTICE(12, "资产申请通知"),
     OFFICIAL_WEBSITE_NOTICE(13, "官网专栏申请通知"),
+    REPAIR_COST_NOTICE(14, "报修费用申请通知"),
     ;
 
     private Integer code;

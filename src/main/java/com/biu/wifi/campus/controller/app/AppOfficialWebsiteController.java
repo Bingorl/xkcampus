@@ -15,15 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static java.awt.SystemColor.info;
 
 /**
  * @Author MCX
@@ -31,7 +27,7 @@ import static java.awt.SystemColor.info;
  **/
 @Controller
 @RequestMapping
-public class App_OfficialWebsiteController {
+public class AppOfficialWebsiteController {
     @Autowired
     private OfficialWebsiteNoticeService officialWebsiteNoticeService;
     @Autowired
@@ -61,31 +57,7 @@ public class App_OfficialWebsiteController {
         String json = JsonUtilEx.strToMoblieJson(new Result(Result.SUCCESS, "请求成功", auditUserList));
         ServletUtilsEx.renderText(response, json);
     }
-//
-//    /**
-//     * 申请单位
-//     * @param response
-//     */
-//    @RequestMapping("app_applyList")
-//    public void applyList(HttpServletResponse response) {
-//        List<Institute> institute= instituteService.findAll();
-//        Assert.notNull(institute, "部门未设置");
-//        String json = JsonUtilEx.strToMoblieJson(new Result(Result.SUCCESS, "请求成功", institute));
-//        ServletUtilsEx.renderText(response, json);
-//    }
-//    /**
-//     * 资产列表
-//     * @param response
-//     */
-//    @RequestMapping("app_assetsList")
-//    public void assetsList(HttpServletResponse response) {
-//        List<Asset> assets = assetService.selectAll();
-//        Assert.notNull(assets, "无资产");
-//        String json = JsonUtilEx.strToMoblieJson(new Result(Result.SUCCESS, "请求成功", assets));
-//        ServletUtilsEx.renderText(response, json);
-//    }
-//
-//
+
     /**
      * 获取申请人信息
      * @param userId
@@ -95,22 +67,7 @@ public class App_OfficialWebsiteController {
     public void assertUserInfo(@ModelAttribute("user_id") Integer userId, HttpServletResponse response) {
         appTeacherLeaveInfoController.teacherPersonalInfo(userId,response);
     }
-//
-//    /**
-//     * 资产使用规模列表
-//     *
-//     * @param response
-//     * @return
-//     */
-//    @RequestMapping("app_scanList")
-//    public void scanList(HttpServletResponse response) {
-//        DictInfo parent = dictInfoService.selectByCode(BaseDictType.SCAN_TYPE.name());
-//        Assert.notNull(parent, "资产使用规模类型根字典不存在");
-//
-//        List<Map> dictInfos = dictInfoService.selectMapByPid(parent.getId());
-//        String json = JsonUtilEx.strToMoblieJson(new Result(Result.SUCCESS, "请求成功", dictInfos));
-//        ServletUtilsEx.renderText(response, json);
-//    }
+
     /**
      * 新增官网专栏使用
      *

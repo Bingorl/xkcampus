@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.biu.wifi.campus.dao.OfficialWebsiteAuditMapper">
-  <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.OfficialWebsiteAudit">
+<mapper namespace="com.biu.wifi.campus.dao.RepairCostAuditUserMapper">
+  <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.RepairCostAuditUser">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="website_id" jdbcType="INTEGER" property="websiteId" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="is_pass" jdbcType="SMALLINT" property="isPass" />
-    <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="school_id" jdbcType="INTEGER" property="schoolId" />
+    <result column="institute_id" jdbcType="INTEGER" property="instituteId" />
+    <result column="audit_user" jdbcType="VARCHAR" property="auditUser" />
+    <result column="type" jdbcType="SMALLINT" property="type" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="is_delete" jdbcType="SMALLINT" property="isDelete" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,15 +71,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, website_id, user_id, is_pass, audit_time, remark, create_time, update_time, is_delete
+    id, school_id, institute_id, audit_user, `type`, create_time, update_time, is_delete, 
+    delete_time
   </sql>
-  <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.OfficialWebsiteAuditExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.RepairCostAuditUserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from biu_official_website_audit
+    from biu_repair_cost_audit_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -90,44 +91,41 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from biu_official_website_audit
+    from biu_repair_cost_audit_user
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from biu_official_website_audit
+    delete from biu_repair_cost_audit_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.OfficialWebsiteAuditExample">
-    delete from biu_official_website_audit
+  <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.RepairCostAuditUserExample">
+    delete from biu_repair_cost_audit_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.OfficialWebsiteAudit" useGeneratedKeys="true">
-    insert into biu_official_website_audit (website_id, user_id, is_pass, 
-      audit_time, remark, create_time, 
-      update_time, is_delete)
-    values (#{websiteId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{isPass,jdbcType=SMALLINT}, 
-      #{auditTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=SMALLINT})
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.RepairCostAuditUser" useGeneratedKeys="true">
+    insert into biu_repair_cost_audit_user (school_id, institute_id, audit_user, 
+      `type`, create_time, update_time, 
+      is_delete, delete_time)
+    values (#{schoolId,jdbcType=INTEGER}, #{instituteId,jdbcType=INTEGER}, #{auditUser,jdbcType=VARCHAR}, 
+      #{type,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDelete,jdbcType=SMALLINT}, #{deleteTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.OfficialWebsiteAudit" useGeneratedKeys="true">
-    insert into biu_official_website_audit
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.RepairCostAuditUser" useGeneratedKeys="true">
+    insert into biu_repair_cost_audit_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="websiteId != null">
-        website_id,
+      <if test="schoolId != null">
+        school_id,
       </if>
-      <if test="userId != null">
-        user_id,
+      <if test="instituteId != null">
+        institute_id,
       </if>
-      <if test="isPass != null">
-        is_pass,
+      <if test="auditUser != null">
+        audit_user,
       </if>
-      <if test="auditTime != null">
-        audit_time,
-      </if>
-      <if test="remark != null">
-        remark,
+      <if test="type != null">
+        `type`,
       </if>
       <if test="createTime != null">
         create_time,
@@ -138,22 +136,22 @@
       <if test="isDelete != null">
         is_delete,
       </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="websiteId != null">
-        #{websiteId,jdbcType=INTEGER},
+      <if test="schoolId != null">
+        #{schoolId,jdbcType=INTEGER},
       </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
+      <if test="instituteId != null">
+        #{instituteId,jdbcType=INTEGER},
       </if>
-      <if test="isPass != null">
-        #{isPass,jdbcType=SMALLINT},
+      <if test="auditUser != null">
+        #{auditUser,jdbcType=VARCHAR},
       </if>
-      <if test="auditTime != null">
-        #{auditTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
+      <if test="type != null">
+        #{type,jdbcType=SMALLINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -164,47 +162,34 @@
       <if test="isDelete != null">
         #{isDelete,jdbcType=SMALLINT},
       </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.OfficialWebsiteAuditExample" resultType="java.lang.Long">
-    select count(*) from biu_official_website_audit
+  <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.RepairCostAuditUserExample" resultType="java.lang.Long">
+    select count(*) from biu_repair_cost_audit_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-    <select id="selectMap" resultType="java.util.HashMap">
-       select
-      a.id,
-      a.`type`,
-      a.biz_id bizId,
-      a.user_id userId,
-      a.is_pass isPass
-    from biu_audit_info a
-    left join biu_official_website_audit b on a.biz_id=b.id
-    left join biu_official_website_info c on b.website_id=c.id
-    where c.id =#{websiteId} and a.user_id=#{userId} and a.`type`=4
-
-    </select>
-    <update id="updateByExampleSelective" parameterType="map">
-    update biu_official_website_audit
+  <update id="updateByExampleSelective" parameterType="map">
+    update biu_repair_cost_audit_user
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.websiteId != null">
-        website_id = #{record.websiteId,jdbcType=INTEGER},
+      <if test="record.schoolId != null">
+        school_id = #{record.schoolId,jdbcType=INTEGER},
       </if>
-      <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
+      <if test="record.instituteId != null">
+        institute_id = #{record.instituteId,jdbcType=INTEGER},
       </if>
-      <if test="record.isPass != null">
-        is_pass = #{record.isPass,jdbcType=SMALLINT},
+      <if test="record.auditUser != null">
+        audit_user = #{record.auditUser,jdbcType=VARCHAR},
       </if>
-      <if test="record.auditTime != null">
-        audit_time = #{record.auditTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=VARCHAR},
+      <if test="record.type != null">
+        `type` = #{record.type,jdbcType=SMALLINT},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -215,43 +200,43 @@
       <if test="record.isDelete != null">
         is_delete = #{record.isDelete,jdbcType=SMALLINT},
       </if>
+      <if test="record.deleteTime != null">
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update biu_official_website_audit
+    update biu_repair_cost_audit_user
     set id = #{record.id,jdbcType=INTEGER},
-      website_id = #{record.websiteId,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      is_pass = #{record.isPass,jdbcType=SMALLINT},
-      audit_time = #{record.auditTime,jdbcType=TIMESTAMP},
-      remark = #{record.remark,jdbcType=VARCHAR},
+      school_id = #{record.schoolId,jdbcType=INTEGER},
+      institute_id = #{record.instituteId,jdbcType=INTEGER},
+      audit_user = #{record.auditUser,jdbcType=VARCHAR},
+      `type` = #{record.type,jdbcType=SMALLINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      is_delete = #{record.isDelete,jdbcType=SMALLINT}
+      is_delete = #{record.isDelete,jdbcType=SMALLINT},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.OfficialWebsiteAudit">
-    update biu_official_website_audit
+  <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.RepairCostAuditUser">
+    update biu_repair_cost_audit_user
     <set>
-      <if test="websiteId != null">
-        website_id = #{websiteId,jdbcType=INTEGER},
+      <if test="schoolId != null">
+        school_id = #{schoolId,jdbcType=INTEGER},
       </if>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="instituteId != null">
+        institute_id = #{instituteId,jdbcType=INTEGER},
       </if>
-      <if test="isPass != null">
-        is_pass = #{isPass,jdbcType=SMALLINT},
+      <if test="auditUser != null">
+        audit_user = #{auditUser,jdbcType=VARCHAR},
       </if>
-      <if test="auditTime != null">
-        audit_time = #{auditTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
+      <if test="type != null">
+        `type` = #{type,jdbcType=SMALLINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -262,19 +247,22 @@
       <if test="isDelete != null">
         is_delete = #{isDelete,jdbcType=SMALLINT},
       </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.OfficialWebsiteAudit">
-    update biu_official_website_audit
-    set website_id = #{websiteId,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER},
-      is_pass = #{isPass,jdbcType=SMALLINT},
-      audit_time = #{auditTime,jdbcType=TIMESTAMP},
-      remark = #{remark,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.RepairCostAuditUser">
+    update biu_repair_cost_audit_user
+    set school_id = #{schoolId,jdbcType=INTEGER},
+      institute_id = #{instituteId,jdbcType=INTEGER},
+      audit_user = #{auditUser,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=SMALLINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      is_delete = #{isDelete,jdbcType=SMALLINT}
+      is_delete = #{isDelete,jdbcType=SMALLINT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

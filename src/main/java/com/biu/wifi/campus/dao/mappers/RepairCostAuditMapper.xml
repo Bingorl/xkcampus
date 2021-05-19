@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.biu.wifi.campus.dao.OfficialWebsiteAuditMapper">
-  <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.OfficialWebsiteAudit">
+<mapper namespace="com.biu.wifi.campus.dao.RepairCostAuditMapper">
+  <resultMap id="BaseResultMap" type="com.biu.wifi.campus.dao.model.RepairCostAudit">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="website_id" jdbcType="INTEGER" property="websiteId" />
+    <result column="repair_id" jdbcType="INTEGER" property="repairId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="is_pass" jdbcType="SMALLINT" property="isPass" />
     <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
@@ -71,15 +71,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, website_id, user_id, is_pass, audit_time, remark, create_time, update_time, is_delete
+    id, repair_id, user_id, is_pass, audit_time, remark, create_time, update_time, is_delete
   </sql>
-  <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.OfficialWebsiteAuditExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.biu.wifi.campus.dao.model.RepairCostAuditExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from biu_official_website_audit
+    from biu_repair_cost_audit
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -90,32 +90,32 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from biu_official_website_audit
+    from biu_repair_cost_audit
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from biu_official_website_audit
+    delete from biu_repair_cost_audit
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.OfficialWebsiteAuditExample">
-    delete from biu_official_website_audit
+  <delete id="deleteByExample" parameterType="com.biu.wifi.campus.dao.model.RepairCostAuditExample">
+    delete from biu_repair_cost_audit
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.OfficialWebsiteAudit" useGeneratedKeys="true">
-    insert into biu_official_website_audit (website_id, user_id, is_pass, 
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.RepairCostAudit" useGeneratedKeys="true">
+    insert into biu_repair_cost_audit (repair_id, user_id, is_pass, 
       audit_time, remark, create_time, 
       update_time, is_delete)
-    values (#{websiteId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{isPass,jdbcType=SMALLINT}, 
+    values (#{repairId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{isPass,jdbcType=SMALLINT}, 
       #{auditTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=SMALLINT})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.OfficialWebsiteAudit" useGeneratedKeys="true">
-    insert into biu_official_website_audit
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.biu.wifi.campus.dao.model.RepairCostAudit" useGeneratedKeys="true">
+    insert into biu_repair_cost_audit
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="websiteId != null">
-        website_id,
+      <if test="repairId != null">
+        repair_id,
       </if>
       <if test="userId != null">
         user_id,
@@ -140,8 +140,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="websiteId != null">
-        #{websiteId,jdbcType=INTEGER},
+      <if test="repairId != null">
+        #{repairId,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
@@ -166,33 +166,20 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.OfficialWebsiteAuditExample" resultType="java.lang.Long">
-    select count(*) from biu_official_website_audit
+  <select id="countByExample" parameterType="com.biu.wifi.campus.dao.model.RepairCostAuditExample" resultType="java.lang.Long">
+    select count(*) from biu_repair_cost_audit
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-    <select id="selectMap" resultType="java.util.HashMap">
-       select
-      a.id,
-      a.`type`,
-      a.biz_id bizId,
-      a.user_id userId,
-      a.is_pass isPass
-    from biu_audit_info a
-    left join biu_official_website_audit b on a.biz_id=b.id
-    left join biu_official_website_info c on b.website_id=c.id
-    where c.id =#{websiteId} and a.user_id=#{userId} and a.`type`=4
-
-    </select>
-    <update id="updateByExampleSelective" parameterType="map">
-    update biu_official_website_audit
+  <update id="updateByExampleSelective" parameterType="map">
+    update biu_repair_cost_audit
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.websiteId != null">
-        website_id = #{record.websiteId,jdbcType=INTEGER},
+      <if test="record.repairId != null">
+        repair_id = #{record.repairId,jdbcType=INTEGER},
       </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
@@ -221,9 +208,9 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update biu_official_website_audit
+    update biu_repair_cost_audit
     set id = #{record.id,jdbcType=INTEGER},
-      website_id = #{record.websiteId,jdbcType=INTEGER},
+      repair_id = #{record.repairId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       is_pass = #{record.isPass,jdbcType=SMALLINT},
       audit_time = #{record.auditTime,jdbcType=TIMESTAMP},
@@ -235,11 +222,11 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.OfficialWebsiteAudit">
-    update biu_official_website_audit
+  <update id="updateByPrimaryKeySelective" parameterType="com.biu.wifi.campus.dao.model.RepairCostAudit">
+    update biu_repair_cost_audit
     <set>
-      <if test="websiteId != null">
-        website_id = #{websiteId,jdbcType=INTEGER},
+      <if test="repairId != null">
+        repair_id = #{repairId,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
@@ -265,9 +252,9 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.OfficialWebsiteAudit">
-    update biu_official_website_audit
-    set website_id = #{websiteId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.biu.wifi.campus.dao.model.RepairCostAudit">
+    update biu_repair_cost_audit
+    set repair_id = #{repairId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       is_pass = #{isPass,jdbcType=SMALLINT},
       audit_time = #{auditTime,jdbcType=TIMESTAMP},
@@ -277,4 +264,18 @@
       is_delete = #{isDelete,jdbcType=SMALLINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectMap" resultType="java.util.HashMap">
+       select
+      a.id,
+      a.`type`,
+      a.biz_id bizId,
+      a.user_id userId,
+      a.is_pass isPass
+    from biu_audit_info a
+    left join biu_repair_cost_audit b on a.biz_id=b.id
+    left join biu_repair_cost_info c on b.repair_id=c.id
+    where c.id =#{repairId} and a.user_id=#{userId} and a.`type`=4
+
+    </select>
 </mapper>
