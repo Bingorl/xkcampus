@@ -63,7 +63,7 @@ public class AppOfficialWebsiteController {
      * @param userId
      * @param response
      */
-    @RequestMapping("app_assertUserInfo")
+    @RequestMapping("app_websiteUserInfo")
     public void assertUserInfo(@ModelAttribute("user_id") Integer userId, HttpServletResponse response) {
         appTeacherLeaveInfoController.teacherPersonalInfo(userId,response);
     }
@@ -224,7 +224,7 @@ public class AppOfficialWebsiteController {
      * @param remark
      * @param response
      */
-    @RequestMapping("app_auditAssertsUseInfo")
+    @RequestMapping("app_auditWebsiteInfoInfo")
     public void audit(@ModelAttribute("user_id") Integer userId, Integer websiteId, Short status, String remark, HttpServletResponse response) {
         Assert.notNull(websiteId, "请选择要审核的官网专栏申请");
         Assert.notNull(status, "请选择您的审核结果");

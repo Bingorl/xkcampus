@@ -272,7 +272,7 @@ public class AppTravelExpenseController {
      * @param remark
      * @param response
      */
-    @RequestMapping("app_auditTeacherExpenseInfo")
+    @RequestMapping("app_auditTravelExpenseInfo")
     public void audit(@ModelAttribute("user_id") Integer userId, Integer expenseId, Short status, String remark, HttpServletResponse response) {
         Assert.notNull(expenseId, "请选择要审核的差旅申请");
         Assert.notNull(status, "请选择您的审核结果");

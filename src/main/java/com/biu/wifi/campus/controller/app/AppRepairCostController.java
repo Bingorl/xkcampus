@@ -177,8 +177,8 @@ public class AppRepairCostController {
      * @param repairId
      * @param response
      */
-    @RequestMapping("app_officialWebsiteInfoDetail")
-    public void officialWebsiteInfoDetail(@ModelAttribute("user_id") Integer userId, Integer repairId, HttpServletResponse response) {
+    @RequestMapping("app_repairCostInfoDetail")
+    public void repairCostInfoDetail(@ModelAttribute("user_id") Integer userId, Integer repairId, HttpServletResponse response) {
         Assert.notNull(repairId, "请选择要查看的报修费用申请");
 
         RepairCostInfo info = repairCostInfoService.selectByPrimaryKey(repairId);
