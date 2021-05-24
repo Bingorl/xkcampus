@@ -1,5 +1,6 @@
 package com.biu.wifi.campus.dao.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class SuppliesPurchaseInfo {
@@ -13,7 +14,7 @@ public class SuppliesPurchaseInfo {
 
     private String reason;
 
-    private String money;
+    private BigDecimal money;
 
     private Date startDate;
 
@@ -83,12 +84,12 @@ public class SuppliesPurchaseInfo {
         this.reason = reason == null ? null : reason.trim();
     }
 
-    public String getMoney() {
+    public BigDecimal getMoney() {
         return money;
     }
 
-    public void setMoney(String money) {
-        this.money = money == null ? null : money.trim();
+    public void setMoney(BigDecimal money) {
+        this.money = money;
     }
 
     public Date getStartDate() {

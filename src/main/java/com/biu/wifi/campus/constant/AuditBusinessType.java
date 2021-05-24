@@ -12,6 +12,12 @@ public enum AuditBusinessType {
     DISCUSSION_TOPIC_APPLY(5, "会议议题申请"),
     STAMP_TO_APPLY(6, "用章申请"),
     FILE_RECEIVE(7, "文件签收"),
+    SUPPLIES_PURCHASE(8, "采购申请"),
+    CONTRACT_APPROVE(9, "合同申请"),
+    ASSERTS_USE(10, "资产申请"),
+    TRAVEL_EXPENSE(11, "差旅申请"),
+    OFFICIAL_WEBSITE(12, "官网专栏申请"),
+    REPAIR_COST(13, "报修申请"),
     ;
 
     private Integer code;

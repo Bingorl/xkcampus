@@ -111,9 +111,14 @@ public class FileReceiveAuditInfoService extends AbstractAuditUserService{
     }
 
     public void cancel(FileReceiveAuditInfo fileReceiveAuditInfo) {
-        fileReceiveAuditInfo.setIsDelete((short) 1);
-        int i = fileReceiveAuditInfoMapper.updateByPrimaryKeySelective(fileReceiveAuditInfo);
-        if (i!=1) {
+        FileReceiveAuditInfo update=new FileReceiveAuditInfo();
+        update.setStatus((short) 4);
+        update.setUpdateTime(new Date());
+        FileReceiveAuditInfoExample example = new FileReceiveAuditInfoExample();
+        example.createCriteria()
+                .andIdEqualTo(fileReceiveAuditInfo.getId());
+        boolean result = fileReceiveAuditInfoMapper.updateByExampleSelective(update, example) > 0;
+        if (!result) {
             throw new BizException(Result.CUSTOM_MESSAGE, "取消失败");
         }
     }

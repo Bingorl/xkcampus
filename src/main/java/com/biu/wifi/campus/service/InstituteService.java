@@ -3,6 +3,7 @@ package com.biu.wifi.campus.service;
 import cn.hutool.core.collection.CollectionUtil;
 import com.biu.wifi.campus.dao.InstituteMapper;
 import com.biu.wifi.campus.dao.model.Institute;
+import com.biu.wifi.campus.dao.model.InstituteCriteria;
 import com.biu.wifi.core.support.orm.mybatis3.util.IbatisServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,5 +34,11 @@ public class InstituteService {
             }
         }
         return CollectionUtil.join(list, ",");
+    }
+
+    public List<Institute> findAll() {
+        InstituteCriteria criteria=new InstituteCriteria();
+        criteria.createCriteria().andIsDeleteEqualTo((short)2);
+        return instituteMapper.selectByExample(criteria);
     }
 }

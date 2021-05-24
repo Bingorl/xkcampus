@@ -114,7 +114,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=SMALLINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.biu.wifi.campus.dao.model.FileReceiveAudit">
+  <insert id="insertSelective" parameterType="com.biu.wifi.campus.dao.model.FileReceiveAudit" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
     insert into biu_file_receive_audit
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

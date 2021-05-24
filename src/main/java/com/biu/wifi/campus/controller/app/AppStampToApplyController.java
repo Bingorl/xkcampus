@@ -98,7 +98,7 @@ public class AppStampToApplyController extends AuthenticatorController {
      * @param userId
      * @param response
      */
-    @RequestMapping("app_applyUserPersonalInfo")
+    @RequestMapping("app_applyUserPersonInfo")
     public void applyUserPersonalInfo(@ModelAttribute("user_id") Integer userId, HttpServletResponse response) {
         appTeacherLeaveInfoController.teacherPersonalInfo(userId,response);
     }
@@ -285,11 +285,11 @@ public class AppStampToApplyController extends AuthenticatorController {
 
         StampToApplyInfo stampToApplyInfo = stampToApplyInfoService.selectByPrimaryKey(applyId);
         if (stampToApplyInfo == null || stampToApplyInfo.getIsDelete().intValue() == 1) {
-            String json = JsonUtilEx.strToMoblieJson(new Result(Result.CUSTOM_MESSAGE, "该请假申请不存在", null));
+            String json = JsonUtilEx.strToMoblieJson(new Result(Result.CUSTOM_MESSAGE, "该用章申请不存在", null));
             ServletUtilsEx.renderText(response, json);
             return;
         } else if (Arrays.asList(2, 3).contains(stampToApplyInfo.getStatus().intValue())) {
-            String json = JsonUtilEx.strToMoblieJson(new Result(Result.CUSTOM_MESSAGE, "该请假申请已被审核,请勿重复操作", null));
+            String json = JsonUtilEx.strToMoblieJson(new Result(Result.CUSTOM_MESSAGE, "该用章申请已被审核,请勿重复操作", null));
             ServletUtilsEx.renderText(response, json);
             return;
         } else if (stampToApplyInfo.getCurrentAuditUserId().intValue() != userId) {

@@ -4,7 +4,9 @@ import com.biu.wifi.campus.dao.model.SuppliesPurchaseAudit;
 import com.biu.wifi.campus.dao.model.SuppliesPurchaseAuditExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface SuppliesPurchaseAuditMapper {
     long countByExample(SuppliesPurchaseAuditExample example);
 

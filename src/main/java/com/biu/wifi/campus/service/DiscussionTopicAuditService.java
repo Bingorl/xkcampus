@@ -60,7 +60,7 @@ public class DiscussionTopicAuditService {
             if (hashMap == null) {
                 hashMap = new HashMap<>();
                 hashMap.put("id", null);
-                hashMap.put("type", AuditBusinessType.TEACHER_LEAVE.getCode());
+                hashMap.put("type", AuditBusinessType.DISCUSSION_TOPIC_APPLY.getCode());
                 hashMap.put("bizId", apply.getId());
                 hashMap.put("userId", Integer.valueOf(userId));
                 hashMap.put("isPass", null);

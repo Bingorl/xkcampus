@@ -1,5 +1,6 @@
 package com.biu.wifi.campus.service;
 
+import cn.hutool.core.date.DateTime;
 import com.biu.wifi.campus.Tool.PushTool;
 import com.biu.wifi.campus.constant.AuditBusinessType;
 import com.biu.wifi.campus.constant.PushMsgType;
@@ -76,9 +77,14 @@ public class StampToApplyInfoService extends AbstractAuditUserService {
     }
 
     public void cancel(StampToApplyInfo applyInfo) {
-        applyInfo.setIsDelete((short) 1);
-        int i = stampToApplyInfoMapper.updateByPrimaryKeySelective(applyInfo);
-        if (i!=1) {
+        StampToApplyInfo update=new StampToApplyInfo();
+        update.setStatus((short) 4);
+        update.setUpdateTime(new Date());
+        StampToApplyInfoExample example = new StampToApplyInfoExample();
+        example.createCriteria()
+                .andIdEqualTo(applyInfo.getId());
+        boolean result = stampToApplyInfoMapper.updateByExampleSelective(update, example) > 0;
+        if (!result) {
             throw new BizException(Result.CUSTOM_MESSAGE, "取消失败");
         }
     }
