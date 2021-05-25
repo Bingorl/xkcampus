@@ -35,8 +35,7 @@ import java.util.*;
 @Controller
 public class AppClassroomBookController extends AuthenticatorController {
 
-    @Autowired
-    private static Logger logger = LoggerFactory.getLogger(AppClassroomBookController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AppClassroomBookController.class);
     @Autowired
     private ClassroomService classroomService;
     @Autowired
@@ -173,7 +172,7 @@ public class AppClassroomBookController extends AuthenticatorController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date bookDate = null;
         for (int i = 0; i < mondayList.size(); i++) {
-            String thisMonday = mondayList.get(i).toString();
+            String thisMonday = mondayList.get(i);
             Date m, f;
             try {
                 bookDate = sdf.parse(bookDateStr);
@@ -202,7 +201,7 @@ public class AppClassroomBookController extends AuthenticatorController {
         } else {
             //保留buildingId、createTime、name、no、status、seatCount部分字段
             List<Map> mapList = BeanUtil.beanListToMapList(classroomList, "retainKeys",
-                    new String[]{"buildingId", "createTime", "name", "no", "status", "seatCount"});
+                    "buildingId", "createTime", "name", "no", "status", "seatCount");
 
             if (classroomBookId != null) {
                 //调整教室的时候，标识出已选择和未选择
@@ -373,7 +372,7 @@ public class AppClassroomBookController extends AuthenticatorController {
                     .andUserIdEqualTo(userId)
                     .andRoleIdEqualTo(auditUserRole.getId());
             long c = auditUserAuthService.countByExample(auditUserAuthEx);
-            isJw = c > 0 ? true : false;
+            isJw = c > 0;
         }
         Result result = classroomBookService.addOrUpdate(classroomBook, bookDate, startTimeList, user.getSchoolId(), false, isJw);
         ServletUtilsEx.renderText(response, JsonUtilEx.strToMoblieJson(result));
@@ -527,7 +526,7 @@ public class AppClassroomBookController extends AuthenticatorController {
         }
 
         List<Integer> organizationIdList = new ArrayList<>();
-        for (String s : Arrays.asList(organizationId.split(","))) {
+        for (String s : organizationId.split(",")) {
             organizationIdList.add(Integer.valueOf(s));
         }
 
@@ -692,7 +691,7 @@ public class AppClassroomBookController extends AuthenticatorController {
                 if (m.get("periodType").toString().equals(i + "")) {
                     StringBuffer sb = new StringBuffer();
                     sb.append(data.get("name").toString())
-                            .append(m.get("name").toString().substring(0, 3));
+                            .append(m.get("name").toString(), 0, 3);
                     m.put("periodType", sb.toString());
                     itemList.add(m);
                     iterator.remove();

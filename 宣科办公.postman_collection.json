@@ -1,0 +1,1036 @@
+{
+	"info": {
+		"_postman_id": "5346a66b-c918-43d8-bb64-a16d9da55ea6",
+		"name": "宣科办公",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "移动端",
+			"item": [
+				{
+					"name": "登录模块",
+					"item": [
+						{
+							"name": "登录",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_login.do?mobile=15312585838&password=MTIzNDU2%0A&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_login.do"
+									],
+									"query": [
+										{
+											"key": "mobile",
+											"value": "15312585838"
+										},
+										{
+											"key": "password",
+											"value": "MTIzNDU2%0A"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "我的",
+					"item": [
+						{
+							"name": "身份认证",
+							"item": [
+								{
+									"name": "获取身份认证类型列表",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/app_findAuditUserRoleList.do?token=7e8e211ac6644312f1617431070391&pid=0&userId=821&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"app_findAuditUserRoleList.do"
+											],
+											"query": [
+												{
+													"key": "token",
+													"value": "7e8e211ac6644312f1617431070391"
+												},
+												{
+													"key": "pid",
+													"value": "0"
+												},
+												{
+													"key": "userId",
+													"value": "821"
+												},
+												{
+													"key": "device_id",
+													"value": "4d863edfe7992fe9"
+												},
+												{
+													"key": "signature",
+													"value": "1f46f568cea220e3bc4b49e802db27cf1"
+												},
+												{
+													"key": "channel",
+													"value": "2"
+												},
+												{
+													"key": "version",
+													"value": "v1.7"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "他人查看我个人信息或者自己",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/user_viewOtherPage.do?token=388892e1e5b9e35f51617850983027&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"user_viewOtherPage.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "388892e1e5b9e35f51617850983027"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "教师请假管理",
+					"item": [
+						{
+							"name": "请假类型列表",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_teacherLeaveInfoTypeList.do?token=0cb446c5f277a0eae1618629374043&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_teacherLeaveInfoTypeList.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "0cb446c5f277a0eae1618629374043"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "根据登录用户id获取教师个人基础信息",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_teacherPersonalInfo.do?token=388892e1e5b9e35f51617850983027&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_teacherPersonalInfo.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "388892e1e5b9e35f51617850983027"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "请假申请",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_addTeacherLeaveInfo.do?token=6a59195f9ea581f451618469493337&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7&leaveType=2&reason=出差&startDate=2021%2F4%2F15%2008%3A30%3A00&endDate=2021%2F4%2F15%2017%3A30%3A00&attachment=",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_addTeacherLeaveInfo.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "6a59195f9ea581f451618469493337"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										},
+										{
+											"key": "leaveType",
+											"value": "2"
+										},
+										{
+											"key": "reason",
+											"value": "出差"
+										},
+										{
+											"key": "startDate",
+											"value": "2021%2F4%2F15%2008%3A30%3A00"
+										},
+										{
+											"key": "endDate",
+											"value": "2021%2F4%2F15%2017%3A30%3A00"
+										},
+										{
+											"key": "attachment",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "查看请假单详情",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_teacherLeaveInfoDetail.do?token=0cb446c5f277a0eae1618629374043&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7&leaveId=3",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_teacherLeaveInfoDetail.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "0cb446c5f277a0eae1618629374043"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										},
+										{
+											"key": "leaveId",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "取消请假申请",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_cancelTeacherLeaveInfo.do?token=6a59195f9ea581f451618469493337&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7&leaveId=10",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_cancelTeacherLeaveInfo.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "6a59195f9ea581f451618469493337"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										},
+										{
+											"key": "leaveId",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "请假审批",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_auditTeacherLeaveInfo.do?token=0cb446c5f277a0eae1618629374043&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7&leaveId=7&status=2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_auditTeacherLeaveInfo.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "0cb446c5f277a0eae1618629374043"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										},
+										{
+											"key": "leaveId",
+											"value": "7"
+										},
+										{
+											"key": "status",
+											"value": "2"
+										},
+										{
+											"key": "remark",
+											"value": "不同意",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取审核人列表接口",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_teacherLeaveInfoAuditUserList.do?token=a90fdc85abeaf2b3d1618633943737&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7&planDays=8",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_teacherLeaveInfoAuditUserList.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "a90fdc85abeaf2b3d1618633943737"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										},
+										{
+											"key": "planDays",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "我的请假申请列表",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_myLeaveInfoList.do?token=0cb446c5f277a0eae1618629374043&device_id=864555039806946&signature=bc24ad85b1a0559648d0974a33a555e71&channel=2&version=v1.7&pageNum=1&pageSize=10",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_myLeaveInfoList.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "0cb446c5f277a0eae1618629374043"
+										},
+										{
+											"key": "device_id",
+											"value": "864555039806946"
+										},
+										{
+											"key": "signature",
+											"value": "bc24ad85b1a0559648d0974a33a555e71"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										},
+										{
+											"key": "pageNum",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "10"
+										},
+										{
+											"key": "status",
+											"value": "2",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "我的请假审批列表",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_myAuditLeaveInfoList.do?token=0cb446c5f277a0eae1618629374043&device_id=864555039806946&signature=bc24ad85b1a0559648d0974a33a555e71&channel=2&version=v1.7&pageNum=1&pageSize=10&status=1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_myAuditLeaveInfoList.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "0cb446c5f277a0eae1618629374043"
+										},
+										{
+											"key": "device_id",
+											"value": "864555039806946"
+										},
+										{
+											"key": "signature",
+											"value": "bc24ad85b1a0559648d0974a33a555e71"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										},
+										{
+											"key": "pageNum",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "10"
+										},
+										{
+											"key": "status",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "会议议题申请管理",
+					"item": [
+						{
+							"name": "会议议题申请",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_addDiscussion.do?token=0cb446c5f277a0eae1618629374043&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7&topicName=第一次院长会议&topicType=1&startDate=2021/04/12%2011%3A20%3A20&topicContent=啦啦啦啦&applyDeptId=1&attendDeptId=1,2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_addDiscussion.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "0cb446c5f277a0eae1618629374043"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										},
+										{
+											"key": "topicName",
+											"value": "第一次院长会议"
+										},
+										{
+											"key": "topicType",
+											"value": "1"
+										},
+										{
+											"key": "startDate",
+											"value": "2021/04/12%2011%3A20%3A20"
+										},
+										{
+											"key": "topicContent",
+											"value": "啦啦啦啦"
+										},
+										{
+											"key": "applyDeptId",
+											"value": "1"
+										},
+										{
+											"key": "attendDeptId",
+											"value": "1,2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "取消会议议题申请",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_cancelDiscussion.do?token=6a59195f9ea581f451618469493337&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7&bizId=10",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_cancelDiscussion.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "6a59195f9ea581f451618469493337"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										},
+										{
+											"key": "bizId",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "我的会议议题申请列表",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_myDiscussionTopicApplyList.do?token=0cb446c5f277a0eae1618629374043&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7&pageNum=1&pageSize=15&startDate=&endDate=&status=1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_myDiscussionTopicApplyList.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "0cb446c5f277a0eae1618629374043"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										},
+										{
+											"key": "pageNum",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "15"
+										},
+										{
+											"key": "startDate",
+											"value": ""
+										},
+										{
+											"key": "endDate",
+											"value": ""
+										},
+										{
+											"key": "status",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "我的会议议题审批列表",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_myAuditDiscussionTopicApplyList.do?pageNum=1&device_id=3BBC67F8-BD71-4069-B289-20E234941258&pageSize=10&signature=c2134fd499d5f5bf1e2bdffbab688d611&status=1&token=0cb446c5f277a0eae1618629374043&version=V1.8&channel=1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_myAuditDiscussionTopicApplyList.do"
+									],
+									"query": [
+										{
+											"key": "pageNum",
+											"value": "1"
+										},
+										{
+											"key": "device_id",
+											"value": "3BBC67F8-BD71-4069-B289-20E234941258"
+										},
+										{
+											"key": "pageSize",
+											"value": "10"
+										},
+										{
+											"key": "signature",
+											"value": "c2134fd499d5f5bf1e2bdffbab688d611"
+										},
+										{
+											"key": "status",
+											"value": "1"
+										},
+										{
+											"key": "token",
+											"value": "0cb446c5f277a0eae1618629374043"
+										},
+										{
+											"key": "version",
+											"value": "V1.8"
+										},
+										{
+											"key": "channel",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "查看会议议题申请详情",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_discussionTopicApplyDetail.do?token=0cb446c5f277a0eae1618629374043&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7&applyId=1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_discussionTopicApplyDetail.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "0cb446c5f277a0eae1618629374043"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										},
+										{
+											"key": "applyId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "会议议题申请审批",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_auditDiscussionTopicApply.do?token=0cb446c5f277a0eae1618629374043&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7&applyId=1&status=2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_auditDiscussionTopicApply.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "0cb446c5f277a0eae1618629374043"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										},
+										{
+											"key": "applyId",
+											"value": "1"
+										},
+										{
+											"key": "status",
+											"value": "2"
+										},
+										{
+											"key": "remark",
+											"value": "不了合理，请重新拟定",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取审核人列表接口",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/app_discussionTopicApplyAuditUserList.do?token=6a59195f9ea581f451618469493337&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"app_discussionTopicApplyAuditUserList.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "6a59195f9ea581f451618469493337"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "通知",
+					"item": [
+						{
+							"name": "通知列表",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/user_noticeList.do?token=6c4b66df5a1544ffe1618638179845&device_id=4d863edfe7992fe9&signature=1f46f568cea220e3bc4b49e802db27cf1&channel=2&version=v1.7&type=0&page=1&pageSize=10",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"user_noticeList.do"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "6c4b66df5a1544ffe1618638179845"
+										},
+										{
+											"key": "device_id",
+											"value": "4d863edfe7992fe9"
+										},
+										{
+											"key": "signature",
+											"value": "1f46f568cea220e3bc4b49e802db27cf1"
+										},
+										{
+											"key": "channel",
+											"value": "2"
+										},
+										{
+											"key": "version",
+											"value": "v1.7"
+										},
+										{
+											"key": "type",
+											"value": "0"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "后台管理",
+			"item": [
+				{
+					"name": "字典管理",
+					"item": [
+						{
+							"name": "新增字典",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/backed_addDictInfo?value=10&name=哺乳假&pid=1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"backed_addDictInfo"
+									],
+									"query": [
+										{
+											"key": "value",
+											"value": "10"
+										},
+										{
+											"key": "name",
+											"value": "哺乳假"
+										},
+										{
+											"key": "pid",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
