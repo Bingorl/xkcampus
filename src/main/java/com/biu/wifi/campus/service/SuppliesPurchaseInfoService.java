@@ -54,25 +54,37 @@ public class SuppliesPurchaseInfoService extends AbstractAuditUserService {
         List<Integer> auditUserIds = new ArrayList<>();
         User user = userMapper.selectByPrimaryKey(applyUserId);
         int instituteId = user.getInstituteId();
+        if (money.compareTo(new BigDecimal(10000))==-1||money.compareTo(new BigDecimal(10000))==0) {
         List<SuppliesPurchaseAuditUser> suppliesPurchaseAuditUsers = suppliesPurchaseAuditUserMapper.selectOneByTypeAndInstituteId(1, instituteId);
         if (CollectionUtils.isNotEmpty(suppliesPurchaseAuditUsers)) {
-            Integer userId = Integer.valueOf(suppliesPurchaseAuditUsers.get(0).getAuditUser().split(",")[0]);
-            auditUserIds.add(userId);
+            for (String s : suppliesPurchaseAuditUsers.get(0).getAuditUser().split(",")) {
+                auditUserIds.add(Integer.valueOf(s));
+            }
+            return auditUserIds;
+        }
         }
         // 3-7天,主管领导审批
-        if (money.compareTo(new BigDecimal(10000))==1) {
-            suppliesPurchaseAuditUsers = suppliesPurchaseAuditUserMapper.selectOneByTypeAndInstituteId(2, instituteId);
+        if (money.compareTo(new BigDecimal(10000))==1&&money.compareTo(new BigDecimal(50000))==-1) {
+            List<SuppliesPurchaseAuditUser> suppliesPurchaseAuditUsers = suppliesPurchaseAuditUserMapper.selectOneByTypeAndInstituteId(2, instituteId);
             if (CollectionUtils.isNotEmpty(suppliesPurchaseAuditUsers)) {
-                Integer userId = Integer.valueOf(suppliesPurchaseAuditUsers.get(0).getAuditUser().split(",")[1]);
-                auditUserIds.add(userId);
+                if (CollectionUtils.isNotEmpty(suppliesPurchaseAuditUsers)) {
+                    for (String s : suppliesPurchaseAuditUsers.get(0).getAuditUser().split(",")) {
+                        auditUserIds.add(Integer.valueOf(s));
+                    }
+                    return auditUserIds;
+                }
             }
         }
         // 7天以上,院长审批
-        if (money.compareTo(new BigDecimal(50000))==1) {
-            suppliesPurchaseAuditUsers = suppliesPurchaseAuditUserMapper.selectOneByTypeAndInstituteId(3, instituteId);
+        if (money.compareTo(new BigDecimal(50000))==1||money.compareTo(new BigDecimal(50000))==0) {
+            List<SuppliesPurchaseAuditUser> suppliesPurchaseAuditUsers = suppliesPurchaseAuditUserMapper.selectOneByTypeAndInstituteId(3, instituteId);
             if (CollectionUtils.isNotEmpty(suppliesPurchaseAuditUsers)) {
-                Integer userId = Integer.valueOf(suppliesPurchaseAuditUsers.get(0).getAuditUser().split(",")[2]);
-                auditUserIds.add(userId);
+                if (CollectionUtils.isNotEmpty(suppliesPurchaseAuditUsers)) {
+                    for (String s : suppliesPurchaseAuditUsers.get(0).getAuditUser().split(",")) {
+                        auditUserIds.add(Integer.valueOf(s));
+                    }
+                    return auditUserIds;
+                }
             }
         }
         return auditUserIds;

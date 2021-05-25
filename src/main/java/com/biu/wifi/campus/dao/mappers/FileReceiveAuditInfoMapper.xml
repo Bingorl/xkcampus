@@ -273,7 +273,7 @@
       a.title,
       a.attachment,
       a.content,
-      a.reference_number,     referenceNumber
+      a.reference_number     referenceNumber,
       a.start_date            startDate,
       a.end_date              endDate,
       a.apply_user_id         applyUserId,

@@ -108,7 +108,7 @@ public class AppSuppliesPurchaseController extends AuthenticatorController{
         Assert.notNull(req.getPurchaseType(), "采购类型不能为空");
         Assert.notNull(req.getInstitute(), "采购部门不能为空");
         Assert.notNull(req.getReason(), "采购原因不能为空");
-        Assert.notNull(req.getReason(), "采购费用不能为空");
+        Assert.notNull(req.getMoney(), "采购费用不能为空");
         Assert.notNull(req.getStartDate(), "开始日期不能为空");
         Assert.notNull(req.getEndDate(), "结束日期不能为空");
 
@@ -162,7 +162,7 @@ public class AppSuppliesPurchaseController extends AuthenticatorController{
             return;
         }
         // 已经被审批的记录不能取消
-        List<AuditInfo> auditInfoList = auditInfoService.findList(AuditBusinessType.TEACHER_LEAVE.getCode().shortValue(), userId, "id", true);
+        List<AuditInfo> auditInfoList = auditInfoService.findList(AuditBusinessType.SUPPLIES_PURCHASE.getCode().shortValue(), userId, "id", true);
         if (!auditInfoList.isEmpty() && auditInfoList.get(0).getIsPass() != null) {
             String json = JsonUtilEx.strToMoblieJson(new Result(Result.CUSTOM_MESSAGE, "该采购申请已被处理不能取消", null));
             ServletUtilsEx.renderText(response, json);
