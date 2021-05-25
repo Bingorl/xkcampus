@@ -38,6 +38,8 @@ public class AssertsUseInfoService extends AbstractAuditUserService {
     private PushMapper pushMapper;
     @Autowired
     private AssertsUseNoticeService assertsUseNoticeService;
+    @Autowired
+    private ContractApproveAuditUserService contractApproveAuditUserService;
 
 
     public void addAssertsUseInfo(AssertsUseInfo req) {
@@ -70,10 +72,7 @@ public class AssertsUseInfoService extends AbstractAuditUserService {
     }
 
     private void setCurrentAuditUserId(AssertsUseInfo req) {
-        List<Integer> auditUserIds =new ArrayList<>();
-        for (String s : req.getAuditUser().split(",")) {
-            auditUserIds.add(Integer.valueOf(s));
-        }
+        List<Integer> auditUserIds= contractApproveAuditUserService.getAuditUserIds(req.getApplyUserId());
         HashMap hashMap = setAuditUser(req.getCurrentAuditUserId(), auditUserIds);
         req.setAuditUser(MapUtils.getString(hashMap, "auditUser"));
         req.setCurrentAuditUserId(MapUtils.getInteger(hashMap, "currentAuditUserId"));

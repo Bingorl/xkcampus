@@ -214,14 +214,14 @@ public class AppAssertsUseController extends AuthenticatorController {
      * 查看合同单详情
      *
      * @param userId
-     * @param approveId
+     * @param useId
      * @param response
      */
     @RequestMapping("app_assertsUseInfoDetail")
-    public void assertsUseInfoDetail(@ModelAttribute("user_id") Integer userId, Integer approveId, HttpServletResponse response) {
-        Assert.notNull(approveId, "请选择要查看的资产申请");
+    public void assertsUseInfoDetail(@ModelAttribute("user_id") Integer userId, Integer useId, HttpServletResponse response) {
+        Assert.notNull(useId, "请选择要查看的资产申请");
 
-        AssertsUseInfo assertsUseInfo = assertsUseInfoService.selectByPrimaryKey(approveId);
+        AssertsUseInfo assertsUseInfo = assertsUseInfoService.selectByPrimaryKey(useId);
         if (assertsUseInfo == null || assertsUseInfo.getIsDelete().intValue() == 1) {
             String json = JsonUtilEx.strToMoblieJson(new Result(Result.CUSTOM_MESSAGE, "资产申请不存在", null));
             ServletUtilsEx.renderText(response, json);

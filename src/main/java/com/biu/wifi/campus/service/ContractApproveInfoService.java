@@ -3,6 +3,7 @@ package com.biu.wifi.campus.service;
 import com.biu.wifi.campus.Tool.PushTool;
 import com.biu.wifi.campus.constant.AuditBusinessType;
 import com.biu.wifi.campus.constant.PushMsgType;
+import com.biu.wifi.campus.dao.ContractApproveAuditUserMapper;
 import com.biu.wifi.campus.dao.ContractApproveInfoMapper;
 import com.biu.wifi.campus.dao.PushMapper;
 import com.biu.wifi.campus.dao.UserMapper;
@@ -38,6 +39,8 @@ public class ContractApproveInfoService extends AbstractAuditUserService{
     private PushMapper pushMapper;
     @Autowired
     private ContractApproveNoticeService contractApproveNoticeService;
+    @Autowired
+    private ContractApproveAuditUserMapper contractApproveAuditUserMapper;
 
 
     @Transactional(rollbackFor = {BizException.class, IllegalArgumentException.class})
@@ -71,8 +74,13 @@ public class ContractApproveInfoService extends AbstractAuditUserService{
     }
 
     private void setCurrentAuditUserId(ContractApproveInfo req) {
-        List<Integer> auditUserIds =new ArrayList<>();
-        for (String s : req.getAuditUser().split(",")) {
+        List<Integer> auditUserIds=new ArrayList<>();
+        User user = userMapper.selectByPrimaryKey(req.getApplyUserId());
+        ContractApproveAuditUserExample example=new ContractApproveAuditUserExample();
+        example.createCriteria().andSchoolIdEqualTo(user.getSchoolId())
+                .andInstituteIdEqualTo(user.getInstituteId());
+        List<ContractApproveAuditUser> contractApproveAuditUsers = contractApproveAuditUserMapper.selectByExample(example);
+        for (String s : contractApproveAuditUsers.get(0).getAuditUser().split(",")) {
             auditUserIds.add(Integer.valueOf(s));
         }
         HashMap hashMap = setAuditUser(req.getCurrentAuditUserId(), auditUserIds);
