@@ -39,7 +39,7 @@ public class RepairCostAuditUserService {
         return list;
     }
 
-    private List<Integer> getAuditUserIds(Integer applyUserId) {
+    public List<Integer> getAuditUserIds(Integer applyUserId) {
         List<Integer> list=new ArrayList<>();
         User user = userMapper.selectByPrimaryKey(applyUserId);
         RepairCostAuditUserExample example=new RepairCostAuditUserExample();

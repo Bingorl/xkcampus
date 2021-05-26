@@ -32,6 +32,8 @@ public class OfficialWebsiteInfoService extends AbstractAuditUserService {
     @Autowired
     private OfficialWebsiteNoticeService officialWebsiteNoticeService;
     @Autowired
+    private OfficialWebsiteAuditUserService officialWebsiteAuditUserService;
+    @Autowired
     private AuditInfoService auditInfoService;
     @Autowired
     private UserMapper userMapper;
@@ -69,10 +71,7 @@ public class OfficialWebsiteInfoService extends AbstractAuditUserService {
 
 
     private void setCurrentAuditUserId(OfficialWebsiteInfo req) {
-        List<Integer> auditUserIds =new ArrayList<>();
-        for (String s : req.getAuditUser().split(",")) {
-            auditUserIds.add(Integer.valueOf(s));
-        }
+        List<Integer> auditUserIds = officialWebsiteAuditUserService.getAuditUserIds(req.getApplyUserId());
         HashMap hashMap = setAuditUser(req.getCurrentAuditUserId(), auditUserIds);
         req.setAuditUser(MapUtils.getString(hashMap, "auditUser"));
         req.setCurrentAuditUserId(MapUtils.getInteger(hashMap, "currentAuditUserId"));

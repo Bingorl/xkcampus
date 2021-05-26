@@ -37,6 +37,8 @@ public class RepairCostInfoService extends AbstractAuditUserService {
     private PushMapper pushMapper;
     @Autowired
     private RepairCostNoticeService repairCostNoticeService;
+    @Autowired
+    private RepairCostAuditUserService repairCostAuditUserService;
 
     public void addRepairCostInfo(RepairCostInfo req){
         req.setCreateTime(new Date());
@@ -68,10 +70,7 @@ public class RepairCostInfoService extends AbstractAuditUserService {
     }
 
     private void setCurrentAuditUserId(RepairCostInfo req) {
-        List<Integer> auditUserIds =new ArrayList<>();
-        for (String s : req.getAuditUser().split(",")) {
-            auditUserIds.add(Integer.valueOf(s));
-        }
+        List<Integer> auditUserIds = repairCostAuditUserService.getAuditUserIds(req.getApplyUserId());
         HashMap hashMap = setAuditUser(req.getCurrentAuditUserId(), auditUserIds);
         req.setAuditUser(MapUtils.getString(hashMap, "auditUser"));
         req.setCurrentAuditUserId(MapUtils.getInteger(hashMap, "currentAuditUserId"));

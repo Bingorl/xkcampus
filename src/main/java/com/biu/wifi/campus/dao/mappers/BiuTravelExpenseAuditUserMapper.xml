@@ -300,7 +300,7 @@
   <select id="findOne" resultMap="BaseResultMap">
       select
       <include refid="Base_Column_List"/>
-      from biu_teacher_leave_audit_user
+      from biu_travel_expense_audit_user
       where institute_id=#{instituteId} and `type`=#{type}
   </select>
 </mapper>

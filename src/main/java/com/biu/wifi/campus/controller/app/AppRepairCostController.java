@@ -27,7 +27,7 @@ import java.util.Map;
  **/
 @Controller
 @RequestMapping
-public class AppRepairCostController {
+public class AppRepairCostController extends AuthenticatorController{
     @Autowired
     private RepairCostAuditService repairCostAuditService;
     @Autowired

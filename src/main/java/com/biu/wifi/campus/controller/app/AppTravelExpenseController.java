@@ -1,5 +1,7 @@
 package com.biu.wifi.campus.controller.app;
 
+
+
 import com.biu.wifi.campus.Tool.BeanUtil;
 import com.biu.wifi.campus.Tool.JsonUtilEx;
 import com.biu.wifi.campus.Tool.StringUtil;
@@ -15,24 +17,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 /**
  * 差旅费用
  * @Author MCX
  * @Version 1.0
  **/
 @Controller
-@RequestMapping
-public class AppTravelExpenseController {
-    @Autowired
-    private BiuTravelExpenseAuditService biuTravelExpenseAuditService;
+public class AppTravelExpenseController extends AuthenticatorController{
+
     @Autowired
     private BiuTravelExpenseNoticeService biuTravelExpenseNoticeService;
     @Autowired
@@ -41,8 +39,6 @@ public class AppTravelExpenseController {
     private UserService userService;
     @Autowired
     private BiuTravelExpenseInfoService biuTravelExpenseInfoService;
-    @Autowired
-    private BiuTravelExpenseDetailService biuTravelExpenseDetailService;
     @Autowired
     private InstituteService instituteService;
     @Autowired
@@ -60,7 +56,7 @@ public class AppTravelExpenseController {
      * @param response
      */
     @RequestMapping("app_travelExpenseAuditUserList")
-    public void getAuditUserList(@ModelAttribute("user_id") Integer userId, Integer planDays, BigDecimal costMoney, HttpServletResponse response) {
+    public void getAuditUserList(@ModelAttribute("user_id")Integer userId, Integer planDays, BigDecimal costMoney, HttpServletResponse response) {
         Assert.notNull(planDays, "出差天数不能为空");
         Assert.notNull(costMoney, "合计金额不能为空");
         List<HashMap> auditUserList = biuTravelExpenseAuditUserService.getAuditUserList(userId, planDays,costMoney);

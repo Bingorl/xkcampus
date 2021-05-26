@@ -27,7 +27,7 @@ import java.util.Map;
  **/
 @Controller
 @RequestMapping
-public class AppOfficialWebsiteController {
+public class AppOfficialWebsiteController  extends AuthenticatorController{
     @Autowired
     private OfficialWebsiteNoticeService officialWebsiteNoticeService;
     @Autowired
