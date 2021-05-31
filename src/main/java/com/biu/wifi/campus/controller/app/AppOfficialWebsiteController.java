@@ -81,13 +81,13 @@ public class AppOfficialWebsiteController  extends AuthenticatorController{
         Assert.notNull(req.getContent(), "专栏内容不能为空");
         Assert.notNull(req.getEndDate(), "结束日期不能为空");
 
-        // 请假时的姓名、工号、手机号和部门是手填还是自动匹配显示
-        User user = userService.getById(userId);
+         // 请假时的姓名、工号、手机号和部门是手填还是自动匹配显示
+    User user = userService.getById(userId);
         if (user == null || user.getIsDelete().intValue() == 1) {
-            String json = JsonUtilEx.strToMoblieJson(new Result(Result.CUSTOM_MESSAGE, "当前登录用户不存在", null));
-            ServletUtilsEx.renderText(response, json);
-            return;
-        }
+        String json = JsonUtilEx.strToMoblieJson(new Result(Result.CUSTOM_MESSAGE, "当前登录用户不存在", null));
+        ServletUtilsEx.renderText(response, json);
+        return;
+    }
         req.setApplyUserId(userId);
         req.setApplyUserName(user.getName());
         req.setApplyUserNo(user.getStuNumber());
@@ -95,9 +95,9 @@ public class AppOfficialWebsiteController  extends AuthenticatorController{
         req.setApplyUserDeptId(user.getInstituteId().toString());
 
         officialWebsiteInfoService.addOfficialWebsiteInfo(req);
-        String json = JsonUtilEx.strToMoblieJson(new Result(Result.SUCCESS, "请求成功", null));
+    String json = JsonUtilEx.strToMoblieJson(new Result(Result.SUCCESS, "请求成功", null));
         ServletUtilsEx.renderText(response, json);
-    }
+}
 
 
     /**

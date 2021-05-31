@@ -322,7 +322,7 @@
       a.title,
       a.attachment,
       a.content,
-      a.reference_number,     referenceNumber
+      a.reference_number     referenceNumber,
       a.start_date            startDate,
       a.end_date              endDate,
       a.apply_user_id         applyUserId,
@@ -348,7 +348,7 @@
       left join biu_user b on a.current_audit_user_id = b.id
       left join biu_institute c on b.institute_id = c.id
       left join biu_file_receive_audit d on a.id = d.receive_id
-      left join biu_dict_info e on a.leave_type = e.id
+      left join biu_dict_info e on a.file_type = e.id
       <where>
         a.is_delete = 2
         <if test="userId != null">

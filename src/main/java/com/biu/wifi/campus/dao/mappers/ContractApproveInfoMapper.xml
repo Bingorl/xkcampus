@@ -555,12 +555,11 @@
     a.is_delete             isDelete,
     a.delete_time           deleteTime,
     b.`name`                currentAuditUserName,
-    c.`name`                instituteName,
-    e.`name`                leaveTypeName
+    c.`name`                instituteName
     from biu_contract_approve_info a
     left join biu_user b on a.current_audit_user_id = b.id
     left join biu_institute c on b.institute_id = c.id
-    left join biu_contract_approve_audit d on a.id = d.leave_id
+    left join biu_contract_approve_audit d on a.id = d.approve_id
     <where>
       a.is_delete = 2
       <if test="userId != null">

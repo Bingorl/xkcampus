@@ -270,6 +270,7 @@
       select
       a.id,
       a.purchase_type         purchaseType,
+      a.institute,
       a.recommend,
       a.reason,
       a.money,
@@ -344,7 +345,7 @@
     from biu_supplies_purchase_info a
     left join biu_user b on a.current_audit_user_id = b.id
     left join biu_institute c on b.institute_id = c.id
-    left join biu_supplies_purchase_audit d on a.id = d.leave_id
+    left join biu_supplies_purchase_audit d on a.id = d.purchase_id
     left join biu_dict_info e on a.purchase_type = e.id
     <where>
       a.is_delete = 2
