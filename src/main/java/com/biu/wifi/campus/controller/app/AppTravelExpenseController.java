@@ -12,10 +12,13 @@ import com.biu.wifi.campus.result.Result;
 import com.biu.wifi.campus.service.*;
 import com.biu.wifi.core.support.pageLimit.PageLimitHolderFilter;
 import com.biu.wifi.core.util.ServletUtilsEx;
+import net.sf.json.JSON;
+import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
@@ -111,9 +114,13 @@ public class AppTravelExpenseController extends AuthenticatorController{
         Assert.notNull(req.getStartDate(), "出发日期不能为空");
         Assert.notNull(req.getEndDate(), "结束日期不能为空");
         Assert.notNull(req.getPersons(), "人数不能为空");
+        Assert.notNull(req.getPaymentType(), "支付方式不能为空");
         Assert.notNull(req.getVehicle(), "出差方式不能为空");
         Assert.notNull(req.getAddress(), "出差地点不能为空");
-        for (BiuTravelExpenseDetail detail : req.getDetailList()) {
+        Assert.notNull(req.getDetailList(), "费用详情不能为空" );
+        JSONArray jsonArray = JSONArray.fromObject(req.getDetailList());
+        List<BiuTravelExpenseDetail> list = (List<BiuTravelExpenseDetail>) JSONArray.toCollection(jsonArray,BiuTravelExpenseDetail.class);
+        for (BiuTravelExpenseDetail detail : list) {
             Assert.notNull(detail.getCostTitle(), "费用名称不能为空");
             Assert.notNull(detail.getCostMoney(), "金额不能为空");
         }

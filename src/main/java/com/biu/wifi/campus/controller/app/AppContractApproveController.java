@@ -78,6 +78,7 @@ public class AppContractApproveController extends AuthenticatorController {
         Assert.notNull(req.getOrganization(), "承办单位不能为空");
         Assert.notNull(req.getPrincipal(), "负责人不能为空");
         Assert.notNull(req.getContractNumber(), "合同编号不能为空");
+        Assert.notNull(req.getStartDate(), "立项审批日期不能为空");
 
         // 请假时的姓名、工号、手机号和部门是手填还是自动匹配显示
         User user = userService.getById(userId);

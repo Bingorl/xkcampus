@@ -121,7 +121,7 @@
       #{isDelete,jdbcType=SMALLINT}, #{deleteTime,jdbcType=TIMESTAMP}, #{isConfirm,jdbcType=SMALLINT}, 
       #{confirmTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.biu.wifi.campus.dao.model.SuppliesPurchaseNotice">
+  <insert id="insertSelective" parameterType="com.biu.wifi.campus.dao.model.SuppliesPurchaseNotice" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
     insert into biu_supplies_purchase_notice
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

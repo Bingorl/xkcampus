@@ -1,5 +1,8 @@
 package com.biu.wifi.campus.dao.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,7 +17,7 @@ public class BiuTravelExpenseInfo implements Serializable {
     /**
      * 费用详情
      */
-    private List<BiuTravelExpenseDetail> detailList;
+    private String detailList;
     /**
      * 主键
      */
@@ -58,11 +61,17 @@ public class BiuTravelExpenseInfo implements Serializable {
     /**
      * 开始日期
      */
+
+    @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss", timezone = "GMT+8")
     private Date startDate;
 
     /**
      * 结束日期
      */
+
+    @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss", timezone = "GMT+8")
     private Date endDate;
 
     /**
@@ -131,11 +140,11 @@ public class BiuTravelExpenseInfo implements Serializable {
 
     private Date deleteTime;
 
-    public List<BiuTravelExpenseDetail> getDetailList() {
+    public String getDetailList() {
         return detailList;
     }
 
-    public void setDetailList(List<BiuTravelExpenseDetail> detailList) {
+    public void setDetailList(String detailList) {
         this.detailList = detailList;
     }
 

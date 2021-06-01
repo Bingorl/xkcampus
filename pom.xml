@@ -5,6 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>campus</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.75</version>
+        </dependency>
+    </dependencies>
     <groupId>com.biu</groupId>
     <version>1.0。0</version>
     <packaging>war</packaging>

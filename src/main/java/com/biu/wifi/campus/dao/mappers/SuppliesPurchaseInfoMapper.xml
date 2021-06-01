@@ -133,7 +133,7 @@
       #{currentAuditUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{isDelete,jdbcType=SMALLINT}, #{deleteTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.biu.wifi.campus.dao.model.SuppliesPurchaseInfo">
+  <insert id="insertSelective" parameterType="com.biu.wifi.campus.dao.model.SuppliesPurchaseInfo" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
     insert into biu_supplies_purchase_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

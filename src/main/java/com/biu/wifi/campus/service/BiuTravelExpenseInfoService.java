@@ -12,6 +12,7 @@ import com.biu.wifi.campus.dao.model.*;
 import com.biu.wifi.campus.exception.BizException;
 import com.biu.wifi.campus.result.Result;
 import com.biu.wifi.core.util.DateUtilsEx;
+import net.sf.json.JSONArray;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,8 +50,10 @@ public class BiuTravelExpenseInfoService extends AbstractAuditUserService{
     private BiuTravelExpenseNoticeService biuTravelExpenseNoticeService;
 
     public void add(BiuTravelExpenseInfo req) {
+        JSONArray jsonArray = JSONArray.fromObject(req.getDetailList());
+        List<BiuTravelExpenseDetail> list = (List<BiuTravelExpenseDetail>) JSONArray.toCollection(jsonArray,BiuTravelExpenseDetail.class);
         boolean result1=false;
-        BigDecimal money=null;
+        BigDecimal money=new BigDecimal(0);
         int planDays = DateUtilsEx.getDayBetween(req.getStartDate(), req.getEndDate());
         req.setPlanDays(planDays);
         req.setIsDelete((short) 2);
@@ -58,13 +61,14 @@ public class BiuTravelExpenseInfoService extends AbstractAuditUserService{
         req.setCreateTime(new Date());
         setCurrentAuditUserId(req);
 
-        for (BiuTravelExpenseDetail detail1 : req.getDetailList()) {
+        for (BiuTravelExpenseDetail detail1 : list) {
             money = money.add(detail1.getCostMoney());
         }
         req.setCostMoney(money);
         req.setAmountInWords(CurrencyUtil.bigDecimalToLocalStr(money));
         boolean result= biuTravelExpenseInfoMapper.insertSelective(req)>0;
-        for (BiuTravelExpenseDetail detail : req.getDetailList()) {
+
+        for (BiuTravelExpenseDetail detail : list) {
             detail.setExpenseId(req.getId());
             result1 = biuTravelExpenseDetailMapper.insertSelective(detail)>0;
         }
@@ -148,7 +152,7 @@ public class BiuTravelExpenseInfoService extends AbstractAuditUserService{
         BiuTravelExpenseDetailExample example = new BiuTravelExpenseDetailExample();
         example.createCriteria().andExpenseIdEqualTo(expenseInfo.getId());
         List<BiuTravelExpenseDetail> detailList = biuTravelExpenseDetailMapper.selectByExample(example);
-        expenseInfo.setDetailList(detailList);
+        expenseInfo.setDetailList( com.alibaba.fastjson.JSONArray.toJSONString(detailList));
         return expenseInfo;
 
     }

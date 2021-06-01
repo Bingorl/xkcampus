@@ -124,6 +124,7 @@ public class AppAssertsUseController extends AuthenticatorController {
         Assert.notNull(req.getScanId(), "规模不能为空");
         Assert.notNull(req.getLeader(), "活动负责人不能为空");
         Assert.notNull(req.getPhone(), "联系电话不能为空");
+        Assert.notNull(req.getAttachment(), "额外设备不能为空");
         Assert.notNull(req.getStartDate(), "开始日期不能为空");
         Assert.notNull(req.getEndDate(), "结束日期不能为空");
 
@@ -233,6 +234,8 @@ public class AppAssertsUseController extends AuthenticatorController {
 
         User user = userService.getById(assertsUseInfo.getApplyUserId());
         Institute institute = instituteService.getById(user.getInstituteId());
+        DictInfo dictInfo = dictInfoService.selectById(assertsUseInfo.getScanId());
+        hashMap.put("ScanIdName", dictInfo.getName());
         hashMap.put("applyUserInstituteName", institute.getName());
         hashMap.put("auditInfoList", auditInfoList);
         // 确认收到

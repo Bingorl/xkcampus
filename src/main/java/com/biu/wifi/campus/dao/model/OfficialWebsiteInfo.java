@@ -1,5 +1,8 @@
 package com.biu.wifi.campus.dao.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -36,11 +39,15 @@ public class OfficialWebsiteInfo implements Serializable {
     /**
      * 开始日期
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;
 
     /**
      * 结束日期
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
     /**
