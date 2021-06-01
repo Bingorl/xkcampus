@@ -2,6 +2,7 @@ package com.biu.wifi.campus.controller.app;
 
 
 
+import com.alibaba.fastjson.JSON;
 import com.biu.wifi.campus.Tool.BeanUtil;
 import com.biu.wifi.campus.Tool.JsonUtilEx;
 import com.biu.wifi.campus.Tool.StringUtil;
@@ -12,8 +13,6 @@ import com.biu.wifi.campus.result.Result;
 import com.biu.wifi.campus.service.*;
 import com.biu.wifi.core.support.pageLimit.PageLimitHolderFilter;
 import com.biu.wifi.core.util.ServletUtilsEx;
-import net.sf.json.JSON;
-import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -110,21 +109,23 @@ public class AppTravelExpenseController extends AuthenticatorController{
      * @param response
      */
     @RequestMapping("app_addTravelExpenseInfo")
-    public void addTravelExpenseInfo(@ModelAttribute("user_id") Integer userId, BiuTravelExpenseInfo req, HttpServletResponse response) {
-        Assert.notNull(req.getStartDate(), "出发日期不能为空");
-        Assert.notNull(req.getEndDate(), "结束日期不能为空");
-        Assert.notNull(req.getPersons(), "人数不能为空");
-        Assert.notNull(req.getPaymentType(), "支付方式不能为空");
-        Assert.notNull(req.getVehicle(), "出差方式不能为空");
-        Assert.notNull(req.getAddress(), "出差地点不能为空");
-        Assert.notNull(req.getDetailList(), "费用详情不能为空" );
-        JSONArray jsonArray = JSONArray.fromObject(req.getDetailList());
-        List<BiuTravelExpenseDetail> list = (List<BiuTravelExpenseDetail>) JSONArray.toCollection(jsonArray,BiuTravelExpenseDetail.class);
-        for (BiuTravelExpenseDetail detail : list) {
+    public void addTravelExpenseInfo(@ModelAttribute("user_id") Integer userId, String req, HttpServletResponse response) {
+
+        BiuTravelExpenseInfo info=JSON.parseObject(req,BiuTravelExpenseInfo.class);
+        Assert.notNull(info.getStartDate(), "出发日期不能为空");
+        Assert.notNull(info.getEndDate(), "结束日期不能为空");
+        Assert.notNull(info.getPersons(), "人数不能为空");
+        Assert.notNull(info.getPaymentType(), "支付方式不能为空");
+        Assert.notNull(info.getVehicle(), "出差方式不能为空");
+        Assert.notNull(info.getAddress(), "出差地点不能为空");
+        Assert.notNull(info.getDetailList(), "费用详情不能为空" );
+//        JSONArray jsonArray = JSONArray.fromObject(req.getDetailList());
+//        List<BiuTravelExpenseDetail> list = (List<BiuTravelExpenseDetail>) JSONArray.toCollection(jsonArray,BiuTravelExpenseDetail.class);
+        for (BiuTravelExpenseDetail detail : info.getDetailList()) {
             Assert.notNull(detail.getCostTitle(), "费用名称不能为空");
             Assert.notNull(detail.getCostMoney(), "金额不能为空");
         }
-        if (req.getStartDate().compareTo(req.getEndDate()) > 0) {
+        if (info.getStartDate().compareTo(info.getEndDate()) > 0) {
             String json = JsonUtilEx.strToMoblieJson(new Result(Result.CUSTOM_MESSAGE, "结束日期不得早于开始日期", null));
             ServletUtilsEx.renderText(response, json);
             return;
@@ -138,13 +139,13 @@ public class AppTravelExpenseController extends AuthenticatorController{
             return;
         }
 
-        req.setApplyUserId(userId);
-        req.setApplyUserName(user.getName());
-        req.setApplyUserNo(user.getStuNumber());
-        req.setApplyUserTel(user.getPhone());
-        req.setApplyUserDeptId(user.getInstituteId().toString());
+        info.setApplyUserId(userId);
+        info.setApplyUserName(user.getName());
+        info.setApplyUserNo(user.getStuNumber());
+        info.setApplyUserTel(user.getPhone());
+        info.setApplyUserDeptId(user.getInstituteId().toString());
 
-        biuTravelExpenseInfoService.add(req);
+        biuTravelExpenseInfoService.add(info);
         String json = JsonUtilEx.strToMoblieJson(new Result(Result.SUCCESS, "请求成功", null));
         ServletUtilsEx.renderText(response, json);
     }

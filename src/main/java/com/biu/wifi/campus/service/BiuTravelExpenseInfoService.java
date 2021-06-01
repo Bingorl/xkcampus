@@ -152,7 +152,7 @@ public class BiuTravelExpenseInfoService extends AbstractAuditUserService{
         BiuTravelExpenseDetailExample example = new BiuTravelExpenseDetailExample();
         example.createCriteria().andExpenseIdEqualTo(expenseInfo.getId());
         List<BiuTravelExpenseDetail> detailList = biuTravelExpenseDetailMapper.selectByExample(example);
-        expenseInfo.setDetailList( com.alibaba.fastjson.JSONArray.toJSONString(detailList));
+        expenseInfo.setDetailList(detailList);
         return expenseInfo;
 
     }

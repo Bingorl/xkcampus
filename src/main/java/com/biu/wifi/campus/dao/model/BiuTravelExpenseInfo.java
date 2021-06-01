@@ -17,7 +17,7 @@ public class BiuTravelExpenseInfo implements Serializable {
     /**
      * 费用详情
      */
-    private String detailList;
+    private List<BiuTravelExpenseDetail> detailList;
     /**
      * 主键
      */
@@ -140,11 +140,11 @@ public class BiuTravelExpenseInfo implements Serializable {
 
     private Date deleteTime;
 
-    public String getDetailList() {
+    public List<BiuTravelExpenseDetail> getDetailList() {
         return detailList;
     }
 
-    public void setDetailList(String detailList) {
+    public void setDetailList(List<BiuTravelExpenseDetail> detailList) {
         this.detailList = detailList;
     }
 
