@@ -165,7 +165,7 @@ public class AppFileReceiveController extends  AuthenticatorController {
     @RequestMapping("app_myFileReceiveAuditInfoList")
     public void myFileReceiveAuditInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status,String referenceNum,String title, HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> fileReceiveAuditInfo = fileReceiveAuditInfoService.myInfoList(userId, referenceNum, title, status);
+        List<HashMap> fileReceiveAuditInfo = fileReceiveAuditInfoService.myInfoList(userId, referenceNum, title, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", fileReceiveAuditInfo);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());

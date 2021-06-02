@@ -187,7 +187,7 @@ public class AppSuppliesPurchaseController extends AuthenticatorController{
     @RequestMapping("app_mySuppliesPurchaseInfoList")
     public void mySuppliesPurchaseInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status, String startDate, String endDate, HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> suppliesPurchaseInfos = suppliesPurchaseInfoService.mySuppliesPurchaseInfoList(userId, startDate, endDate, status);
+        List<HashMap> suppliesPurchaseInfos = suppliesPurchaseInfoService.mySuppliesPurchaseInfoList(userId,  startDate.equals("-1")?null:startDate, endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", suppliesPurchaseInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());
@@ -246,7 +246,7 @@ public class AppSuppliesPurchaseController extends AuthenticatorController{
     @RequestMapping("app_myAuditSuppliesPurchaseInfoList")
     public void myAuditSuppliesPurchaseInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status, String startDate, String endDate, HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> purchaseInfos = suppliesPurchaseInfoService.myAuditpurchaseInfoList(userId, startDate, endDate, status);
+        List<HashMap> purchaseInfos = suppliesPurchaseInfoService.myAuditpurchaseInfoList(userId,  startDate.equals("-1")?null:startDate, endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", purchaseInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());

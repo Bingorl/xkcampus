@@ -161,7 +161,7 @@ public class AppRepairCostController extends AuthenticatorController{
     @RequestMapping("app_myRepairCostInfoList")
     public void myRepairCostInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize,Short status,String startDate, String endDate,HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> Infos = repairCostInfoService.myRepairCostInfoList(userId, startDate,endDate, status);
+        List<HashMap> Infos = repairCostInfoService.myRepairCostInfoList(userId,  startDate.equals("-1")?null:startDate, endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", Infos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());
@@ -217,7 +217,7 @@ public class AppRepairCostController extends AuthenticatorController{
     @RequestMapping("app_myAuditRepairCostInfoList")
     public void myAuditRepairCostInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status,String startDate, String endDate,HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> approveInfos = repairCostInfoService.myAuditRepairCostInfoList(userId, startDate,endDate, status);
+        List<HashMap> approveInfos = repairCostInfoService.myAuditRepairCostInfoList(userId,  startDate.equals("-1")?null:startDate, endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", approveInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());

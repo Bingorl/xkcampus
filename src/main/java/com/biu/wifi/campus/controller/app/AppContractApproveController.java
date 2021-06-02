@@ -151,7 +151,7 @@ public class AppContractApproveController extends AuthenticatorController {
     @RequestMapping("app_myApproveInfoList")
     public void myApproveInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status,String title,HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> teacherLeaveInfos = contractApproveInfoService.myApproveInfoList(userId, title, status);
+        List<HashMap> teacherLeaveInfos = contractApproveInfoService.myApproveInfoList(userId, title, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", teacherLeaveInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());
@@ -207,7 +207,7 @@ public class AppContractApproveController extends AuthenticatorController {
     @RequestMapping("app_myAuditApproveInfoList")
     public void myAuditApproveInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status,String title, HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> approveInfos = contractApproveInfoService.myAuditapproveInfoList(userId, title, status);
+        List<HashMap> approveInfos = contractApproveInfoService.myAuditapproveInfoList(userId, title, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", approveInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());

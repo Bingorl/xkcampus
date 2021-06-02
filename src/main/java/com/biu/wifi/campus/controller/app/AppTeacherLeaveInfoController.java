@@ -205,7 +205,7 @@ public class AppTeacherLeaveInfoController extends AuthenticatorController {
     @RequestMapping("app_myLeaveInfoList")
     public void myLeaveInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status, String startDate, String endDate, HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> teacherLeaveInfos = teacherLeaveInfoService.myLeaveInfoList(userId, startDate, endDate, status);
+        List<HashMap> teacherLeaveInfos = teacherLeaveInfoService.myLeaveInfoList(userId,  startDate.equals("-1")?null:startDate, endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", teacherLeaveInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());
@@ -264,7 +264,7 @@ public class AppTeacherLeaveInfoController extends AuthenticatorController {
     @RequestMapping("app_myAuditLeaveInfoList")
     public void myAuditLeaveInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status, String startDate, String endDate, HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> teacherLeaveInfos = teacherLeaveInfoService.myAuditLeaveInfoList(userId, startDate, endDate, status);
+        List<HashMap> teacherLeaveInfos = teacherLeaveInfoService.myAuditLeaveInfoList(userId,  startDate.equals("-1")?null:startDate, endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", teacherLeaveInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());

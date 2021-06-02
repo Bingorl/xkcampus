@@ -19,6 +19,8 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -149,7 +151,53 @@ public class AppTravelExpenseController extends AuthenticatorController{
         String json = JsonUtilEx.strToMoblieJson(new Result(Result.SUCCESS, "请求成功", null));
         ServletUtilsEx.renderText(response, json);
     }
+    /**
+     * 添加差旅申请
+     * @param userId
+     * @param info
+     * @param response
+     */
+    @RequestMapping("app_addTravelExpenseInfo1")
+    public void addTravelExpenseInfo1(@ModelAttribute("user_id") Integer userId,@RequestBody BiuTravelExpenseInfo info, HttpServletResponse response) {
 
+//        BiuTravelExpenseInfo info=JSON.parseObject(req,BiuTravelExpenseInfo.class);
+        Assert.notNull(info.getStartDate(), "出发日期不能为空");
+        Assert.notNull(info.getEndDate(), "结束日期不能为空");
+        Assert.notNull(info.getPersons(), "人数不能为空");
+        Assert.notNull(info.getPaymentType(), "支付方式不能为空");
+        Assert.notNull(info.getVehicle(), "出差方式不能为空");
+        Assert.notNull(info.getAddress(), "出差地点不能为空");
+        Assert.notNull(info.getDetailList(), "费用详情不能为空" );
+//        JSONArray jsonArray = JSONArray.fromObject(req.getDetailList());
+//        List<BiuTravelExpenseDetail> list = (List<BiuTravelExpenseDetail>) JSONArray.toCollection(jsonArray,BiuTravelExpenseDetail.class);
+        for (BiuTravelExpenseDetail detail : info.getDetailList()) {
+            Assert.notNull(detail.getCostTitle(), "费用名称不能为空");
+            Assert.notNull(detail.getCostMoney(), "金额不能为空");
+        }
+        if (info.getStartDate().compareTo(info.getEndDate()) > 0) {
+            String json = JsonUtilEx.strToMoblieJson(new Result(Result.CUSTOM_MESSAGE, "结束日期不得早于开始日期", null));
+            ServletUtilsEx.renderText(response, json);
+            return;
+        }
+
+        // 请假时的姓名、工号、手机号和部门是手填还是自动匹配显示
+        User user = userService.getById(userId);
+        if (user == null || user.getIsDelete().intValue() == 1) {
+            String json = JsonUtilEx.strToMoblieJson(new Result(Result.CUSTOM_MESSAGE, "当前登录用户不存在", null));
+            ServletUtilsEx.renderText(response, json);
+            return;
+        }
+
+        info.setApplyUserId(userId);
+        info.setApplyUserName(user.getName());
+        info.setApplyUserNo(user.getStuNumber());
+        info.setApplyUserTel(user.getPhone());
+        info.setApplyUserDeptId(user.getInstituteId().toString());
+
+        biuTravelExpenseInfoService.add(info);
+        String json = JsonUtilEx.strToMoblieJson(new Result(Result.SUCCESS, "请求成功", null));
+        ServletUtilsEx.renderText(response, json);
+    }
     /**
      * 取消差旅申请
      * @param userId
@@ -199,9 +247,11 @@ public class AppTravelExpenseController extends AuthenticatorController{
      * @param response
      */
     @RequestMapping("app_myExpenseInfoList")
-    public void myExpenseInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status, String startDate, String endDate, HttpServletResponse response) {
+    public void myExpenseInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status, String startDate, String endDate,
+                                  HttpServletResponse response) {
+
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> teacherLeaveInfos = biuTravelExpenseInfoService.myExpenseInfoList(userId, startDate, endDate, status);
+        List<HashMap> teacherLeaveInfos = biuTravelExpenseInfoService.myExpenseInfoList(userId, startDate.equals("-1")?null:startDate, endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", teacherLeaveInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());
@@ -258,9 +308,9 @@ public class AppTravelExpenseController extends AuthenticatorController{
      * @param response
      */
     @RequestMapping("app_myAuditExpenseInfoList")
-    public void myAuditExpenseInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status, String startDate, String endDate, HttpServletResponse response) {
+    public void myAuditExpenseInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, @RequestParam(value = "status",required = false) Short status,@RequestParam(value = "startDate",required = false) String startDate, @RequestParam(value = "endDate",required = false)String endDate, HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> teacherLeaveInfos = biuTravelExpenseInfoService.myAuditExpenseInfoList(userId, startDate, endDate, status);
+        List<HashMap> teacherLeaveInfos = biuTravelExpenseInfoService.myAuditExpenseInfoList(userId,  startDate.equals("-1")?null:startDate, endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", teacherLeaveInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());

@@ -50,8 +50,8 @@ public class BiuTravelExpenseInfoService extends AbstractAuditUserService{
     private BiuTravelExpenseNoticeService biuTravelExpenseNoticeService;
 
     public void add(BiuTravelExpenseInfo req) {
-        JSONArray jsonArray = JSONArray.fromObject(req.getDetailList());
-        List<BiuTravelExpenseDetail> list = (List<BiuTravelExpenseDetail>) JSONArray.toCollection(jsonArray,BiuTravelExpenseDetail.class);
+//        JSONArray jsonArray = JSONArray.fromObject(req.getDetailList());
+//        List<BiuTravelExpenseDetail> list = (List<BiuTravelExpenseDetail>) JSONArray.toCollection(jsonArray,BiuTravelExpenseDetail.class);
         boolean result1=false;
         BigDecimal money=new BigDecimal(0);
         int planDays = DateUtilsEx.getDayBetween(req.getStartDate(), req.getEndDate());
@@ -61,14 +61,14 @@ public class BiuTravelExpenseInfoService extends AbstractAuditUserService{
         req.setCreateTime(new Date());
         setCurrentAuditUserId(req);
 
-        for (BiuTravelExpenseDetail detail1 : list) {
+        for (BiuTravelExpenseDetail detail1 : req.getDetailList()) {
             money = money.add(detail1.getCostMoney());
         }
         req.setCostMoney(money);
         req.setAmountInWords(CurrencyUtil.bigDecimalToLocalStr(money));
         boolean result= biuTravelExpenseInfoMapper.insertSelective(req)>0;
 
-        for (BiuTravelExpenseDetail detail : list) {
+        for (BiuTravelExpenseDetail detail : req.getDetailList()) {
             detail.setExpenseId(req.getId());
             result1 = biuTravelExpenseDetailMapper.insertSelective(detail)>0;
         }

@@ -194,7 +194,7 @@ public class AppStampToApplyController extends AuthenticatorController {
     @RequestMapping("app_myStampToApplyList")
     public void myStampToApplyList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status, String startDate, String endDate, HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> stampToApplyInfos = stampToApplyInfoService.myStampInfoList(userId, startDate, endDate, status);
+        List<HashMap> stampToApplyInfos = stampToApplyInfoService.myStampInfoList(userId,  startDate.equals("-1")?null:startDate, endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", stampToApplyInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());
@@ -254,7 +254,7 @@ public class AppStampToApplyController extends AuthenticatorController {
     @RequestMapping("app_myAuditApplyInfoList")
     public void myAuditApplyInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status, String startDate, String endDate, HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> teacherLeaveInfos = stampToApplyInfoService.myAuditApplyInfoList(userId, startDate, endDate, status);
+        List<HashMap> teacherLeaveInfos = stampToApplyInfoService.myAuditApplyInfoList(userId, startDate.equals("-1")?null:startDate, endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", teacherLeaveInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());

@@ -149,7 +149,7 @@ public class AppOfficialWebsiteController  extends AuthenticatorController{
     @RequestMapping("app_myOfficialWebsiteInfoList")
     public void myOfficialWebsiteInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize,Short status,String startDate, String endDate,HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> teacherLeaveInfos = officialWebsiteInfoService.myOfficialWebsiteInfoList(userId, startDate,endDate, status);
+        List<HashMap> teacherLeaveInfos = officialWebsiteInfoService.myOfficialWebsiteInfoList(userId, startDate.equals("-1")?null:startDate, endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", teacherLeaveInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());
@@ -205,7 +205,7 @@ public class AppOfficialWebsiteController  extends AuthenticatorController{
     @RequestMapping("app_myAuditWebsiteInfoList")
     public void myAuditWebsiteInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status,String startDate, String endDate,HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> approveInfos = officialWebsiteInfoService.myAuditWebsiteInfoList(userId, startDate,endDate, status);
+        List<HashMap> approveInfos = officialWebsiteInfoService.myAuditWebsiteInfoList(userId,  startDate.equals("-1")?null:startDate, endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", approveInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());

@@ -137,7 +137,7 @@ public class AppDiscussionTopicApplyController extends AuthenticatorController {
     @RequestMapping("app_myDiscussionTopicApplyList")
     public void myDiscussionTopicApplyList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status, String startDate, String endDate, HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> applys = discussionTopicApplyService.myDiscussionTopicApplyList(userId, startDate, endDate, status);
+        List<HashMap> applys = discussionTopicApplyService.myDiscussionTopicApplyList(userId, startDate.equals("-1")?null:startDate,endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", applys);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());
@@ -192,7 +192,7 @@ public class AppDiscussionTopicApplyController extends AuthenticatorController {
     @RequestMapping("app_myAuditDiscussionTopicApplyList")
     public void myAuditDiscussionTopicApplyList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status, String startDate, String endDate, HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> teacherLeaveInfos = discussionTopicApplyService.myAuditDiscussionTopicApplyList(userId, startDate, endDate, status);
+        List<HashMap> teacherLeaveInfos = discussionTopicApplyService.myAuditDiscussionTopicApplyList(userId, startDate.equals("-1")?null:startDate,endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", teacherLeaveInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());

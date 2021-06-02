@@ -1,5 +1,8 @@
 package com.biu.wifi.campus.dao.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -62,16 +65,18 @@ public class BiuTravelExpenseInfo implements Serializable {
      * 开始日期
      */
 
-    @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JSONField(format="yyyy-MM-dd")
     private Date startDate;
 
     /**
      * 结束日期
      */
 
-    @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JSONField(format="yyyy-MM-dd")
     private Date endDate;
 
     /**

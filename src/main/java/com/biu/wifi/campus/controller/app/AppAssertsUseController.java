@@ -202,7 +202,7 @@ public class AppAssertsUseController extends AuthenticatorController {
     @RequestMapping("app_myAssertsUseInfoList")
     public void myAssertsUseInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize,Short status, String startDate, String endDate,HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> teacherLeaveInfos = assertsUseInfoService.myUseInfoList(userId, startDate,endDate, status);
+        List<HashMap> teacherLeaveInfos = assertsUseInfoService.myUseInfoList(userId,startDate.equals("-1")?null:startDate,endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", teacherLeaveInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());
@@ -260,7 +260,7 @@ public class AppAssertsUseController extends AuthenticatorController {
     @RequestMapping("app_myAuditUseInfoList")
     public void myAuditUseInfoList(@ModelAttribute("user_id") Integer userId, Integer pageNum, Integer pageSize, Short status,String startDate, String endDate,HttpServletResponse response) {
         PageLimitHolderFilter.setContext(pageNum, pageSize, null);
-        List<HashMap> approveInfos = assertsUseInfoService.myAuditUseInfoList(userId, startDate,endDate, status);
+        List<HashMap> approveInfos = assertsUseInfoService.myAuditUseInfoList(userId, startDate.equals("-1")?null:startDate,endDate.equals("-1")?null:endDate, status==-1?null:status);
         HashMap hashMap = new HashMap();
         hashMap.put("list", approveInfos);
         hashMap.put("totalCount", PageLimitHolderFilter.getContext().getTotalCount());
