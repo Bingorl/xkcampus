@@ -89,7 +89,7 @@ public class BiuTravelExpenseInfoService extends AbstractAuditUserService{
         User user = userMapper.selectByPrimaryKey(req.getCurrentAuditUserId());
         String deviceToken = user.getDevToken();
         Short deviceType = user.getDevType();
-        addPush(req.getId(), travelExpenseAudit.getId(), 1, "您有新的请假审批待处理", req.getCurrentAuditUserId(), deviceType, deviceToken);
+        addPush(req.getId(), travelExpenseAudit.getId(), 1, "您有新的审批待处理", req.getCurrentAuditUserId(), deviceType, deviceToken);
 
         if (!(result && addLeaveAudit && addAuditInfo&& result1)) {
             throw new BizException(Result.CUSTOM_MESSAGE, "申请失败");

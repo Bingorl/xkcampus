@@ -108,6 +108,7 @@ public class BiuTravelExpenseInfo implements Serializable {
      * 申请人所在部门id
      */
     private String applyUserDeptId;
+    private String applyUserDeptName;
 
     /**
      * 状态(1审批中,2通过,3驳回,4取消,5已完成)
@@ -144,6 +145,14 @@ public class BiuTravelExpenseInfo implements Serializable {
      */
 
     private Date deleteTime;
+
+    public String getApplyUserDeptName() {
+        return applyUserDeptName;
+    }
+
+    public void setApplyUserDeptName(String applyUserDeptName) {
+        this.applyUserDeptName = applyUserDeptName;
+    }
 
     public List<BiuTravelExpenseDetail> getDetailList() {
         return detailList;
