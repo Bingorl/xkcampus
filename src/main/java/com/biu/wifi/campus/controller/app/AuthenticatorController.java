@@ -1,10 +1,14 @@
 package com.biu.wifi.campus.controller.app;
 
+import com.biu.wifi.campus.Tool.AccessTokenUtils;
 import com.biu.wifi.campus.Tool.PasswordUtil;
 import com.biu.wifi.campus.Tool.RedisUtils;
+import com.biu.wifi.campus.Tool.SpringContextUtils;
 import com.biu.wifi.campus.controller.admin.BaseController;
+import com.biu.wifi.campus.dao.model.User;
 import com.biu.wifi.campus.exception.NeedLoginException;
 import com.biu.wifi.campus.exception.SignatureNoSuccessException;
+import com.biu.wifi.campus.service.UserService;
 import com.biu.wifi.core.support.servlet.ServletHolderFilter;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -33,20 +37,20 @@ public class AuthenticatorController extends BaseController {
         String signature = param.get("signature").toString();
         String temp;
         // 获取签名规则
-        String type = signature.substring(signature.length() - 1, signature.length());
+        String type = signature.substring(signature.length() - 1);
         if ("1".equals(channel)) {
             // IOS
             if ("1".equals(type)) {
                 temp = PasswordUtil.md5(
-                        device_id + channel + version + device_id.substring(device_id.length() - 5, device_id.length()))
+                        device_id + channel + version + device_id.substring(device_id.length() - 5))
                         + "1";
             } else if ("2".equals(type)) {
                 temp = PasswordUtil.md5(
-                        device_id.substring(device_id.length() - 5, device_id.length()) + device_id + channel + version)
+                        device_id.substring(device_id.length() - 5) + device_id + channel + version)
                         + "2";
             } else {
                 temp = PasswordUtil.md5(
-                        device_id + device_id.substring(device_id.length() - 5, device_id.length()) + channel + version)
+                        device_id + device_id.substring(device_id.length() - 5) + channel + version)
                         + "3";
             }
         } else {
@@ -67,7 +71,42 @@ public class AuthenticatorController extends BaseController {
         //传递版本号
         model.addAttribute("version", version);
 
+        // // TODO: 张彬 2021/6/3 与泊头一站式服务大厅共享token
+        String token = param.get("token").toString();
+        logger.info("获取到的token为：{}", token);
+        // 从token中获取用户账号信息
+        String username = null;
+        try {
+            username = AccessTokenUtils.getValueFromAccessToken(token, "username");
+
+        } catch (Exception e) {
+            logger.error("解析token异常：{}", e);
+            throw new NeedLoginException("用户未登录");
+        }
+        User user = getUserByUsername(username);
         if (checkNeedAuthority(url)) {
+            if (StringUtils.isBlank(username)) {
+                logger.error("username is null");
+                throw new NeedLoginException("用户未登录");
+            } else {
+                if (user == null) {
+                    logger.error("账号{}不存在", username);
+                    throw new NeedLoginException("用户未登录");
+                } else {
+                    // 往model里面添加用户ID
+                    model.addAttribute("user_id", user.getId());
+                }
+            }
+        } else {
+            if (user == null) {
+                model.addAttribute("user_id", null);
+            } else {
+                model.addAttribute("user_id", user.getId());
+            }
+        }
+
+        // TODO: 张彬 2021/6/4 9:11 通过本系统的登录实现的token验证
+        /*if (checkNeedAuthority(url)) {
             try {
                 String token = param.get("token").toString();
                 if (StringUtils.isNotBlank(token)) {
@@ -103,16 +142,21 @@ public class AuthenticatorController extends BaseController {
             } catch (Exception e) {
                 model.addAttribute("user_id", null);
             }
-        }
+        }*/
+    }
+
+    private User getUserByUsername(String username) {
+        UserService userService = (UserService) SpringContextUtils.getBean("userService");
+        User uEntity = new User();
+        uEntity.setPhone(username);
+        uEntity.setIsDelete((short) 2);
+        User user = userService.getUser(uEntity);
+        return user;
     }
 
     public boolean checkNeedAuthority(String url) {
         System.out.println(url);
-        if (url.indexOf("user") != -1) {
-            return true;
-        } else {
-            return false;
-        }
+        return url.indexOf("user") != -1;
     }
 
     /**
@@ -124,7 +168,7 @@ public class AuthenticatorController extends BaseController {
      * @return
      */
     public double convertVersionToDouble(String version) {
-        version = version.substring(1, version.length());
+        version = version.substring(1);
         Double d = Double.valueOf(version);
         return d.doubleValue();
     }
