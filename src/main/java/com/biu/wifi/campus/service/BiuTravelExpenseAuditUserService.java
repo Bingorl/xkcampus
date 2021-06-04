@@ -11,6 +11,7 @@ import com.biu.wifi.campus.dao.model.Institute;
 import com.biu.wifi.campus.dao.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class BiuTravelExpenseAuditUserService {
 
     public List<HashMap> getAuditUserList(Integer expenseUserId, Integer planDays, BigDecimal costMoney) {
         List<Integer> auditUserIds = getAuditUserIds(expenseUserId, planDays,costMoney);
+        Assert.notEmpty(auditUserIds, "暂未设置审核人,请联系管理员");
         List<HashMap> list = new ArrayList<>();
         for (Integer userId : auditUserIds) {
             list.add(userMapper.selectMap(userId));
