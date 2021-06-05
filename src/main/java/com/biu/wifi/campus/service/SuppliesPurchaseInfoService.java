@@ -44,6 +44,7 @@ public class SuppliesPurchaseInfoService extends AbstractAuditUserService {
 
     public List<HashMap> getAuditUserList(Integer applyUserId, BigDecimal money) {
         List<Integer> auditUserIds = getAuditUserIds(applyUserId, money);
+        Assert.notEmpty(auditUserIds, "暂未设置审核人,请联系管理员");
         List<HashMap> list = new ArrayList<>();
         for (Integer userId : auditUserIds) {
             list.add(userMapper.selectMap(userId));

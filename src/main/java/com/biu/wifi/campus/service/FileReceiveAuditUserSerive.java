@@ -8,6 +8,7 @@ import com.biu.wifi.campus.dao.UserMapper;
 import com.biu.wifi.campus.dao.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +33,9 @@ public class FileReceiveAuditUserSerive {
 
     public List<HashMap> getAuditUserList(Integer userId, Integer type) {
         List<HashMap> list=new ArrayList<>();
-        List<Integer> auditUserList = getAuditUser(userId, type);
-        for (Integer id : auditUserList) {
+        List<Integer> auditUsers = getAuditUser(userId, type);
+        Assert.notEmpty(auditUsers, "暂未设置审核人,请联系管理员");
+        for (Integer id : auditUsers) {
             list.add( userMapper.selectMap(id));
         }
 

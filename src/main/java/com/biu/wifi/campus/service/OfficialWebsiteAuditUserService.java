@@ -9,6 +9,7 @@ import com.biu.wifi.campus.dao.model.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +33,7 @@ public class OfficialWebsiteAuditUserService {
 
     public List<HashMap> getAuditUserList(Integer applyUserId) {
         List<Integer> auditUserIds = getAuditUserIds(applyUserId);
+        Assert.notEmpty(auditUserIds, "暂未设置审核人,请联系管理员");
         List<HashMap> list = new ArrayList<>();
         for (Integer userId : auditUserIds) {
             list.add(userMapper.selectMap(userId));
